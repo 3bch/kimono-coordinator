@@ -1,6 +1,17 @@
 services:
   dev:
-    image: mcr.microsoft.com/devcontainers/javascript-node:24-trixie
+    build: ./dev
+    init: true
     command: sleep infinity
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
     volumes:
       - ..:/workspaces/kimono-coordinator
+      - ./.codex:/home/node/.codex
+      - ./claude/.claude:/home/node/.claude
+      - ./claude/.claude.json:/home/node/.claude.json
+    environment:
+      - TZ=Asia/Tokyo
+

@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -euo pipefail
+
 git config pull.ff only
 
-npm install -g pnpm@latest-10
+pnpm install

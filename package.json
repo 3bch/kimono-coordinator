@@ -1,4 +1,14 @@
 {
+  "name": "kimono-coordinator",
   "private": true,
-  "packageManager": "pnpm@10.27.0"
+  "type": "module",
+  "imports": {
+    "#src/*": "./src/*"
+  },
+  "packageManager": "pnpm@10.27.0",
+  "devDependencies": {
+    "@anthropic-ai/claude-code": "^2.0.76",
+    "@openai/codex": "^0.77.0",
+    "lefthook": "^2.0.13"
+  }
 }
