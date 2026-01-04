@@ -1,0 +1,19 @@
+{
+  "name": "Dev",
+  "dockerComposeFile": "./compose.yaml",
+  "service": "dev",
+  "workspaceFolder": "/workspaces/kimono-coordinator",
+  "postCreateCommand": "./.devcontainer/setup.sh",
+  "remoteUser": "node",
+  "forwardPorts": [3000],
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "EditorConfig.EditorConfig",
+        "mhutchie.git-graph",
+        "oxc.oxc-vscode"
+      ],
+      "settings": {}
+    }
+  }
+}
