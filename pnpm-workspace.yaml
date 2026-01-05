@@ -4,4 +4,10 @@ frozenLockfile: true
 
 minimumReleaseAge: 4320
 
+onlyBuiltDependencies:
+  - esbuild
+  - lefthook
+
 trustPolicy: no-downgrade
+
+trustPolicyIgnoreAfter: 525600

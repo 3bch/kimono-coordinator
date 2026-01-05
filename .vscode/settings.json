@@ -3,6 +3,7 @@
   "editor.formatOnSave": true,
   "npm.autoDetect": "on",
   "npm.packageManager": "pnpm",
+  "typescript.experimental.useTsgo": true,
   "typescript.preferences.importModuleSpecifier": "non-relative",
   "typescript.preferences.importModuleSpecifierEnding": "js"
 }

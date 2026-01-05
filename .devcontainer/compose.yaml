@@ -14,4 +14,3 @@ services:
       - ./claude/.claude.json:/home/node/.claude.json
     environment:
       - TZ=Asia/Tokyo
-

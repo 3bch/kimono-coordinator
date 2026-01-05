@@ -17,7 +17,8 @@
       "extensions": [
         "EditorConfig.EditorConfig",
         "mhutchie.git-graph",
-        "oxc.oxc-vscode"
+        "oxc.oxc-vscode",
+        "TypeScriptTeam.native-preview"
       ],
       "settings": {
         "remote.restoreForwardedPorts": false,
