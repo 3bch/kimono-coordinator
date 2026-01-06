@@ -9,7 +9,7 @@
     "import",
     "jsx-a11y",
     "promise",
-    "vitest"
+    "vitest",
   ],
   "categories": {
     "correctness": "error",
@@ -18,22 +18,25 @@
     "perf": "warn",
     "style": "off",
     "restriction": "off",
-    "nursery": "off"
+    "nursery": "off",
   },
-  "rules": {},
+  "rules": {
+    // React 17 以降は不要なルールなので OFF
+    "react/react-in-jsx-scope": "off",
+  },
   "settings": {
     "jsx-a11y": {
       "polymorphicPropName": null,
       "components": {},
-      "attributes": {}
+      "attributes": {},
     },
     "next": {
-      "rootDir": []
+      "rootDir": [],
     },
     "react": {
       "formComponents": [],
       "linkComponents": [],
-      "version": null
+      "version": null,
     },
     "jsdoc": {
       "ignorePrivate": false,
@@ -43,15 +46,15 @@
       "augmentsExtendsReplacesDocs": false,
       "implementsReplacesDocs": false,
       "exemptDestructuredRootsFromChecks": false,
-      "tagNamePreference": {}
+      "tagNamePreference": {},
     },
     "vitest": {
-      "typecheck": false
-    }
+      "typecheck": false,
+    },
   },
   "env": {
-    "builtin": true
+    "builtin": true,
   },
   "globals": {},
-  "ignorePatterns": []
+  "ignorePatterns": [],
 }

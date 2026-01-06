@@ -6,8 +6,15 @@
     "#src/*": "./src/*"
   },
   "scripts": {
-    "lint": "oxlint",
+    "dev": "vite",
+    "build": "vite build",
+    "lint:oxc": "oxlint",
+    "lint:type": "tsgo -b",
     "lint:fix": "oxlint --fix"
+  },
+  "dependencies": {
+    "react": "^19.2.3",
+    "react-dom": "^19.2.3"
   },
   "devDependencies": {
     "@anthropic-ai/claude-code": "^2.0.76",
