@@ -11,7 +11,7 @@
   // shadcn add で正しく subpath alias を解決するために設定
   "compilerOptions": {
     "paths": {
-      "#src": ["./src/*"]
+      "#src/*": ["./src/*"]
     }
   }
 }

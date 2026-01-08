@@ -1,3 +1,19 @@
 {
-  "$schema": "./node_modules/oxfmt/configuration_schema.json"
+  "$schema": "./node_modules/oxfmt/configuration_schema.json",
+  "experimentalSortImports": {
+    "groups": [
+      ["side-effect"],
+      ["builtin"],
+      ["external"],
+      ["internal"],
+      ["parent", "sibling", "index"]
+    ],
+    "internalPattern": ["#src/**"],
+    "newlinesBetween": true,
+    "ignoreCase": true,
+    "order": "asc",
+    "partitionByComment": false,
+    "partitionByNewline": false,
+    "sortSideEffects": false
+  }
 }
