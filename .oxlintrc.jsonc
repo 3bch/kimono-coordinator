@@ -21,6 +21,7 @@
     "nursery": "off",
   },
   "rules": {
+    "eqeqeq": "error",
     // React 17 以降は不要なルールなので OFF
     "react/react-in-jsx-scope": "off",
   },
