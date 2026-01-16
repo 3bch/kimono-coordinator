@@ -1,0 +1,5 @@
+- [ ] oxlint のルール設定
+- [ ] boundary が使えるか確認
+- [x] TanStack Router 設定
+- [ ] vitest 設定
+- [ ] CLAUDE.md や カスタムコマンド系 の設定
