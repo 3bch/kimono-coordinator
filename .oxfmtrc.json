@@ -15,5 +15,10 @@
     "partitionByComment": false,
     "partitionByNewline": false,
     "sortSideEffects": false
+  },
+  "experimentalTailwindcss": {
+    "stylesheet": "./src/main.css",
+    "attributes": ["class", "className"],
+    "functions": ["clsx", "cn", "cva"]
   }
 }

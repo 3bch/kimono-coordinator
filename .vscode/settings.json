@@ -14,17 +14,5 @@
   },
   "search.exclude": {
     "**/routeTree.gen.ts": true
-  },
-  "[json]": {
-    "editor.defaultFormatter": "vscode.json-language-features"
-  },
-  "[jsonc]": {
-    "editor.defaultFormatter": "vscode.json-language-features"
-  },
-  "[html]": {
-    "editor.fontLigatures": false
-  },
-  "[markdown]": {
-    "editor.fontLigatures": false
   }
 }
