@@ -1,4 +1,6 @@
-- [ ] oxlint のルール設定
+- [x] oxlint のルール設定
+    - [x] もうちょっと見直し
+    - [x] type aware 検討
 - [ ] boundary が使えるか確認
 - [x] TanStack Router 設定
 - [ ] vitest 設定

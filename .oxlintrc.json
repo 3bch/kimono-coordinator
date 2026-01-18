@@ -21,11 +21,22 @@
     "nursery": "off"
   },
   "rules": {
-    "eqeqeq": "error",
-    "no-var": "error",
-    "unicode-bom": "error",
+    "eslint/eqeqeq": "error",
+    "eslint/no-var": "error",
+    "eslint/unicode-bom": "error",
+    "eslint/no-new-func": "error",
+    "eslint/no-nested-ternary": "error",
+    "eslint/no-multi-assign": "error",
+    "eslint/no-implicit-coercion": "error",
+    "eslint/curly": "error",
+    "eslint/no-proto": "error",
+    "eslint/no-sequences": ["error", { "allowInParentheses": false }],
+    "eslint/no-void": "error",
+    "eslint/no-array-constructor": "error",
+    "eslint/no-prototype-builtins": "error",
+    "eslint/prefer-template": "error",
     // 相対パス import の禁止
-    "no-restricted-imports": [
+    "eslint/no-restricted-imports": [
       "error",
       {
         "patterns": ["./*", "../*"]
@@ -34,6 +45,7 @@
 
     "oxc/bad-bitwise-operator": "error",
     "oxc/no-barrel-file": "error",
+    "oxc/approx-constant": "error",
 
     "typescript/array-type": ["error", { "default": "array-simple" }],
     "typescript/consistent-type-definitions": "error",
@@ -41,9 +53,23 @@
     "typescript/consistent-indexed-object-style": "error",
     "typescript/prefer-function-type": "error",
     "typescript/prefer-for-of": "error",
+    "typescript/no-non-null-asserted-nullish-coalescing": "error",
+    "typescript/ban-types": "error",
+    "typescript/adjacent-overload-signatures": "error",
+    "typescript/no-non-null-assertion": "error",
+    "typescript/no-unsafe-function-type": "error",
 
     "unicorn/no-array-for-each": "error",
     "unicorn/no-abusive-eslint-disable": "error",
+    "unicorn/prefer-negative-index": "error",
+    "unicorn/throw-new-error": "error",
+    "unicorn/prefer-modern-math-apis": "error",
+    "unicorn/prefer-number-properties": "error",
+    "unicorn/prefer-at": "error",
+    "unicorn/prefer-string-slice": "error",
+    "unicorn/new-for-builtins": "error",
+    "unicorn/no-instanceof-builtins": "error",
+    "unicorn/prefer-string-replace-all": "error",
 
     "import/consistent-type-specifier-style": "error",
     "import/no-anonymous-default-export": "error",
@@ -53,7 +79,19 @@
 
     // React 17 以降は不要なルールなので OFF
     "react/react-in-jsx-scope": "off",
-    "react/no-danger": "error"
+    "react/no-danger": "error",
+
+    // --- type aware Rules --- //
+    "typescript/prefer-nullish-coalescing": "warn",
+    "typescript/strict-boolean-expressions": "warn",
+    "typescript/no-misused-promises": "warn",
+    "typescript/no-deprecated": "warn",
+    "typescript/no-unsafe-argument": "warn",
+    "typescript/no-unsafe-assignment": "warn",
+    "typescript/no-unsafe-call": "warn",
+    "typescript/no-unsafe-member-access": "warn",
+    "typescript/no-unsafe-return": "warn",
+    "typescript/no-unsafe-type-assertion": "warn"
   },
   "settings": {
     "jsx-a11y": {

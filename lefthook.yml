@@ -2,7 +2,7 @@ pre-commit:
   jobs:
     - name: Format
       run: pnpm run fix:format
-    - name: Lint & Fix
+    - name: Fix Lint
       run: pnpm run fix:lint
-    - name: Type Check
-      run: pnpm run check:type
+    - name: Check
+      run: pnpm run check:lint:withtype
