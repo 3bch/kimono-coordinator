@@ -30,8 +30,8 @@
     "tailwindcss": "^4.1.18"
   },
   "devDependencies": {
-    "@anthropic-ai/claude-code": "^2.0.76",
-    "@openai/codex": "^0.77.0",
+    "@anthropic-ai/claude-code": "^2.1.8",
+    "@openai/codex": "^0.84.0",
     "@tanstack/router-plugin": "^1.149.0",
     "@types/node": "^25.0.3",
     "@types/react": "^19.2.7",

@@ -43,11 +43,11 @@ importers:
         version: 4.1.18
     devDependencies:
       '@anthropic-ai/claude-code':
-        specifier: ^2.0.76
-        version: 2.0.76
+        specifier: ^2.1.8
+        version: 2.1.8
       '@openai/codex':
-        specifier: ^0.77.0
-        version: 0.77.0
+        specifier: ^0.84.0
+        version: 0.84.0
       '@tanstack/router-plugin':
         specifier: ^1.149.0
         version: 1.149.0(@tanstack/react-router@1.147.3(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(vite@7.3.0(@types/node@25.0.3)(jiti@2.6.1)(lightningcss@1.30.2)(tsx@4.21.0))
@@ -97,8 +97,8 @@ packages:
     resolution: {integrity: sha512-9q/yCljni37pkMr4sPrI3G4jqdIk074+iukc5aFJl7kmDCCsiJrbZ6zKxnES1Gwg+i9RcDZwvktl23puGslmvA==}
     hasBin: true
 
-  '@anthropic-ai/claude-code@2.0.76':
-    resolution: {integrity: sha512-BVwPez7Pst729gxHZNb7iUdjrn4UAzO49zC+Bxlyf0fMe3SsutxEhKTT16VMs2qInE9xhEBCxajCCa888mFPBg==}
+  '@anthropic-ai/claude-code@2.1.8':
+    resolution: {integrity: sha512-SyWxjzh0qipDolSTa5c9ABrWQ746y7PWKgmqudXN/ev9IJI7ZLoKLYX4T48mOWJTyO+pEFKFDASv1wImiNx5yg==}
     engines: {node: '>=18.0.0'}
     hasBin: true
 
@@ -614,8 +614,8 @@ packages:
   '@open-draft/until@2.1.0':
     resolution: {integrity: sha512-U69T3ItWHvLwGg5eJ0n3I62nWuE6ilHlmz7zM0npLBRvPRd7e6NYmg54vvRtP5mZG7kZqZCFVdsTWo7BPtBujg==}
 
-  '@openai/codex@0.77.0':
-    resolution: {integrity: sha512-1Z3tuJsePfQvBELmTT3Dpzm4GheQn0t4H8RtdZnYVBdj1vA2Hi6eGCrOHXxPSfXRKDrSZ4VvALcQmZpFmYsaHA==}
+  '@openai/codex@0.84.0':
+    resolution: {integrity: sha512-1reR4CV3Lqfm0iYSZM8Ka1XSuYEep1xpOfySGBWZU6+NTcHRH960pfIbGENL3GKsbrCyavcEM8Gz2XQEolp+uA==}
     engines: {node: '>=16'}
     hasBin: true
 
@@ -2647,7 +2647,7 @@ snapshots:
       package-manager-detector: 1.6.0
       tinyexec: 1.0.2
 
-  '@anthropic-ai/claude-code@2.0.76':
+  '@anthropic-ai/claude-code@2.1.8':
     optionalDependencies:
       '@img/sharp-darwin-arm64': 0.33.5
       '@img/sharp-darwin-x64': 0.33.5
@@ -3124,7 +3124,7 @@ snapshots:
 
   '@open-draft/until@2.1.0': {}
 
-  '@openai/codex@0.77.0': {}
+  '@openai/codex@0.84.0': {}
 
   '@oxfmt/darwin-arm64@0.24.0':
     optional: true
