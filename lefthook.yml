@@ -5,4 +5,4 @@ pre-commit:
     - name: Fix Lint
       run: pnpm run fix:lint
     - name: Check
-      run: pnpm run check:lint:withtype
+      run: pnpm run check
