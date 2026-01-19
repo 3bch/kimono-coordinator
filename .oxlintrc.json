@@ -74,7 +74,10 @@
     "import/consistent-type-specifier-style": "error",
     "import/no-anonymous-default-export": "error",
     "import/no-cycle": "error",
-    "import/no-unassigned-import": ["error", { "allow": ["**/*.css"] }],
+    "import/no-unassigned-import": [
+      "error",
+      { "allow": ["@testing-library/jest-dom/vitest", "**/*.css"] }
+    ],
     "import/no-duplicates": "error",
 
     // React 17 以降は不要なルールなので OFF

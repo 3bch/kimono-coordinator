@@ -3,5 +3,7 @@
     - [x] type aware 検討
 - [x] boundary が使えるか確認 → 使えなかった
 - [x] TanStack Router 設定
-- [ ] vitest 設定
+- [x] vitest 設定
+    - [ ] できたけど遅い問題
+- [ ] npm をふさぐ
 - [ ] CLAUDE.md や カスタムコマンド系 の設定
