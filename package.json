@@ -13,9 +13,9 @@
     "check:lint:withtype": "oxlint --type-aware --type-check",
     "check:format": "oxfmt --check",
     "check:type": "tsgo -b",
-    "test": "vitest",
+    "test": "vitest run",
     "test:watch": "vitest --watch",
-    "test:coverage": "vitest --coverage",
+    "test:coverage": "vitest run --coverage",
     "fix:lint": "oxlint --fix",
     "fix:format": "oxfmt --write"
   },
