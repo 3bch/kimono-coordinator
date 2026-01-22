@@ -5,7 +5,7 @@
 - [x] TanStack Router 設定
 - [x] vitest 設定
     - [x] できたけど遅い問題
-- [ ] npm をふさぐ
+- [x] npm をふさぐ
 - [ ] CLAUDE.md や カスタムコマンド系 の設定
 - [ ] まずは UI の試作
     - [ ] vercel にあげてスマホで確認

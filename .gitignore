@@ -1,4 +1,5 @@
 /.pnpm-store
+/.tanstack
 /coverage
 /dist
 /node_modules
