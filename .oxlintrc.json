@@ -85,6 +85,10 @@
     "react/react-in-jsx-scope": "off",
     "react/no-danger": "error",
 
+    // 小規模アプリでは過剰な最適化となるため OFF
+    "react-perf/jsx-no-new-function-as-prop": "off",
+    "react-perf/jsx-no-new-object-as-prop": "off",
+
     // TypeScript では type は不要なので OFF
     "jsdoc/empty-tags": "error",
     "jsdoc/require-property-type": "off",
