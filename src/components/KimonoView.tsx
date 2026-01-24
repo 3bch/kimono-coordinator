@@ -37,6 +37,7 @@ export function KimonoView({ kimonos, obis }: KimonoViewProps) {
     nextOffsetX: kimonoNextOffsetX,
     swipeDirection: kimonoSwipeDirection,
     isSwiping: kimonoSwiping,
+    isResetting: kimonoResetting,
     handlers: kimonoHandlers,
   } = useSwipe({
     threshold: 50,
@@ -50,6 +51,7 @@ export function KimonoView({ kimonos, obis }: KimonoViewProps) {
     nextOffsetX: obiNextOffsetX,
     swipeDirection: obiSwipeDirection,
     isSwiping: obiSwiping,
+    isResetting: obiResetting,
     handlers: obiHandlers,
   } = useSwipe({
     threshold: 50,
@@ -76,33 +78,33 @@ export function KimonoView({ kimonos, obis }: KimonoViewProps) {
   const kimonoStyle = useMemo(
     () => ({
       transform: activeLayer === "kimono" ? `translateX(${kimonoOffsetX}px)` : undefined,
-      transition: kimonoSwiping ? "none" : "transform 0.3s ease-out",
+      transition: kimonoSwiping || kimonoResetting ? "none" : "transform 0.3s ease-out",
     }),
-    [activeLayer, kimonoOffsetX, kimonoSwiping],
+    [activeLayer, kimonoOffsetX, kimonoSwiping, kimonoResetting],
   );
 
   const kimonoNextStyle = useMemo(
     () => ({
       transform: `translateX(${kimonoNextOffsetX}px)`,
-      transition: kimonoSwiping ? "none" : "transform 0.3s ease-out",
+      transition: kimonoSwiping || kimonoResetting ? "none" : "transform 0.3s ease-out",
     }),
-    [kimonoNextOffsetX, kimonoSwiping],
+    [kimonoNextOffsetX, kimonoSwiping, kimonoResetting],
   );
 
   const obiStyle = useMemo(
     () => ({
       transform: activeLayer === "obi" ? `translateX(${obiOffsetX}px)` : undefined,
-      transition: obiSwiping ? "none" : "transform 0.3s ease-out",
+      transition: obiSwiping || obiResetting ? "none" : "transform 0.3s ease-out",
     }),
-    [activeLayer, obiOffsetX, obiSwiping],
+    [activeLayer, obiOffsetX, obiSwiping, obiResetting],
   );
 
   const obiNextStyle = useMemo(
     () => ({
       transform: `translateX(${obiNextOffsetX}px)`,
-      transition: obiSwiping ? "none" : "transform 0.3s ease-out",
+      transition: obiSwiping || obiResetting ? "none" : "transform 0.3s ease-out",
     }),
-    [obiNextOffsetX, obiSwiping],
+    [obiNextOffsetX, obiSwiping, obiResetting],
   );
 
   if (!currentKimono || !currentObi) {
