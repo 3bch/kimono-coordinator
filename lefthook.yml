@@ -4,5 +4,7 @@ pre-commit:
       run: pnpm run fix:format
     - name: Fix Lint
       run: pnpm run fix:lint
+    - name: Add Files
+      run: git add -u
     - name: Check
       run: pnpm run check
