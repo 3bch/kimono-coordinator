@@ -30,28 +30,48 @@ export function KimonoView({ kimonos, obis }: KimonoViewProps) {
     setObiIndex((prev) => (prev === obis.length - 1 ? 0 : prev + 1));
   };
 
+  const containerWidth = 280;
+
   const {
     offsetX: kimonoOffsetX,
+    nextOffsetX: kimonoNextOffsetX,
+    swipeDirection: kimonoSwipeDirection,
     isSwiping: kimonoSwiping,
     handlers: kimonoHandlers,
   } = useSwipe({
     threshold: 50,
+    containerWidth,
     onSwipeLeft: goToNextKimono,
     onSwipeRight: goToPrevKimono,
   });
 
   const {
     offsetX: obiOffsetX,
+    nextOffsetX: obiNextOffsetX,
+    swipeDirection: obiSwipeDirection,
     isSwiping: obiSwiping,
     handlers: obiHandlers,
   } = useSwipe({
     threshold: 50,
+    containerWidth,
     onSwipeLeft: goToNextObi,
     onSwipeRight: goToPrevObi,
   });
 
   const currentKimono = kimonos[kimonoIndex];
   const currentObi = obis[obiIndex];
+
+  // 次/前の着物インデックスを計算
+  const nextKimonoIndex = kimonoIndex === kimonos.length - 1 ? 0 : kimonoIndex + 1;
+  const prevKimonoIndex = kimonoIndex === 0 ? kimonos.length - 1 : kimonoIndex - 1;
+  const adjacentKimonoIndex = kimonoSwipeDirection === "left" ? nextKimonoIndex : prevKimonoIndex;
+  const adjacentKimono = kimonoSwipeDirection ? kimonos[adjacentKimonoIndex] : null;
+
+  // 次/前の帯インデックスを計算
+  const nextObiIndex = obiIndex === obis.length - 1 ? 0 : obiIndex + 1;
+  const prevObiIndex = obiIndex === 0 ? obis.length - 1 : obiIndex - 1;
+  const adjacentObiIndex = obiSwipeDirection === "left" ? nextObiIndex : prevObiIndex;
+  const adjacentObi = obiSwipeDirection ? obis[adjacentObiIndex] : null;
 
   const kimonoStyle = useMemo(
     () => ({
@@ -61,12 +81,28 @@ export function KimonoView({ kimonos, obis }: KimonoViewProps) {
     [activeLayer, kimonoOffsetX, kimonoSwiping],
   );
 
+  const kimonoNextStyle = useMemo(
+    () => ({
+      transform: `translateX(${kimonoNextOffsetX}px)`,
+      transition: kimonoSwiping ? "none" : "transform 0.3s ease-out",
+    }),
+    [kimonoNextOffsetX, kimonoSwiping],
+  );
+
   const obiStyle = useMemo(
     () => ({
       transform: activeLayer === "obi" ? `translateX(${obiOffsetX}px)` : undefined,
       transition: obiSwiping ? "none" : "transform 0.3s ease-out",
     }),
     [activeLayer, obiOffsetX, obiSwiping],
+  );
+
+  const obiNextStyle = useMemo(
+    () => ({
+      transform: `translateX(${obiNextOffsetX}px)`,
+      transition: obiSwiping ? "none" : "transform 0.3s ease-out",
+    }),
+    [obiNextOffsetX, obiSwiping],
   );
 
   if (!currentKimono || !currentObi) {
@@ -100,15 +136,30 @@ export function KimonoView({ kimonos, obis }: KimonoViewProps) {
       </div>
 
       {/* 着物と帯の重ね表示 */}
-      <div className="relative h-[400px] w-[280px] cursor-grab select-none" {...activeHandlers}>
-        {/* 着物レイヤー */}
+      <div
+        className="relative h-[400px] w-[280px] cursor-grab overflow-hidden select-none"
+        {...activeHandlers}
+      >
+        {/* 着物レイヤー（現在） */}
         <div className="absolute inset-0" style={kimonoStyle}>
           <KimonoSilhouette color={currentKimono.color} className="h-full w-full" />
         </div>
-        {/* 帯レイヤー（着物の上に重ねる） */}
+        {/* 着物レイヤー（次/前）- スワイプ中のみ表示 */}
+        {activeLayer === "kimono" && adjacentKimono && (
+          <div className="absolute inset-0" style={kimonoNextStyle}>
+            <KimonoSilhouette color={adjacentKimono.color} className="h-full w-full" />
+          </div>
+        )}
+        {/* 帯レイヤー（現在） */}
         <div className="pointer-events-none absolute inset-0" style={obiStyle}>
           <ObiSilhouette color={currentObi.color} className="h-full w-full" />
         </div>
+        {/* 帯レイヤー（次/前）- スワイプ中のみ表示 */}
+        {activeLayer === "obi" && adjacentObi && (
+          <div className="pointer-events-none absolute inset-0" style={obiNextStyle}>
+            <ObiSilhouette color={adjacentObi.color} className="h-full w-full" />
+          </div>
+        )}
       </div>
 
       {/* 現在の選択情報 */}

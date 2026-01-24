@@ -4,12 +4,15 @@ type SwipeDirection = "left" | "right" | null;
 
 interface UseSwipeOptions {
   threshold?: number;
+  containerWidth?: number;
   onSwipeLeft?: () => void;
   onSwipeRight?: () => void;
 }
 
 interface UseSwipeReturn {
   offsetX: number;
+  nextOffsetX: number;
+  swipeDirection: SwipeDirection;
   isSwiping: boolean;
   handlers: {
     onTouchStart: (e: React.TouchEvent) => void;
@@ -23,10 +26,11 @@ interface UseSwipeReturn {
 }
 
 export function useSwipe(options: UseSwipeOptions = {}): UseSwipeReturn {
-  const { threshold = 50, onSwipeLeft, onSwipeRight } = options;
+  const { threshold = 50, containerWidth = 280, onSwipeLeft, onSwipeRight } = options;
 
   const [offsetX, setOffsetX] = useState(0);
   const [isSwiping, setIsSwiping] = useState(false);
+  const [swipeDirection, setSwipeDirection] = useState<SwipeDirection>(null);
 
   const startX = useRef(0);
   const isDragging = useRef(false);
@@ -43,6 +47,12 @@ export function useSwipe(options: UseSwipeOptions = {}): UseSwipeReturn {
     }
     const diff = clientX - startX.current;
     setOffsetX(diff);
+    // スワイプ方向を更新（左にドラッグ = 左スワイプ = 次へ、右にドラッグ = 右スワイプ = 前へ）
+    if (diff < 0) {
+      setSwipeDirection("left");
+    } else if (diff > 0) {
+      setSwipeDirection("right");
+    }
   }, []);
 
   const handleEnd = useCallback(() => {
@@ -63,6 +73,7 @@ export function useSwipe(options: UseSwipeOptions = {}): UseSwipeReturn {
     }
 
     setOffsetX(0);
+    setSwipeDirection(null);
     return direction;
   }, [offsetX, threshold, onSwipeLeft, onSwipeRight]);
 
@@ -98,5 +109,18 @@ export function useSwipe(options: UseSwipeOptions = {}): UseSwipeReturn {
     },
   };
 
-  return { offsetX, isSwiping, handlers };
+  // 次の要素のオフセットを計算
+  // 左スワイプ時: 次の要素は右端から入ってくる (containerWidth + offsetX)
+  // 右スワイプ時: 前の要素は左端から入ってくる (-containerWidth + offsetX)
+  const calcNextOffsetX = (): number => {
+    if (swipeDirection === "left") {
+      return containerWidth + offsetX;
+    }
+    if (swipeDirection === "right") {
+      return -containerWidth + offsetX;
+    }
+    return 0;
+  };
+
+  return { offsetX, nextOffsetX: calcNextOffsetX(), swipeDirection, isSwiping, handlers };
 }
