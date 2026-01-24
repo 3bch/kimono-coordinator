@@ -21,3 +21,15 @@ export interface ObiItem {
   /** 帯の色（CSS カラーコード） */
   color: string;
 }
+
+/**
+ * 帯締めアイテムを表すインターフェース
+ */
+export interface ObijimeItem {
+  /** 帯締めの一意な識別子 */
+  id: string;
+  /** 帯締めの名前（例: 赤、白） */
+  name: string;
+  /** 帯締めの色（CSS カラーコード） */
+  color: string;
+}

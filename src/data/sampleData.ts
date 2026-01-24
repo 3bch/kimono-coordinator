@@ -1,4 +1,4 @@
-import type { KimonoItem, ObiItem } from "#src/types/kimono";
+import type { KimonoItem, ObiItem, ObijimeItem } from "#src/types/kimono";
 
 /**
  * サンプル着物データ
@@ -22,4 +22,16 @@ export const sampleObis: ObiItem[] = [
   { id: "obi-3", name: "朱色", color: "#E24D3D" },
   { id: "obi-4", name: "深緑", color: "#004D40" },
   { id: "obi-5", name: "紫紺", color: "#460E44" },
+];
+
+/**
+ * サンプル帯締めデータ
+ * アプリケーションのデモ用に使用される帯締めの一覧
+ */
+export const sampleObijimes: ObijimeItem[] = [
+  { id: "obijime-1", name: "赤", color: "#C41E3A" },
+  { id: "obijime-2", name: "白", color: "#F5F5F5" },
+  { id: "obijime-3", name: "金", color: "#D4AF37" },
+  { id: "obijime-4", name: "紫", color: "#7B287D" },
+  { id: "obijime-5", name: "黒", color: "#1A1A1A" },
 ];
