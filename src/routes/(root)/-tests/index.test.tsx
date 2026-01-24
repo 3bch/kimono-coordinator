@@ -20,9 +20,9 @@ describe("root route", () => {
     expect(await screen.findByText("Kimono Coordinator")).toBeInTheDocument();
   });
 
-  it("renders kimono and obi sections", async () => {
+  it("renders kimono and obi selection buttons", async () => {
     render(<RouterProvider router={router} />);
-    expect(await screen.findByText("着物")).toBeInTheDocument();
-    expect(await screen.findByText("帯")).toBeInTheDocument();
+    expect(await screen.findByText("着物を選ぶ")).toBeInTheDocument();
+    expect(await screen.findByText("帯を選ぶ")).toBeInTheDocument();
   });
 });

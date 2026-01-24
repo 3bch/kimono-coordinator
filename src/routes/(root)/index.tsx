@@ -1,4 +1,4 @@
-import { SwipeableItem } from "#src/components/SwipeableItem";
+import { KimonoView } from "#src/components/KimonoView";
 import { sampleKimonos, sampleObis } from "#src/data/sampleData";
 import { createFileRoute } from "@tanstack/react-router";
 
@@ -8,15 +8,11 @@ export const Route = createFileRoute("/(root)/")({
 
 function Index() {
   return (
-    <div className="mx-auto flex min-h-screen max-w-md flex-col gap-6 p-4">
+    <div className="mx-auto flex min-h-screen max-w-md flex-col items-center gap-6 p-4">
       <h1 className="text-center text-2xl font-bold">Kimono Coordinator</h1>
-      <p className="text-center text-sm text-gray-600">
-        左右にスワイプして着物と帯を選んでください
-      </p>
+      <p className="text-center text-sm text-gray-600">着物と帯の組み合わせをお試しください</p>
 
-      <SwipeableItem items={sampleKimonos} label="着物" height="250px" />
-
-      <SwipeableItem items={sampleObis} label="帯" height="120px" />
+      <KimonoView kimonos={sampleKimonos} obis={sampleObis} />
     </div>
   );
 }
