@@ -2,17 +2,23 @@ import { KimonoSilhouette } from "#src/components/KimonoSilhouette";
 import { ObiSilhouette } from "#src/components/ObiSilhouette";
 import { useSwipe } from "#src/hooks/useSwipe";
 import type { KimonoItem, ObiItem } from "#src/types/kimono";
-import { useMemo, useState } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
 
 interface KimonoViewProps {
   kimonos: KimonoItem[];
   obis: ObiItem[];
 }
 
+// 帯エリアの範囲（コンテナ高さに対する比率）
+// SVG viewBox="0 0 200 300" で帯は y=90 から y=160
+const OBI_AREA_START = 90 / 300; // 30%
+const OBI_AREA_END = 160 / 300; // 53.3%
+
 export function KimonoView({ kimonos, obis }: KimonoViewProps) {
   const [kimonoIndex, setKimonoIndex] = useState(0);
   const [obiIndex, setObiIndex] = useState(0);
   const [activeLayer, setActiveLayer] = useState<"kimono" | "obi">("kimono");
+  const containerRef = useRef<HTMLDivElement>(null);
 
   const goToPrevKimono = () => {
     setKimonoIndex((prev) => (prev === 0 ? kimonos.length - 1 : prev - 1));
@@ -31,6 +37,7 @@ export function KimonoView({ kimonos, obis }: KimonoViewProps) {
   };
 
   const containerWidth = 280;
+  const containerHeight = 400;
 
   const {
     offsetX: kimonoOffsetX,
@@ -59,6 +66,58 @@ export function KimonoView({ kimonos, obis }: KimonoViewProps) {
     onSwipeLeft: goToNextObi,
     onSwipeRight: goToPrevObi,
   });
+
+  // タッチ位置から操作対象を判定
+  const determineActiveLayer = useCallback(
+    (clientY: number): "kimono" | "obi" => {
+      if (!containerRef.current) {
+        return "kimono";
+      }
+      const rect = containerRef.current.getBoundingClientRect();
+      const relativeY = clientY - rect.top;
+      const ratio = relativeY / containerHeight;
+      // 帯エリア内なら帯、それ以外は着物
+      if (ratio >= OBI_AREA_START && ratio <= OBI_AREA_END) {
+        return "obi";
+      }
+      return "kimono";
+    },
+    [containerHeight],
+  );
+
+  // タッチ/マウス開始時に操作対象を判定してからハンドラーを呼び出す
+  const handleTouchStart = useCallback(
+    (e: React.TouchEvent) => {
+      const touch = e.touches[0];
+      if (!touch) {
+        return;
+      }
+      const layer = determineActiveLayer(touch.clientY);
+      setActiveLayer(layer);
+      if (layer === "kimono") {
+        kimonoHandlers.onTouchStart(e);
+      } else {
+        obiHandlers.onTouchStart(e);
+      }
+    },
+    [determineActiveLayer, kimonoHandlers, obiHandlers],
+  );
+
+  const handleMouseDown = useCallback(
+    (e: React.MouseEvent) => {
+      const layer = determineActiveLayer(e.clientY);
+      setActiveLayer(layer);
+      if (layer === "kimono") {
+        kimonoHandlers.onMouseDown(e);
+      } else {
+        obiHandlers.onMouseDown(e);
+      }
+    },
+    [determineActiveLayer, kimonoHandlers, obiHandlers],
+  );
+
+  // Move/End/Leave は現在の activeLayer に応じて振り分け
+  const activeHandlers = activeLayer === "kimono" ? kimonoHandlers : obiHandlers;
 
   const currentKimono = kimonos[kimonoIndex];
   const currentObi = obis[obiIndex];
@@ -111,36 +170,19 @@ export function KimonoView({ kimonos, obis }: KimonoViewProps) {
     return null;
   }
 
-  const activeHandlers = activeLayer === "kimono" ? kimonoHandlers : obiHandlers;
-
   return (
     <div className="flex w-full flex-col items-center gap-4">
-      {/* レイヤー切り替えボタン */}
-      <div className="flex gap-2">
-        <button
-          type="button"
-          className={`rounded-lg px-4 py-2 text-sm font-medium transition-colors ${
-            activeLayer === "kimono" ? "bg-gray-800 text-white" : "bg-gray-200 text-gray-700"
-          }`}
-          onClick={() => setActiveLayer("kimono")}
-        >
-          着物を選ぶ
-        </button>
-        <button
-          type="button"
-          className={`rounded-lg px-4 py-2 text-sm font-medium transition-colors ${
-            activeLayer === "obi" ? "bg-gray-800 text-white" : "bg-gray-200 text-gray-700"
-          }`}
-          onClick={() => setActiveLayer("obi")}
-        >
-          帯を選ぶ
-        </button>
-      </div>
-
       {/* 着物と帯の重ね表示 */}
       <div
+        ref={containerRef}
         className="relative h-[400px] w-[280px] cursor-grab overflow-hidden select-none"
-        {...activeHandlers}
+        onTouchStart={handleTouchStart}
+        onTouchMove={activeHandlers.onTouchMove}
+        onTouchEnd={activeHandlers.onTouchEnd}
+        onMouseDown={handleMouseDown}
+        onMouseMove={activeHandlers.onMouseMove}
+        onMouseUp={activeHandlers.onMouseUp}
+        onMouseLeave={activeHandlers.onMouseLeave}
       >
         {/* 着物レイヤー（現在） */}
         <div className="absolute inset-0" style={kimonoStyle}>
@@ -172,7 +214,7 @@ export function KimonoView({ kimonos, obis }: KimonoViewProps) {
           <span className="font-medium">帯:</span> {currentObi.name}
         </p>
         <p className="mt-1 text-sm text-gray-500">
-          {activeLayer === "kimono" ? "← 着物をスワイプで切り替え →" : "← 帯をスワイプで切り替え →"}
+          ← スワイプで切り替え（帯部分をタッチで帯を変更）→
         </p>
       </div>
 
