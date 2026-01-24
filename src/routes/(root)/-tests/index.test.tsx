@@ -17,6 +17,12 @@ declare module "@tanstack/react-router" {
 describe("root route", () => {
   it("renders the root index page", async () => {
     render(<RouterProvider router={router} />);
-    expect(await screen.findByText("Kimono Coordinator!")).toBeInTheDocument();
+    expect(await screen.findByText("Kimono Coordinator")).toBeInTheDocument();
+  });
+
+  it("renders kimono and obi sections", async () => {
+    render(<RouterProvider router={router} />);
+    expect(await screen.findByText("着物")).toBeInTheDocument();
+    expect(await screen.findByText("帯")).toBeInTheDocument();
   });
 });
