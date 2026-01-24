@@ -63,6 +63,7 @@ export function useSwipe(options: UseSwipeOptions = {}): UseSwipeReturn {
   const [isSwiping, setIsSwiping] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
   const [isResetting, setIsResetting] = useState(false);
+  const [isCancelling, setIsCancelling] = useState(false);
   const [swipeDirection, setSwipeDirection] = useState<SwipeDirection>(null);
   const [pendingCallback, setPendingCallback] = useState<(() => void) | null>(null);
 
@@ -96,6 +97,18 @@ export function useSwipe(options: UseSwipeOptions = {}): UseSwipeReturn {
     });
     return () => cancelAnimationFrame(frame);
   }, [isResetting]);
+
+  // キャンセルアニメーション完了後に swipeDirection をリセット
+  useEffect(() => {
+    if (!isCancelling) {
+      return;
+    }
+    const timer = setTimeout(() => {
+      setSwipeDirection(null);
+      setIsCancelling(false);
+    }, 300); // CSSのtransition時間と同じ
+    return () => clearTimeout(timer);
+  }, [isCancelling]);
 
   const handleStart = useCallback((clientX: number) => {
     startX.current = clientX;
@@ -137,9 +150,12 @@ export function useSwipe(options: UseSwipeOptions = {}): UseSwipeReturn {
     } else {
       // スワイプがキャンセルされた場合、元に戻す
       setOffsetX(0);
-      setSwipeDirection(null);
+      // swipeDirection はアニメーション完了後にリセット（隣の要素が瞬間的に消えるのを防ぐ）
+      if (swipeDirection) {
+        setIsCancelling(true);
+      }
     }
-  }, [offsetX, threshold, containerWidth, onSwipeLeft, onSwipeRight]);
+  }, [offsetX, threshold, containerWidth, onSwipeLeft, onSwipeRight, swipeDirection]);
 
   const handlers = {
     onTouchStart: (e: React.TouchEvent) => {
