@@ -1,5 +1,9 @@
 import type { KimonoItem, ObiItem } from "#src/types/kimono";
 
+/**
+ * サンプル着物データ
+ * アプリケーションのデモ用に使用される着物の一覧
+ */
 export const sampleKimonos: KimonoItem[] = [
   { id: "kimono-1", name: "紅色", color: "#C41E3A" },
   { id: "kimono-2", name: "藍色", color: "#264348" },
@@ -8,6 +12,10 @@ export const sampleKimonos: KimonoItem[] = [
   { id: "kimono-5", name: "藤色", color: "#A388C4" },
 ];
 
+/**
+ * サンプル帯データ
+ * アプリケーションのデモ用に使用される帯の一覧
+ */
 export const sampleObis: ObiItem[] = [
   { id: "obi-1", name: "金色", color: "#C9A84C" },
   { id: "obi-2", name: "銀色", color: "#A0A0A0" },

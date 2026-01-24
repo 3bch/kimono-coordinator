@@ -1,8 +1,20 @@
+/**
+ * KimonoSilhouette コンポーネントのプロパティ
+ */
 interface KimonoSilhouetteProps {
+  /** 着物の塗りつぶし色（CSS カラーコード） */
   color: string;
+  /** 追加の CSS クラス名 */
   className?: string;
 }
 
+/**
+ * 着物のシルエットを SVG で描画するコンポーネント
+ * @param props - コンポーネントのプロパティ
+ * @param props.color - 着物の塗りつぶし色
+ * @param props.className - 追加の CSS クラス名
+ * @returns 着物シルエットの SVG 要素
+ */
 export function KimonoSilhouette({ color, className = "" }: KimonoSilhouetteProps) {
   return (
     <svg viewBox="0 0 200 300" className={className} xmlns="http://www.w3.org/2000/svg">

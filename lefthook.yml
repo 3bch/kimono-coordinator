@@ -1,9 +1,9 @@
 pre-commit:
   jobs:
-    - name: Format
-      run: pnpm run fix:format
     - name: Fix Lint
       run: pnpm run fix:lint
+    - name: Format
+      run: pnpm run fix:format
     - name: Add Files
       run: git add -u
     - name: Check

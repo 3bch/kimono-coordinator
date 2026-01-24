@@ -1,21 +1,44 @@
 import { useCallback, useRef, useState, useEffect } from "react";
 
+/**
+ * スワイプ方向を表す型
+ * - "left": 左方向へのスワイプ
+ * - "right": 右方向へのスワイプ
+ * - null: スワイプなし
+ */
 type SwipeDirection = "left" | "right" | null;
 
+/**
+ * useSwipe フックのオプション
+ */
 interface UseSwipeOptions {
+  /** スワイプを確定するための閾値（ピクセル単位、デフォルト: 50） */
   threshold?: number;
+  /** コンテナの幅（アニメーション計算用、デフォルト: 280） */
   containerWidth?: number;
+  /** 左スワイプ完了時のコールバック */
   onSwipeLeft?: () => void;
+  /** 右スワイプ完了時のコールバック */
   onSwipeRight?: () => void;
 }
 
+/**
+ * useSwipe フックの戻り値
+ */
 interface UseSwipeReturn {
+  /** 現在の要素の X 軸オフセット（ピクセル） */
   offsetX: number;
+  /** 次/前の要素の X 軸オフセット（ピクセル） */
   nextOffsetX: number;
+  /** 現在のスワイプ方向 */
   swipeDirection: SwipeDirection;
+  /** スワイプ中かどうか */
   isSwiping: boolean;
+  /** アニメーション中かどうか */
   isAnimating: boolean;
+  /** リセット中かどうか */
   isResetting: boolean;
+  /** イベントハンドラー */
   handlers: {
     onTouchStart: (e: React.TouchEvent) => void;
     onTouchMove: (e: React.TouchEvent) => void;
@@ -27,6 +50,12 @@ interface UseSwipeReturn {
   };
 }
 
+/**
+ * スワイプ操作を管理するカスタムフック
+ * タッチデバイスとマウス操作の両方に対応し、リング状のスワイプアニメーションを実現する
+ * @param options - スワイプの設定オプション
+ * @returns スワイプの状態とイベントハンドラー
+ */
 export function useSwipe(options: UseSwipeOptions = {}): UseSwipeReturn {
   const { threshold = 50, containerWidth = 280, onSwipeLeft, onSwipeRight } = options;
 

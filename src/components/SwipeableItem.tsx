@@ -1,12 +1,26 @@
 import { useSwipe } from "#src/hooks/useSwipe";
 import { useMemo, useState } from "react";
 
+/**
+ * アイテムインジケーターのプロパティ
+ */
 interface ItemIndicatorProps {
+  /** インジケーターがアクティブ（選択中）かどうか */
   isActive: boolean;
+  /** クリック時のコールバック */
   onClick: () => void;
+  /** アクセシビリティ用のラベル */
   label: string;
 }
 
+/**
+ * スワイプ可能なアイテムのインジケーター（ドット）を表示するコンポーネント
+ * @param props - コンポーネントのプロパティ
+ * @param props.isActive - アクティブ状態
+ * @param props.onClick - クリックハンドラー
+ * @param props.label - アクセシビリティラベル
+ * @returns インジケーターのボタン要素
+ */
 function ItemIndicator({ isActive, onClick, label }: ItemIndicatorProps) {
   return (
     <button
@@ -20,12 +34,26 @@ function ItemIndicator({ isActive, onClick, label }: ItemIndicatorProps) {
   );
 }
 
+/**
+ * SwipeableItem コンポーネントのプロパティ
+ */
 interface SwipeableItemProps<T extends { id: string; name: string; color: string }> {
+  /** 表示するアイテムの配列 */
   items: T[];
+  /** コンポーネントのラベル */
   label: string;
+  /** コンテナの高さ（CSS 単位付き、デフォルト: "200px"） */
   height?: string;
 }
 
+/**
+ * スワイプでアイテムを切り替えられる汎用コンポーネント
+ * @param props - コンポーネントのプロパティ
+ * @param props.items - 表示するアイテムの配列
+ * @param props.label - コンポーネントのラベル
+ * @param props.height - コンテナの高さ
+ * @returns スワイプ可能なアイテム表示の React 要素
+ */
 export function SwipeableItem<T extends { id: string; name: string; color: string }>({
   items,
   label,

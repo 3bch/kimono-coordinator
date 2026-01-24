@@ -4,16 +4,36 @@ import { useSwipe } from "#src/hooks/useSwipe";
 import type { KimonoItem, ObiItem } from "#src/types/kimono";
 import { useCallback, useMemo, useRef, useState } from "react";
 
+/**
+ * KimonoView コンポーネントのプロパティ
+ */
 interface KimonoViewProps {
+  /** 表示する着物アイテムの配列 */
   kimonos: KimonoItem[];
+  /** 表示する帯アイテムの配列 */
   obis: ObiItem[];
 }
 
-// 帯エリアの範囲（コンテナ高さに対する比率）
-// SVG viewBox="0 0 200 300" で帯は y=90 から y=160
-const OBI_AREA_START = 90 / 300; // 30%
-const OBI_AREA_END = 160 / 300; // 53.3%
+/**
+ * 帯エリアの開始位置（コンテナ高さに対する比率）
+ * SVG viewBox="0 0 200 300" で帯は y=90 から開始
+ */
+const OBI_AREA_START = 90 / 300;
 
+/**
+ * 帯エリアの終了位置（コンテナ高さに対する比率）
+ * SVG viewBox="0 0 200 300" で帯は y=160 で終了
+ */
+const OBI_AREA_END = 160 / 300;
+
+/**
+ * 着物と帯を重ねて表示し、スワイプで切り替えるコンポーネント
+ * タッチ位置に応じて着物または帯を操作対象として判定する
+ * @param props - コンポーネントのプロパティ
+ * @param props.kimonos - 表示する着物アイテムの配列
+ * @param props.obis - 表示する帯アイテムの配列
+ * @returns 着物コーディネートビューの React 要素
+ */
 export function KimonoView({ kimonos, obis }: KimonoViewProps) {
   const [kimonoIndex, setKimonoIndex] = useState(0);
   const [obiIndex, setObiIndex] = useState(0);

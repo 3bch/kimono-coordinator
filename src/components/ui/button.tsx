@@ -4,6 +4,10 @@ import { cva } from "class-variance-authority";
 import type { VariantProps } from "class-variance-authority";
 import * as React from "react";
 
+/**
+ * ボタンのバリアント（見た目のスタイル）を定義する class-variance-authority 設定
+ * variant と size の組み合わせでボタンのスタイルを制御する
+ */
 const buttonVariants = cva(
   "inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-all outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
   {
@@ -34,6 +38,17 @@ const buttonVariants = cva(
   },
 );
 
+/**
+ * 汎用ボタンコンポーネント
+ * variant と size でスタイルをカスタマイズ可能
+ * asChild を true にすると Radix UI の Slot を使用して子要素にプロパティを渡す
+ * @param props - ボタンのプロパティ
+ * @param props.className - 追加の CSS クラス名
+ * @param props.variant - ボタンのバリアント（default, destructive, outline, secondary, ghost, link）
+ * @param props.size - ボタンのサイズ（default, sm, lg, icon, icon-sm, icon-lg）
+ * @param props.asChild - 子要素をボタンとしてレンダリングするかどうか
+ * @returns ボタンの React 要素
+ */
 function Button({
   className,
   variant = "default",
