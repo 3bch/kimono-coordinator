@@ -40,7 +40,7 @@ export function KimonoView({ kimonos, obis }: KimonoViewProps) {
     isResetting: kimonoResetting,
     handlers: kimonoHandlers,
   } = useSwipe({
-    threshold: 50,
+    threshold: containerWidth / 4,
     containerWidth,
     onSwipeLeft: goToNextKimono,
     onSwipeRight: goToPrevKimono,
@@ -54,7 +54,7 @@ export function KimonoView({ kimonos, obis }: KimonoViewProps) {
     isResetting: obiResetting,
     handlers: obiHandlers,
   } = useSwipe({
-    threshold: 50,
+    threshold: containerWidth / 4,
     containerWidth,
     onSwipeLeft: goToNextObi,
     onSwipeRight: goToPrevObi,
