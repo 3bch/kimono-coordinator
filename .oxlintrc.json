@@ -4,13 +4,14 @@
     "typescript",
     "unicorn",
     "react",
-    "react-perf",
     "oxc",
     "import",
     "jsx-a11y",
     "promise",
     "vitest",
     "jsdoc"
+
+    // react-perf は React Compiler で不要になるので利用しない
   ],
   "categories": {
     "correctness": "error",
@@ -84,10 +85,9 @@
     // React 17 以降は不要なルールなので OFF
     "react/react-in-jsx-scope": "off",
     "react/no-danger": "error",
-
-    // 小規模アプリでは過剰な最適化となるため OFF
-    "react-perf/jsx-no-new-function-as-prop": "off",
-    "react-perf/jsx-no-new-object-as-prop": "off",
+    "react/rules-of-hooks": "error",
+    // TODO: React Compiler ルール (purity, refs, immutability 等) は oxlint 未実装
+    // oxlint が対応次第、有効化を検討
 
     // TypeScript では type は不要なので OFF
     "jsdoc/empty-tags": "error",
