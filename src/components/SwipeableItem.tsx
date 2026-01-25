@@ -1,5 +1,5 @@
 import { useSwipe } from "#src/hooks/useSwipe";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 
 /**
  * アイテムインジケーターのプロパティ
@@ -77,17 +77,14 @@ export function SwipeableItem<T extends { id: string; name: string; color: strin
 
   const currentItem = items[currentIndex];
 
-  const containerStyle = useMemo(() => ({ height }), [height]);
+  const containerStyle = { height };
 
-  const itemStyle = useMemo(
-    () => ({
-      backgroundColor: currentItem?.color ?? "transparent",
-      transform: `translateX(${offsetX}px)`,
-      transition: isSwiping ? "none" : "transform 0.3s ease-out",
-      cursor: "grab" as const,
-    }),
-    [currentItem?.color, offsetX, isSwiping],
-  );
+  const itemStyle = {
+    backgroundColor: currentItem?.color ?? "transparent",
+    transform: `translateX(${offsetX}px)`,
+    transition: isSwiping ? "none" : "transform 0.3s ease-out",
+    cursor: "grab" as const,
+  };
 
   if (!currentItem) {
     return null;

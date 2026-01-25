@@ -3,7 +3,7 @@ import { ObijimeSilhouette } from "#src/components/ObijimeSilhouette";
 import { ObiSilhouette } from "#src/components/ObiSilhouette";
 import { useSwipe } from "#src/hooks/useSwipe";
 import type { KimonoItem, ObiItem, ObijimeItem } from "#src/types/kimono";
-import { useCallback, useMemo, useRef, useState } from "react";
+import { useRef, useState } from "react";
 
 /**
  * KimonoView コンポーネントのプロパティ
@@ -127,60 +127,51 @@ export function KimonoView({ kimonos, obis, obijimes }: KimonoViewProps) {
   });
 
   // タッチ位置から操作対象を判定
-  const determineActiveLayer = useCallback(
-    (clientY: number): "kimono" | "obi" | "obijime" => {
-      if (!containerRef.current) {
-        return "kimono";
-      }
-      const rect = containerRef.current.getBoundingClientRect();
-      const relativeY = clientY - rect.top;
-      const ratio = relativeY / containerHeight;
-      // 帯締めエリア内なら帯締め、帯エリア内なら帯、それ以外は着物
-      if (ratio >= OBIJIME_AREA_START && ratio <= OBIJIME_AREA_END) {
-        return "obijime";
-      }
-      if (ratio >= OBI_AREA_START && ratio <= OBI_AREA_END) {
-        return "obi";
-      }
+  const determineActiveLayer = (clientY: number): "kimono" | "obi" | "obijime" => {
+    if (!containerRef.current) {
       return "kimono";
-    },
-    [containerHeight],
-  );
+    }
+    const rect = containerRef.current.getBoundingClientRect();
+    const relativeY = clientY - rect.top;
+    const ratio = relativeY / containerHeight;
+    // 帯締めエリア内なら帯締め、帯エリア内なら帯、それ以外は着物
+    if (ratio >= OBIJIME_AREA_START && ratio <= OBIJIME_AREA_END) {
+      return "obijime";
+    }
+    if (ratio >= OBI_AREA_START && ratio <= OBI_AREA_END) {
+      return "obi";
+    }
+    return "kimono";
+  };
 
   // タッチ/マウス開始時に操作対象を判定してからハンドラーを呼び出す
-  const handleTouchStart = useCallback(
-    (e: React.TouchEvent) => {
-      const touch = e.touches[0];
-      if (!touch) {
-        return;
-      }
-      const layer = determineActiveLayer(touch.clientY);
-      setActiveLayer(layer);
-      if (layer === "kimono") {
-        kimonoHandlers.onTouchStart(e);
-      } else if (layer === "obi") {
-        obiHandlers.onTouchStart(e);
-      } else {
-        obijimeHandlers.onTouchStart(e);
-      }
-    },
-    [determineActiveLayer, kimonoHandlers, obiHandlers, obijimeHandlers],
-  );
+  const handleTouchStart = (e: React.TouchEvent) => {
+    const touch = e.touches[0];
+    if (!touch) {
+      return;
+    }
+    const layer = determineActiveLayer(touch.clientY);
+    setActiveLayer(layer);
+    if (layer === "kimono") {
+      kimonoHandlers.onTouchStart(e);
+    } else if (layer === "obi") {
+      obiHandlers.onTouchStart(e);
+    } else {
+      obijimeHandlers.onTouchStart(e);
+    }
+  };
 
-  const handleMouseDown = useCallback(
-    (e: React.MouseEvent) => {
-      const layer = determineActiveLayer(e.clientY);
-      setActiveLayer(layer);
-      if (layer === "kimono") {
-        kimonoHandlers.onMouseDown(e);
-      } else if (layer === "obi") {
-        obiHandlers.onMouseDown(e);
-      } else {
-        obijimeHandlers.onMouseDown(e);
-      }
-    },
-    [determineActiveLayer, kimonoHandlers, obiHandlers, obijimeHandlers],
-  );
+  const handleMouseDown = (e: React.MouseEvent) => {
+    const layer = determineActiveLayer(e.clientY);
+    setActiveLayer(layer);
+    if (layer === "kimono") {
+      kimonoHandlers.onMouseDown(e);
+    } else if (layer === "obi") {
+      obiHandlers.onMouseDown(e);
+    } else {
+      obijimeHandlers.onMouseDown(e);
+    }
+  };
 
   // Move/End/Leave は現在の activeLayer に応じて振り分け
   const getActiveHandlers = () => {
@@ -217,53 +208,35 @@ export function KimonoView({ kimonos, obis, obijimes }: KimonoViewProps) {
     obijimeSwipeDirection === "left" ? nextObijimeIndex : prevObijimeIndex;
   const adjacentObijime = obijimeSwipeDirection ? obijimes[adjacentObijimeIndex] : null;
 
-  const kimonoStyle = useMemo(
-    () => ({
-      transform: activeLayer === "kimono" ? `translateX(${kimonoOffsetX}px)` : undefined,
-      transition: kimonoSwiping || kimonoResetting ? "none" : "transform 0.3s ease-out",
-    }),
-    [activeLayer, kimonoOffsetX, kimonoSwiping, kimonoResetting],
-  );
+  const kimonoStyle = {
+    transform: activeLayer === "kimono" ? `translateX(${kimonoOffsetX}px)` : undefined,
+    transition: kimonoSwiping || kimonoResetting ? "none" : "transform 0.3s ease-out",
+  };
 
-  const kimonoNextStyle = useMemo(
-    () => ({
-      transform: `translateX(${kimonoNextOffsetX}px)`,
-      transition: kimonoSwiping || kimonoResetting ? "none" : "transform 0.3s ease-out",
-    }),
-    [kimonoNextOffsetX, kimonoSwiping, kimonoResetting],
-  );
+  const kimonoNextStyle = {
+    transform: `translateX(${kimonoNextOffsetX}px)`,
+    transition: kimonoSwiping || kimonoResetting ? "none" : "transform 0.3s ease-out",
+  };
 
-  const obiStyle = useMemo(
-    () => ({
-      transform: activeLayer === "obi" ? `translateX(${obiOffsetX}px)` : undefined,
-      transition: obiSwiping || obiResetting ? "none" : "transform 0.3s ease-out",
-    }),
-    [activeLayer, obiOffsetX, obiSwiping, obiResetting],
-  );
+  const obiStyle = {
+    transform: activeLayer === "obi" ? `translateX(${obiOffsetX}px)` : undefined,
+    transition: obiSwiping || obiResetting ? "none" : "transform 0.3s ease-out",
+  };
 
-  const obiNextStyle = useMemo(
-    () => ({
-      transform: `translateX(${obiNextOffsetX}px)`,
-      transition: obiSwiping || obiResetting ? "none" : "transform 0.3s ease-out",
-    }),
-    [obiNextOffsetX, obiSwiping, obiResetting],
-  );
+  const obiNextStyle = {
+    transform: `translateX(${obiNextOffsetX}px)`,
+    transition: obiSwiping || obiResetting ? "none" : "transform 0.3s ease-out",
+  };
 
-  const obijimeStyle = useMemo(
-    () => ({
-      transform: activeLayer === "obijime" ? `translateX(${obijimeOffsetX}px)` : undefined,
-      transition: obijimeSwiping || obijimeResetting ? "none" : "transform 0.3s ease-out",
-    }),
-    [activeLayer, obijimeOffsetX, obijimeSwiping, obijimeResetting],
-  );
+  const obijimeStyle = {
+    transform: activeLayer === "obijime" ? `translateX(${obijimeOffsetX}px)` : undefined,
+    transition: obijimeSwiping || obijimeResetting ? "none" : "transform 0.3s ease-out",
+  };
 
-  const obijimeNextStyle = useMemo(
-    () => ({
-      transform: `translateX(${obijimeNextOffsetX}px)`,
-      transition: obijimeSwiping || obijimeResetting ? "none" : "transform 0.3s ease-out",
-    }),
-    [obijimeNextOffsetX, obijimeSwiping, obijimeResetting],
-  );
+  const obijimeNextStyle = {
+    transform: `translateX(${obijimeNextOffsetX}px)`,
+    transition: obijimeSwiping || obijimeResetting ? "none" : "transform 0.3s ease-out",
+  };
 
   if (!currentKimono || !currentObi || !currentObijime) {
     return null;

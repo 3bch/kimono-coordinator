@@ -21,5 +21,6 @@
 - [x] コメントをつける (oxlint も確認する)
 - [x] 警告を対応する
 - [ ] React Compiler の準備
+    - [ ] useMemo や useCallback の禁止
 - [ ] 全体的にリファクタリングできる部分がないか検討する
 - [ ] convex につなぐ

@@ -22,8 +22,6 @@ describe("root route", () => {
 
   it("renders swipe instruction text", async () => {
     render(<RouterProvider router={router} />);
-    expect(
-      await screen.findByText("← スワイプで切り替え（帯部分をタッチで帯を変更）→"),
-    ).toBeInTheDocument();
+    expect(await screen.findByText("← スワイプで切り替え →")).toBeInTheDocument();
   });
 });

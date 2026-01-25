@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect } from "react";
 
 /**
  * スワイプ方向を表す型
@@ -110,13 +110,13 @@ export function useSwipe(options: UseSwipeOptions = {}): UseSwipeReturn {
     return () => clearTimeout(timer);
   }, [isCancelling]);
 
-  const handleStart = useCallback((clientX: number) => {
+  const handleStart = (clientX: number) => {
     startX.current = clientX;
     isDragging.current = true;
     setIsSwiping(true);
-  }, []);
+  };
 
-  const handleMove = useCallback((clientX: number) => {
+  const handleMove = (clientX: number) => {
     if (!isDragging.current) {
       return;
     }
@@ -128,9 +128,9 @@ export function useSwipe(options: UseSwipeOptions = {}): UseSwipeReturn {
     } else if (diff > 0) {
       setSwipeDirection("right");
     }
-  }, []);
+  };
 
-  const handleEnd = useCallback(() => {
+  const handleEnd = () => {
     if (!isDragging.current) {
       return;
     }
@@ -155,7 +155,7 @@ export function useSwipe(options: UseSwipeOptions = {}): UseSwipeReturn {
         setIsCancelling(true);
       }
     }
-  }, [offsetX, threshold, containerWidth, onSwipeLeft, onSwipeRight, swipeDirection]);
+  };
 
   const handlers = {
     onTouchStart: (e: React.TouchEvent) => {

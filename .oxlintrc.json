@@ -37,10 +37,18 @@
     "eslint/no-array-constructor": "error",
     "eslint/no-prototype-builtins": "error",
     "eslint/prefer-template": "error",
-    // 相対パス import の禁止
     "eslint/no-restricted-imports": [
       "error",
       {
+        // 手動メモ化の禁止（React Compiler 導入予定）
+        "paths": [
+          {
+            "name": "react",
+            "importNames": ["useMemo", "useCallback", "memo"],
+            "message": "React Compiler 導入予定のため、手動メモ化は不要です"
+          }
+        ],
+        // 相対パス import の禁止
         "patterns": ["./*", "../*"]
       }
     ],
@@ -143,5 +151,19 @@
     "builtin": true
   },
   "globals": {},
-  "ignorePatterns": []
+  "ignorePatterns": [],
+  "overrides": [
+    {
+      // shadcn/ui コンポーネントは外部由来のため、手動メモ化禁止ルールを除外
+      "files": ["src/components/ui/**"],
+      "rules": {
+        "eslint/no-restricted-imports": [
+          "error",
+          {
+            "patterns": ["./*", "../*"]
+          }
+        ]
+      }
+    }
+  ]
 }
