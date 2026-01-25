@@ -17,7 +17,12 @@ interface KimonoSilhouetteProps {
  */
 export function KimonoSilhouette({ color, className = "" }: KimonoSilhouetteProps) {
   return (
-    <svg viewBox="0 0 200 300" className={className} xmlns="http://www.w3.org/2000/svg">
+    <svg
+      viewBox="0 0 200 300"
+      preserveAspectRatio="none"
+      className={className}
+      xmlns="http://www.w3.org/2000/svg"
+    >
       {/* 着物本体 */}
       <path
         d={`

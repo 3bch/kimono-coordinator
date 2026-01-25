@@ -17,7 +17,12 @@ interface ObijimeSilhouetteProps {
  */
 export function ObijimeSilhouette({ color, className = "" }: ObijimeSilhouetteProps) {
   return (
-    <svg viewBox="0 0 200 300" className={className} xmlns="http://www.w3.org/2000/svg">
+    <svg
+      viewBox="0 0 200 300"
+      preserveAspectRatio="none"
+      className={className}
+      xmlns="http://www.w3.org/2000/svg"
+    >
       {/* 帯締め本体 */}
       <rect x="30" y="120" width="140" height="10" fill={color} />
     </svg>

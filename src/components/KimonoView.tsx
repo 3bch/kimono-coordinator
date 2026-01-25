@@ -81,7 +81,7 @@ export function KimonoView({ kimonos, obis, obijimes }: KimonoViewProps) {
     setObijimeIndex((prev) => (prev === obijimes.length - 1 ? 0 : prev + 1));
   };
 
-  const containerWidth = 280;
+  const containerWidth = 200;
   const containerHeight = 400;
 
   const {
@@ -247,7 +247,7 @@ export function KimonoView({ kimonos, obis, obijimes }: KimonoViewProps) {
       {/* 着物と帯の重ね表示 */}
       <div
         ref={containerRef}
-        className="relative h-[400px] w-[280px] cursor-grab overflow-hidden select-none"
+        className="relative h-[400px] w-[200px] cursor-grab overflow-hidden select-none"
         onTouchStart={handleTouchStart}
         onTouchMove={activeHandlers.onTouchMove}
         onTouchEnd={activeHandlers.onTouchEnd}
