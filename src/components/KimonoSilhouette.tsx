@@ -29,8 +29,7 @@ export function KimonoSilhouette({ color, className = "" }: KimonoSilhouetteProp
           M 80 0
           L 100 30
           L 120 0
-          L 160 12
-          L 180 30
+          Q 166 8 180 30
           L 200 70
           L 200 200
           Q 174 220 171 200
@@ -46,11 +45,23 @@ export function KimonoSilhouette({ color, className = "" }: KimonoSilhouetteProp
           Q 26 220 0 200
           L 0 70
           L 20 30
-          L 40 12
-          L 80 0
+          Q 34 8 80 0
+          Z
+
+          M 100 30
+          L 84 54
+          L 70 100
+          L 60 160
+          L 60 300
+          L 59 300
+          L 59 160
+          L 69 100
+          L 83 54
+          L 99 30
           Z
         `}
         fill={color}
+        fillRule="evenodd"
       />
     </svg>
   );
