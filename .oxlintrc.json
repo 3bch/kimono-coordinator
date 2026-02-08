@@ -107,6 +107,14 @@
     "jsdoc/require-returns-description": "error",
     "jsdoc/check-tag-names": ["error", { "typed": true }],
 
+    "vitest/consistent-vitest-vi": "error",
+    "vitest/no-import-node-test": "error",
+    "vitest/prefer-describe-function-title": "error",
+    "vitest/prefer-called-times": "error",
+    "vitest/prefer-to-be-falsy": "error",
+    "vitest/prefer-to-be-truthy": "error",
+    "vitest/prefer-to-be-object": "error",
+
     // --- type aware Rules --- //
     "typescript/prefer-nullish-coalescing": "warn",
     "typescript/strict-boolean-expressions": "warn",
