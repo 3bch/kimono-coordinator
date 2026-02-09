@@ -17,47 +17,42 @@ interface KimonoSilhouetteProps {
  */
 export function KimonoSilhouette({ color, className = "" }: KimonoSilhouetteProps) {
   return (
-    <svg
-      viewBox="0 0 200 300"
-      preserveAspectRatio="none"
-      className={className}
-      xmlns="http://www.w3.org/2000/svg"
-    >
+    <svg viewBox="0 0 1000 2000" className={className} xmlns="http://www.w3.org/2000/svg">
       {/* 着物本体（右半身・左半身） */}
       <path
         d={`
-          M 100 30
-          L 120 0
-          Q 166 8 180 30
-          L 200 70
-          L 200 200
-          Q 174 220 171 200
-          L 171 200
-          L 171 70
-          L 170 70
-          L 170 200
-          L 164 300
-          L 60 300
-          L 60 160
-          L 70 100
-          L 84 54
+          M 0500 0200
+          L 0650 0000
+          Q 0830 0053 0900 0200
+          L 1000 0467
+          L 1000 1333
+          Q 0870 1467 0855 1333
+          L 0855 1333
+          L 0855 0467
+          L 0850 0467
+          L 0850 1333
+          L 0820 2000
+          L 0300 2000
+          L 0300 1067
+          L 0350 0667
+          L 0380 0360
           Z
 
-          M 99 30
-          L 80 0
-          Q 34 8 20 30
-          L 0 70
-          L 0 200
-          Q 26 220 29 200
-          L 29 200
-          L 29 70
-          L 30 70
-          L 30 200
-          L 36 300
-          L 59 300
-          L 59 160
-          L 69 100
-          L 83 54
+          M 0495 0200
+          L 0350 0000
+          Q 0170 0053 0100 0200
+          L 0000 0467
+          L 0000 1333
+          Q 0130 1467 0145 1333
+          L 0145 1333
+          L 0145 0467
+          L 0150 0467
+          L 0150 1333
+          L 0180 2000
+          L 0295 2000
+          L 0295 1067
+          L 0345 0667
+          L 0375 0360
           Z
         `}
         fill={color}
