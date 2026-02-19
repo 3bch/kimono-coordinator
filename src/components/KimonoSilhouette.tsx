@@ -54,8 +54,34 @@ export function KimonoSilhouette({ color, className = "" }: KimonoSilhouetteProp
           L 0345 0667
           L 0375 0360
           Z
+
+          M 0850 1250
+          L 0850 1255
+          L 0150 1255
+          L 0150 1250
+          Z
+
+          M 0390 0360
+          L 0498 0422
+          L 0767 0060
+          L 0773 0060
+          L 0500 0428
+          L 0470 0735
+          L 0420 1135
+          L 0415 1135
+          L 0465 0735
+          L 0496 0426
+          L 0380 0360
+          Z
+
+          M 0233 0060
+          L 0416 0307
+          L 0413 0311
+          L 0227 0060
+          Z
         `}
         fill={color}
+        fillRule="evenodd"
       />
     </svg>
   );
