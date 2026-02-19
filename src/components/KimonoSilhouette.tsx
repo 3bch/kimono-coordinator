@@ -67,8 +67,8 @@ export function KimonoSilhouette({ color, className = "" }: KimonoSilhouetteProp
           L 0773 0060
           L 0500 0428
           L 0470 0735
-          L 0420 1135
-          L 0415 1135
+          L 0429 1067
+          L 0424 1067
           L 0465 0735
           L 0496 0426
           L 0380 0360
