@@ -1,9 +1,9 @@
 import "#src/main.css";
-
-import { routeTree } from "#src/routeTree.gen";
 import { RouterProvider, createRouter } from "@tanstack/react-router";
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
+
+import { routeTree } from "#src/routeTree.gen";
 
 /**
  * TanStack Router のルーターインスタンス

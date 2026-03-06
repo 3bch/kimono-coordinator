@@ -1,15 +1,6 @@
 {
   "$schema": "./node_modules/oxfmt/configuration_schema.json",
-  "experimentalSortImports": {
-    "groups": [
-      ["side-effect"],
-      ["builtin"],
-      ["external", "external-type"],
-      ["internal", "internal-type"],
-      ["parent", "parent-type"],
-      ["sibling", "sibling-type"],
-      ["index", "index-type"]
-    ],
+  "sortImports": {
     "internalPattern": ["#src/**"],
     "newlinesBetween": true,
     "ignoreCase": true,
@@ -18,7 +9,7 @@
     "partitionByNewline": false,
     "sortSideEffects": false
   },
-  "experimentalTailwindcss": {
+  "tailwindcss": {
     "stylesheet": "./src/main.css",
     "attributes": ["class", "className"],
     "functions": ["clsx", "cn", "cva"]

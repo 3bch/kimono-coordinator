@@ -1,5 +1,6 @@
-import { useSwipe } from "#src/hooks/useSwipe";
 import { useState } from "react";
+
+import { useSwipe } from "#src/hooks/useSwipe";
 
 /**
  * アイテムインジケーターのプロパティ

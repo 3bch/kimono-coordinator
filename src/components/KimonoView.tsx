@@ -1,9 +1,10 @@
+import { useRef, useState } from "react";
+
 import { KimonoSilhouette } from "#src/components/KimonoSilhouette";
 import { ObijimeSilhouette } from "#src/components/ObijimeSilhouette";
 import { ObiSilhouette } from "#src/components/ObiSilhouette";
 import { useSwipe } from "#src/hooks/useSwipe";
 import type { KimonoItem, ObiItem, ObijimeItem } from "#src/types/kimono";
-import { useRef, useState } from "react";
 
 /**
  * KimonoView コンポーネントのプロパティ
@@ -246,6 +247,7 @@ export function KimonoView({ kimonos, obis, obijimes }: KimonoViewProps) {
     <div className="flex w-full flex-col items-center gap-4">
       {/* 着物と帯の重ね表示 */}
       <div
+        role="group"
         ref={containerRef}
         className="relative h-[400px] w-[200px] cursor-grab overflow-hidden select-none"
         onTouchStart={handleTouchStart}

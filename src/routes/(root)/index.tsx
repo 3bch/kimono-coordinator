@@ -1,6 +1,7 @@
+import { createFileRoute } from "@tanstack/react-router";
+
 import { KimonoView } from "#src/components/KimonoView";
 import { sampleKimonos, sampleObijimes, sampleObis } from "#src/data/sampleData";
-import { createFileRoute } from "@tanstack/react-router";
 
 /**
  * TanStack Router のルート "/" のルート設定

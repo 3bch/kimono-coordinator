@@ -1,7 +1,8 @@
-import { routeTree } from "#src/routeTree.gen";
 import { RouterProvider, createMemoryHistory, createRouter } from "@tanstack/react-router";
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
+
+import { routeTree } from "#src/routeTree.gen";
 
 const router = createRouter({
   routeTree,
