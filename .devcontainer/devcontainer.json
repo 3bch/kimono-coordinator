@@ -18,7 +18,9 @@
         "EditorConfig.EditorConfig",
         "mhutchie.git-graph",
         "oxc.oxc-vscode",
-        "TypeScriptTeam.native-preview"
+        "TypeScriptTeam.native-preview",
+        "-esbenp.prettier-vscode",
+        "-dbaeumer.vscode-eslint"
       ],
       "settings": {
         "remote.restoreForwardedPorts": false,
