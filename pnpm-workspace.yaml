@@ -2,7 +2,7 @@ blockExoticSubdeps: true
 
 frozenLockfile: true
 
-minimumReleaseAge: 1440
+minimumReleaseAge: 2880 # 2 days
 
 strictDepBuilds: true
 

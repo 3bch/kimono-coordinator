@@ -6,4 +6,4 @@ git config pull.ff only
 
 curl -fsSL https://claude.ai/install.sh | bash
 
-pnpm install
+mise exec -- pnpm install

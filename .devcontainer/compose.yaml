@@ -1,16 +1,21 @@
 services:
   dev:
-    build: ./dev
+    build: "./dev"
     init: true
-    command: sleep infinity
+    command: "sleep infinity"
     cap_drop:
-      - ALL
+      - "ALL"
     security_opt:
-      - no-new-privileges:true
+      - "no-new-privileges:true"
     volumes:
-      - ..:/workspaces/kimono-coordinator
-      - ./.codex:/home/node/.codex
-      - ./claude/.claude:/home/node/.claude
-      - ./claude/.claude.json:/home/node/.claude.json
+      - "..:/workspaces/kimono-coordinator"
+      - "./claude/.claude:/home/vscode/.claude"
+      - "./claude/.claude.json:/home/vscode/.claude.json"
+      - "mise-data:/home/vscode/.local/share/mise"
+      - "mise-cache:/home/vscode/.cache/mise"
     environment:
-      - TZ=Asia/Tokyo
+      - "TZ=Asia/Tokyo"
+
+volumes:
+  mise-data:
+  mise-cache:

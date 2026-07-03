@@ -3,14 +3,18 @@
   "dockerComposeFile": "./compose.yaml",
   "service": "dev",
   "workspaceFolder": "/workspaces/kimono-coordinator",
+  "initializeCommand": "./.devcontainer/initialize.sh",
   "postCreateCommand": "./.devcontainer/postCreate.sh",
-  "remoteUser": "node",
+  "remoteUser": "vscode",
   "forwardPorts": [5173],
   "portsAttributes": {
     "5173": {
       "label": "Vite",
       "requireLocalPort": true
     }
+  },
+  "features": {
+    "ghcr.io/atty303/devcontainer-features/mise:1": {}
   },
   "customizations": {
     "vscode": {
@@ -20,7 +24,8 @@
         "oxc.oxc-vscode",
         "TypeScriptTeam.native-preview",
         "-esbenp.prettier-vscode",
-        "-dbaeumer.vscode-eslint"
+        "-dbaeumer.vscode-eslint",
+        "tamasfe.even-better-toml"
       ],
       "settings": {
         "remote.restoreForwardedPorts": false,
