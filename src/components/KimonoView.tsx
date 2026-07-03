@@ -246,8 +246,9 @@ export function KimonoView({ kimonos, obis, obijimes }: KimonoViewProps) {
   return (
     <div className="flex w-full flex-col items-center gap-4">
       {/* 着物と帯の重ね表示 */}
+      {/* カスタムのスワイプ操作面のため、静的要素へのハンドラ付与に関する a11y ルールを抑制 */}
+      {/* oxlint-disable-next-line jsx-a11y/no-static-element-interactions */}
       <div
-        role="group"
         ref={containerRef}
         className="relative h-[400px] w-[200px] cursor-grab overflow-hidden select-none"
         onTouchStart={handleTouchStart}

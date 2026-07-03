@@ -73,7 +73,7 @@ export function useSwipe(options: UseSwipeOptions = {}): UseSwipeReturn {
   // アニメーション完了後にコールバックを呼び出す
   useEffect(() => {
     if (!isAnimating || !pendingCallback) {
-      return;
+      return undefined;
     }
     const timer = setTimeout(() => {
       pendingCallback();
@@ -89,7 +89,7 @@ export function useSwipe(options: UseSwipeOptions = {}): UseSwipeReturn {
   // リセット完了後にフラグを下ろす
   useEffect(() => {
     if (!isResetting) {
-      return;
+      return undefined;
     }
     // 次のフレームでリセットフラグを下ろす
     const frame = requestAnimationFrame(() => {
@@ -101,7 +101,7 @@ export function useSwipe(options: UseSwipeOptions = {}): UseSwipeReturn {
   // キャンセルアニメーション完了後に swipeDirection をリセット
   useEffect(() => {
     if (!isCancelling) {
-      return;
+      return undefined;
     }
     const timer = setTimeout(() => {
       setSwipeDirection(null);
