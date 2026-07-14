@@ -1,3 +1,5 @@
 {
-  "language": "japanese"
+  "language": "japanese",
+  "includeCoAuthoredBy": false,
+  "autoMemoryEnabled": false
 }
