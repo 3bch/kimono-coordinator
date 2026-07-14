@@ -8,7 +8,6 @@
 - [x] npm をふさぐ
 - [x] CLAUDE.md や カスタムコマンド系 の設定
 - [x] Vite 8 を試す
-- [ ] vite+ を試す
 - [ ] まずは UI の試作
     - [x] スワイプ動作
     - [x] 着物の SVG
@@ -37,7 +36,7 @@
 - [x] 警告を対応する
 - [ ] React Compiler の準備
     - [x] useMemo や useCallback の禁止
-    - [ ] react-hooks の関連ルール導入
+    - [x] react-hooks の関連ルール導入
     - [ ] React Compiler の導入 (babel 以外も使えるようになったらか)
 - [ ] 全体的にリファクタリングできる部分がないか検討する
 - [ ] convex につなぐ
