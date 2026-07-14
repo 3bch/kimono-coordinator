@@ -94,8 +94,9 @@
     "react/react-in-jsx-scope": "off",
     "react/no-danger": "error",
     "react/rules-of-hooks": "error",
-    // TODO: React Compiler ルール (purity, refs, immutability 等) は oxlint 未実装
-    // oxlint が対応次第、有効化を検討
+    // React Compiler の解析を lint 専用モードで実行し、Rules of React 違反を検出する
+    // (oxlint v1.70.0 で導入された実験的ルールのため、今後変更される可能性あり)
+    "react/react-compiler": "error",
 
     // TypeScript では type は不要なので OFF
     "jsdoc/empty-tags": "error",
