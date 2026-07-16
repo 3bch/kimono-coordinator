@@ -24,7 +24,7 @@ export function ObijimeSilhouette({ color, className = "" }: ObijimeSilhouettePr
       xmlns="http://www.w3.org/2000/svg"
     >
       {/* 帯締め本体 */}
-      <rect x="30" y="122" width="140" height="6" fill={color} />
+      <rect x="30" y="123" width="140" height="4" fill={color} />
     </svg>
   );
 }
