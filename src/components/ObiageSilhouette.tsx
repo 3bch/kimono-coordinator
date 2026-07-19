@@ -30,8 +30,8 @@ export function ObiageSilhouette({ color, className = "" }: ObiageSilhouetteProp
         d="M 30 92
            L 30 87.5
            Q 30 85.5, 36 85.5
-           C 55 85.8, 72 87, 95 87
-           C 97 84.9, 103 84.9, 105 87
+           C 55 85.8, 72 87, 94 87
+           C 96.5 85.4, 103.5 85.4, 106 87
            C 128 87, 145 85.8, 164 85.5
            Q 170 85.5, 170 87.5
            L 170 92
