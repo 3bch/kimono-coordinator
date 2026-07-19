@@ -55,10 +55,10 @@ export function KimonoSilhouette({ color, className = "" }: KimonoSilhouetteProp
           L 0375 0360
           Z
 
-          M 0850 1250
-          L 0850 1255
-          L 0150 1255
-          L 0150 1250
+          M 0850 1200
+          L 0850 1205
+          L 0150 1205
+          L 0150 1200
           Z
 
           M 0390 0360
