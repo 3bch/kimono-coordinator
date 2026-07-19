@@ -1,10 +1,11 @@
 import { useRef, useState } from "react";
 
 import { KimonoSilhouette } from "#src/components/KimonoSilhouette";
+import { ObiageSilhouette } from "#src/components/ObiageSilhouette";
 import { ObijimeSilhouette } from "#src/components/ObijimeSilhouette";
 import { ObiSilhouette } from "#src/components/ObiSilhouette";
 import { useSwipe } from "#src/hooks/useSwipe";
-import type { KimonoItem, ObiItem, ObijimeItem } from "#src/types/kimono";
+import type { KimonoItem, ObiageItem, ObiItem, ObijimeItem } from "#src/types/kimono";
 
 /**
  * KimonoView コンポーネントのプロパティ
@@ -14,6 +15,8 @@ interface KimonoViewProps {
   kimonos: KimonoItem[];
   /** 表示する帯アイテムの配列 */
   obis: ObiItem[];
+  /** 表示する帯揚げアイテムの配列 */
+  obiages: ObiageItem[];
   /** 表示する帯締めアイテムの配列 */
   obijimes: ObijimeItem[];
 }
@@ -31,6 +34,18 @@ const OBI_AREA_START = 90 / 300;
 const OBI_AREA_END = 160 / 300;
 
 /**
+ * 帯揚げエリアの開始位置（コンテナ高さに対する比率）
+ * SVG viewBox="0 0 200 300" で帯揚げは y=80 から開始
+ */
+const OBIAGE_AREA_START = 80 / 300;
+
+/**
+ * 帯揚げエリアの終了位置（コンテナ高さに対する比率）
+ * SVG viewBox="0 0 200 300" で帯揚げは y=90 で終了（帯の開始位置）
+ */
+const OBIAGE_AREA_END = 90 / 300;
+
+/**
  * 帯締めエリアの開始位置（コンテナ高さに対する比率）
  * SVG viewBox="0 0 200 300" で帯締めは y=120 から開始
  */
@@ -43,19 +58,21 @@ const OBIJIME_AREA_START = 120 / 300;
 const OBIJIME_AREA_END = 130 / 300;
 
 /**
- * 着物と帯と帯締めを重ねて表示し、スワイプで切り替えるコンポーネント
- * タッチ位置に応じて着物・帯・帯締めを操作対象として判定する
+ * 着物と帯と帯揚げと帯締めを重ねて表示し、スワイプで切り替えるコンポーネント
+ * タッチ位置に応じて着物・帯・帯揚げ・帯締めを操作対象として判定する
  * @param props - コンポーネントのプロパティ
  * @param props.kimonos - 表示する着物アイテムの配列
  * @param props.obis - 表示する帯アイテムの配列
+ * @param props.obiages - 表示する帯揚げアイテムの配列
  * @param props.obijimes - 表示する帯締めアイテムの配列
  * @returns 着物コーディネートビューの React 要素
  */
-export function KimonoView({ kimonos, obis, obijimes }: KimonoViewProps) {
+export function KimonoView({ kimonos, obis, obiages, obijimes }: KimonoViewProps) {
   const [kimonoIndex, setKimonoIndex] = useState(0);
   const [obiIndex, setObiIndex] = useState(0);
+  const [obiageIndex, setObiageIndex] = useState(0);
   const [obijimeIndex, setObijimeIndex] = useState(0);
-  const [activeLayer, setActiveLayer] = useState<"kimono" | "obi" | "obijime">("kimono");
+  const [activeLayer, setActiveLayer] = useState<"kimono" | "obi" | "obiage" | "obijime">("kimono");
   const containerRef = useRef<HTMLDivElement>(null);
 
   const goToPrevKimono = () => {
@@ -72,6 +89,14 @@ export function KimonoView({ kimonos, obis, obijimes }: KimonoViewProps) {
 
   const goToNextObi = () => {
     setObiIndex((prev) => (prev === obis.length - 1 ? 0 : prev + 1));
+  };
+
+  const goToPrevObiage = () => {
+    setObiageIndex((prev) => (prev === 0 ? obiages.length - 1 : prev - 1));
+  };
+
+  const goToNextObiage = () => {
+    setObiageIndex((prev) => (prev === obiages.length - 1 ? 0 : prev + 1));
   };
 
   const goToPrevObijime = () => {
@@ -114,6 +139,20 @@ export function KimonoView({ kimonos, obis, obijimes }: KimonoViewProps) {
   });
 
   const {
+    offsetX: obiageOffsetX,
+    nextOffsetX: obiageNextOffsetX,
+    swipeDirection: obiageSwipeDirection,
+    isSwiping: obiageSwiping,
+    isResetting: obiageResetting,
+    handlers: obiageHandlers,
+  } = useSwipe({
+    threshold: containerWidth / 4,
+    containerWidth,
+    onSwipeLeft: goToNextObiage,
+    onSwipeRight: goToPrevObiage,
+  });
+
+  const {
     offsetX: obijimeOffsetX,
     nextOffsetX: obijimeNextOffsetX,
     swipeDirection: obijimeSwipeDirection,
@@ -128,16 +167,19 @@ export function KimonoView({ kimonos, obis, obijimes }: KimonoViewProps) {
   });
 
   // タッチ位置から操作対象を判定
-  const determineActiveLayer = (clientY: number): "kimono" | "obi" | "obijime" => {
+  const determineActiveLayer = (clientY: number): "kimono" | "obi" | "obiage" | "obijime" => {
     if (!containerRef.current) {
       return "kimono";
     }
     const rect = containerRef.current.getBoundingClientRect();
     const relativeY = clientY - rect.top;
     const ratio = relativeY / containerHeight;
-    // 帯締めエリア内なら帯締め、帯エリア内なら帯、それ以外は着物
+    // 帯締めエリア内なら帯締め、帯揚げエリア内なら帯揚げ、帯エリア内なら帯、それ以外は着物
     if (ratio >= OBIJIME_AREA_START && ratio <= OBIJIME_AREA_END) {
       return "obijime";
+    }
+    if (ratio >= OBIAGE_AREA_START && ratio < OBIAGE_AREA_END) {
+      return "obiage";
     }
     if (ratio >= OBI_AREA_START && ratio <= OBI_AREA_END) {
       return "obi";
@@ -157,6 +199,8 @@ export function KimonoView({ kimonos, obis, obijimes }: KimonoViewProps) {
       kimonoHandlers.onTouchStart(e);
     } else if (layer === "obi") {
       obiHandlers.onTouchStart(e);
+    } else if (layer === "obiage") {
+      obiageHandlers.onTouchStart(e);
     } else {
       obijimeHandlers.onTouchStart(e);
     }
@@ -169,6 +213,8 @@ export function KimonoView({ kimonos, obis, obijimes }: KimonoViewProps) {
       kimonoHandlers.onMouseDown(e);
     } else if (layer === "obi") {
       obiHandlers.onMouseDown(e);
+    } else if (layer === "obiage") {
+      obiageHandlers.onMouseDown(e);
     } else {
       obijimeHandlers.onMouseDown(e);
     }
@@ -182,12 +228,16 @@ export function KimonoView({ kimonos, obis, obijimes }: KimonoViewProps) {
     if (activeLayer === "obi") {
       return obiHandlers;
     }
+    if (activeLayer === "obiage") {
+      return obiageHandlers;
+    }
     return obijimeHandlers;
   };
   const activeHandlers = getActiveHandlers();
 
   const currentKimono = kimonos[kimonoIndex];
   const currentObi = obis[obiIndex];
+  const currentObiage = obiages[obiageIndex];
   const currentObijime = obijimes[obijimeIndex];
 
   // 次/前の着物インデックスを計算
@@ -201,6 +251,12 @@ export function KimonoView({ kimonos, obis, obijimes }: KimonoViewProps) {
   const prevObiIndex = obiIndex === 0 ? obis.length - 1 : obiIndex - 1;
   const adjacentObiIndex = obiSwipeDirection === "left" ? nextObiIndex : prevObiIndex;
   const adjacentObi = obiSwipeDirection ? obis[adjacentObiIndex] : null;
+
+  // 次/前の帯揚げインデックスを計算
+  const nextObiageIndex = obiageIndex === obiages.length - 1 ? 0 : obiageIndex + 1;
+  const prevObiageIndex = obiageIndex === 0 ? obiages.length - 1 : obiageIndex - 1;
+  const adjacentObiageIndex = obiageSwipeDirection === "left" ? nextObiageIndex : prevObiageIndex;
+  const adjacentObiage = obiageSwipeDirection ? obiages[adjacentObiageIndex] : null;
 
   // 次/前の帯締めインデックスを計算
   const nextObijimeIndex = obijimeIndex === obijimes.length - 1 ? 0 : obijimeIndex + 1;
@@ -229,6 +285,16 @@ export function KimonoView({ kimonos, obis, obijimes }: KimonoViewProps) {
     transition: obiSwiping || obiResetting ? "none" : "transform 0.3s ease-out",
   };
 
+  const obiageStyle = {
+    transform: activeLayer === "obiage" ? `translateX(${obiageOffsetX}px)` : undefined,
+    transition: obiageSwiping || obiageResetting ? "none" : "transform 0.3s ease-out",
+  };
+
+  const obiageNextStyle = {
+    transform: `translateX(${obiageNextOffsetX}px)`,
+    transition: obiageSwiping || obiageResetting ? "none" : "transform 0.3s ease-out",
+  };
+
   const obijimeStyle = {
     transform: activeLayer === "obijime" ? `translateX(${obijimeOffsetX}px)` : undefined,
     transition: obijimeSwiping || obijimeResetting ? "none" : "transform 0.3s ease-out",
@@ -239,7 +305,7 @@ export function KimonoView({ kimonos, obis, obijimes }: KimonoViewProps) {
     transition: obijimeSwiping || obijimeResetting ? "none" : "transform 0.3s ease-out",
   };
 
-  if (!currentKimono || !currentObi || !currentObijime) {
+  if (!currentKimono || !currentObi || !currentObiage || !currentObijime) {
     return null;
   }
 
@@ -267,6 +333,16 @@ export function KimonoView({ kimonos, obis, obijimes }: KimonoViewProps) {
         {activeLayer === "kimono" && adjacentKimono && (
           <div className="absolute inset-0" style={kimonoNextStyle}>
             <KimonoSilhouette color={adjacentKimono.color} className="h-full w-full" />
+          </div>
+        )}
+        {/* 帯揚げレイヤー（現在）- 帯の裏に潜り込むため帯より先に描画 */}
+        <div className="pointer-events-none absolute inset-0" style={obiageStyle}>
+          <ObiageSilhouette color={currentObiage.color} className="h-full w-full" />
+        </div>
+        {/* 帯揚げレイヤー（次/前）- スワイプ中のみ表示 */}
+        {activeLayer === "obiage" && adjacentObiage && (
+          <div className="pointer-events-none absolute inset-0" style={obiageNextStyle}>
+            <ObiageSilhouette color={adjacentObiage.color} className="h-full w-full" />
           </div>
         )}
         {/* 帯レイヤー（現在） */}
@@ -297,6 +373,8 @@ export function KimonoView({ kimonos, obis, obijimes }: KimonoViewProps) {
           <span className="font-medium">着物:</span> {currentKimono.name}
           <span className="mx-2">|</span>
           <span className="font-medium">帯:</span> {currentObi.name}
+          <span className="mx-2">|</span>
+          <span className="font-medium">帯揚げ:</span> {currentObiage.name}
           <span className="mx-2">|</span>
           <span className="font-medium">帯締め:</span> {currentObijime.name}
         </p>
@@ -335,6 +413,23 @@ export function KimonoView({ kimonos, obis, obijimes }: KimonoViewProps) {
                 style={{ backgroundColor: index === obiIndex ? obi.color : undefined }}
                 onClick={() => setObiIndex(index)}
                 aria-label={`${obi.name}を選択`}
+              />
+            ))}
+          </div>
+        </div>
+        <div className="flex items-center gap-2">
+          <span className="w-12 text-xs text-gray-600">帯揚げ:</span>
+          <div className="flex gap-1">
+            {obiages.map((obiage, index) => (
+              <button
+                key={obiage.id}
+                type="button"
+                className={`h-3 w-3 rounded-full border transition-colors ${
+                  index === obiageIndex ? "border-gray-800 bg-gray-800" : "border-gray-400 bg-white"
+                }`}
+                style={{ backgroundColor: index === obiageIndex ? obiage.color : undefined }}
+                onClick={() => setObiageIndex(index)}
+                aria-label={`${obiage.name}を選択`}
               />
             ))}
           </div>

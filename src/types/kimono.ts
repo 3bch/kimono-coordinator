@@ -23,6 +23,18 @@ export interface ObiItem {
 }
 
 /**
+ * 帯揚げアイテムを表すインターフェース
+ */
+export interface ObiageItem {
+  /** 帯揚げの一意な識別子 */
+  id: string;
+  /** 帯揚げの名前（例: 白、絞りの赤） */
+  name: string;
+  /** 帯揚げの色（CSS カラーコード） */
+  color: string;
+}
+
+/**
  * 帯締めアイテムを表すインターフェース
  */
 export interface ObijimeItem {

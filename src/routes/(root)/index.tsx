@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 
 import { KimonoView } from "#src/components/KimonoView";
-import { sampleKimonos, sampleObijimes, sampleObis } from "#src/data/sampleData";
+import { sampleKimonos, sampleObiages, sampleObijimes, sampleObis } from "#src/data/sampleData";
 
 /**
  * TanStack Router のルート "/" のルート設定
@@ -21,10 +21,15 @@ function Index() {
     <div className="mx-auto flex min-h-screen max-w-md flex-col items-center gap-6 p-4">
       <h1 className="text-center text-2xl font-bold">Kimono Coordinator</h1>
       <p className="text-center text-sm text-gray-600">
-        着物・帯・帯締めの組み合わせをお試しください
+        着物・帯・帯揚げ・帯締めの組み合わせをお試しください
       </p>
 
-      <KimonoView kimonos={sampleKimonos} obis={sampleObis} obijimes={sampleObijimes} />
+      <KimonoView
+        kimonos={sampleKimonos}
+        obis={sampleObis}
+        obiages={sampleObiages}
+        obijimes={sampleObijimes}
+      />
     </div>
   );
 }
