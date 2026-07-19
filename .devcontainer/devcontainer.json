@@ -14,7 +14,9 @@
     }
   },
   "features": {
-    "ghcr.io/atty303/devcontainer-features/mise:1": {}
+    "ghcr.io/atty303/devcontainer-features/mise:1": {
+      "version": "v2026.7.7"
+    }
   },
   "customizations": {
     "vscode": {
