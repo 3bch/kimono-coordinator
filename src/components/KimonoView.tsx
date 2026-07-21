@@ -1,11 +1,12 @@
 import { useRef, useState } from "react";
 
+import { HaneriSilhouette } from "#src/components/HaneriSilhouette";
 import { KimonoSilhouette } from "#src/components/KimonoSilhouette";
 import { ObiageSilhouette } from "#src/components/ObiageSilhouette";
 import { ObijimeSilhouette } from "#src/components/ObijimeSilhouette";
 import { ObiSilhouette } from "#src/components/ObiSilhouette";
 import { useSwipe } from "#src/hooks/useSwipe";
-import type { KimonoItem, ObiageItem, ObiItem, ObijimeItem } from "#src/types/kimono";
+import type { HaneriItem, KimonoItem, ObiageItem, ObiItem, ObijimeItem } from "#src/types/kimono";
 
 /**
  * KimonoView コンポーネントのプロパティ
@@ -13,6 +14,8 @@ import type { KimonoItem, ObiageItem, ObiItem, ObijimeItem } from "#src/types/ki
 interface KimonoViewProps {
   /** 表示する着物アイテムの配列 */
   kimonos: KimonoItem[];
+  /** 表示する半襟アイテムの配列 */
+  haneris: HaneriItem[];
   /** 表示する帯アイテムの配列 */
   obis: ObiItem[];
   /** 表示する帯揚げアイテムの配列 */
@@ -20,6 +23,18 @@ interface KimonoViewProps {
   /** 表示する帯締めアイテムの配列 */
   obijimes: ObijimeItem[];
 }
+
+/**
+ * 半襟エリアの開始位置（コンテナ高さに対する比率）
+ * 着物の viewBox="0 0 1000 2000" で半襟は首元の開口部 y=20 付近から始まる
+ */
+const HANERI_AREA_START = 20 / 2000;
+
+/**
+ * 半襟エリアの終了位置（コンテナ高さに対する比率）
+ * 着物の viewBox="0 0 1000 2000" で半襟は開口部の頂点 y=220 付近で終わる
+ */
+const HANERI_AREA_END = 220 / 2000;
 
 /**
  * 帯エリアの開始位置（コンテナ高さに対する比率）
@@ -58,21 +73,25 @@ const OBIJIME_AREA_START = 120 / 300;
 const OBIJIME_AREA_END = 130 / 300;
 
 /**
- * 着物と帯と帯揚げと帯締めを重ねて表示し、スワイプで切り替えるコンポーネント
- * タッチ位置に応じて着物・帯・帯揚げ・帯締めを操作対象として判定する
+ * 着物と半襟と帯と帯揚げと帯締めを重ねて表示し、スワイプで切り替えるコンポーネント
+ * タッチ位置に応じて着物・半襟・帯・帯揚げ・帯締めを操作対象として判定する
  * @param props - コンポーネントのプロパティ
  * @param props.kimonos - 表示する着物アイテムの配列
+ * @param props.haneris - 表示する半襟アイテムの配列
  * @param props.obis - 表示する帯アイテムの配列
  * @param props.obiages - 表示する帯揚げアイテムの配列
  * @param props.obijimes - 表示する帯締めアイテムの配列
  * @returns 着物コーディネートビューの React 要素
  */
-export function KimonoView({ kimonos, obis, obiages, obijimes }: KimonoViewProps) {
+export function KimonoView({ kimonos, haneris, obis, obiages, obijimes }: KimonoViewProps) {
   const [kimonoIndex, setKimonoIndex] = useState(0);
+  const [haneriIndex, setHaneriIndex] = useState(0);
   const [obiIndex, setObiIndex] = useState(0);
   const [obiageIndex, setObiageIndex] = useState(0);
   const [obijimeIndex, setObijimeIndex] = useState(0);
-  const [activeLayer, setActiveLayer] = useState<"kimono" | "obi" | "obiage" | "obijime">("kimono");
+  const [activeLayer, setActiveLayer] = useState<
+    "kimono" | "haneri" | "obi" | "obiage" | "obijime"
+  >("kimono");
   const containerRef = useRef<HTMLDivElement>(null);
 
   const goToPrevKimono = () => {
@@ -81,6 +100,14 @@ export function KimonoView({ kimonos, obis, obiages, obijimes }: KimonoViewProps
 
   const goToNextKimono = () => {
     setKimonoIndex((prev) => (prev === kimonos.length - 1 ? 0 : prev + 1));
+  };
+
+  const goToPrevHaneri = () => {
+    setHaneriIndex((prev) => (prev === 0 ? haneris.length - 1 : prev - 1));
+  };
+
+  const goToNextHaneri = () => {
+    setHaneriIndex((prev) => (prev === haneris.length - 1 ? 0 : prev + 1));
   };
 
   const goToPrevObi = () => {
@@ -122,6 +149,20 @@ export function KimonoView({ kimonos, obis, obiages, obijimes }: KimonoViewProps
     containerWidth,
     onSwipeLeft: goToNextKimono,
     onSwipeRight: goToPrevKimono,
+  });
+
+  const {
+    offsetX: haneriOffsetX,
+    nextOffsetX: haneriNextOffsetX,
+    swipeDirection: haneriSwipeDirection,
+    isSwiping: haneriSwiping,
+    isResetting: haneriResetting,
+    handlers: haneriHandlers,
+  } = useSwipe({
+    threshold: containerWidth / 4,
+    containerWidth,
+    onSwipeLeft: goToNextHaneri,
+    onSwipeRight: goToPrevHaneri,
   });
 
   const {
@@ -167,14 +208,19 @@ export function KimonoView({ kimonos, obis, obiages, obijimes }: KimonoViewProps
   });
 
   // タッチ位置から操作対象を判定
-  const determineActiveLayer = (clientY: number): "kimono" | "obi" | "obiage" | "obijime" => {
+  const determineActiveLayer = (
+    clientY: number,
+  ): "kimono" | "haneri" | "obi" | "obiage" | "obijime" => {
     if (!containerRef.current) {
       return "kimono";
     }
     const rect = containerRef.current.getBoundingClientRect();
     const relativeY = clientY - rect.top;
     const ratio = relativeY / containerHeight;
-    // 帯締めエリア内なら帯締め、帯揚げエリア内なら帯揚げ、帯エリア内なら帯、それ以外は着物
+    // 半襟エリア内なら半襟、帯締めエリア内なら帯締め、帯揚げエリア内なら帯揚げ、帯エリア内なら帯、それ以外は着物
+    if (ratio >= HANERI_AREA_START && ratio <= HANERI_AREA_END) {
+      return "haneri";
+    }
     if (ratio >= OBIJIME_AREA_START && ratio <= OBIJIME_AREA_END) {
       return "obijime";
     }
@@ -197,6 +243,8 @@ export function KimonoView({ kimonos, obis, obiages, obijimes }: KimonoViewProps
     setActiveLayer(layer);
     if (layer === "kimono") {
       kimonoHandlers.onTouchStart(e);
+    } else if (layer === "haneri") {
+      haneriHandlers.onTouchStart(e);
     } else if (layer === "obi") {
       obiHandlers.onTouchStart(e);
     } else if (layer === "obiage") {
@@ -211,6 +259,8 @@ export function KimonoView({ kimonos, obis, obiages, obijimes }: KimonoViewProps
     setActiveLayer(layer);
     if (layer === "kimono") {
       kimonoHandlers.onMouseDown(e);
+    } else if (layer === "haneri") {
+      haneriHandlers.onMouseDown(e);
     } else if (layer === "obi") {
       obiHandlers.onMouseDown(e);
     } else if (layer === "obiage") {
@@ -225,6 +275,9 @@ export function KimonoView({ kimonos, obis, obiages, obijimes }: KimonoViewProps
     if (activeLayer === "kimono") {
       return kimonoHandlers;
     }
+    if (activeLayer === "haneri") {
+      return haneriHandlers;
+    }
     if (activeLayer === "obi") {
       return obiHandlers;
     }
@@ -236,6 +289,7 @@ export function KimonoView({ kimonos, obis, obiages, obijimes }: KimonoViewProps
   const activeHandlers = getActiveHandlers();
 
   const currentKimono = kimonos[kimonoIndex];
+  const currentHaneri = haneris[haneriIndex];
   const currentObi = obis[obiIndex];
   const currentObiage = obiages[obiageIndex];
   const currentObijime = obijimes[obijimeIndex];
@@ -245,6 +299,12 @@ export function KimonoView({ kimonos, obis, obiages, obijimes }: KimonoViewProps
   const prevKimonoIndex = kimonoIndex === 0 ? kimonos.length - 1 : kimonoIndex - 1;
   const adjacentKimonoIndex = kimonoSwipeDirection === "left" ? nextKimonoIndex : prevKimonoIndex;
   const adjacentKimono = kimonoSwipeDirection ? kimonos[adjacentKimonoIndex] : null;
+
+  // 次/前の半襟インデックスを計算
+  const nextHaneriIndex = haneriIndex === haneris.length - 1 ? 0 : haneriIndex + 1;
+  const prevHaneriIndex = haneriIndex === 0 ? haneris.length - 1 : haneriIndex - 1;
+  const adjacentHaneriIndex = haneriSwipeDirection === "left" ? nextHaneriIndex : prevHaneriIndex;
+  const adjacentHaneri = haneriSwipeDirection ? haneris[adjacentHaneriIndex] : null;
 
   // 次/前の帯インデックスを計算
   const nextObiIndex = obiIndex === obis.length - 1 ? 0 : obiIndex + 1;
@@ -273,6 +333,16 @@ export function KimonoView({ kimonos, obis, obiages, obijimes }: KimonoViewProps
   const kimonoNextStyle = {
     transform: `translateX(${kimonoNextOffsetX}px)`,
     transition: kimonoSwiping || kimonoResetting ? "none" : "transform 0.3s ease-out",
+  };
+
+  const haneriStyle = {
+    transform: activeLayer === "haneri" ? `translateX(${haneriOffsetX}px)` : undefined,
+    transition: haneriSwiping || haneriResetting ? "none" : "transform 0.3s ease-out",
+  };
+
+  const haneriNextStyle = {
+    transform: `translateX(${haneriNextOffsetX}px)`,
+    transition: haneriSwiping || haneriResetting ? "none" : "transform 0.3s ease-out",
   };
 
   const obiStyle = {
@@ -305,7 +375,7 @@ export function KimonoView({ kimonos, obis, obiages, obijimes }: KimonoViewProps
     transition: obijimeSwiping || obijimeResetting ? "none" : "transform 0.3s ease-out",
   };
 
-  if (!currentKimono || !currentObi || !currentObiage || !currentObijime) {
+  if (!currentKimono || !currentHaneri || !currentObi || !currentObiage || !currentObijime) {
     return null;
   }
 
@@ -333,6 +403,16 @@ export function KimonoView({ kimonos, obis, obiages, obijimes }: KimonoViewProps
         {activeLayer === "kimono" && adjacentKimono && (
           <div className="absolute inset-0" style={kimonoNextStyle}>
             <KimonoSilhouette color={adjacentKimono.color} className="h-full w-full" />
+          </div>
+        )}
+        {/* 半襟レイヤー（現在）- 着物の衿の前面に覗く */}
+        <div className="pointer-events-none absolute inset-0" style={haneriStyle}>
+          <HaneriSilhouette color={currentHaneri.color} className="h-full w-full" />
+        </div>
+        {/* 半襟レイヤー（次/前）- スワイプ中のみ表示 */}
+        {activeLayer === "haneri" && adjacentHaneri && (
+          <div className="pointer-events-none absolute inset-0" style={haneriNextStyle}>
+            <HaneriSilhouette color={adjacentHaneri.color} className="h-full w-full" />
           </div>
         )}
         {/* 帯揚げレイヤー（現在）- 帯の裏に潜り込むため帯より先に描画 */}
@@ -372,6 +452,8 @@ export function KimonoView({ kimonos, obis, obiages, obijimes }: KimonoViewProps
         <p className="text-lg">
           <span className="font-medium">着物:</span> {currentKimono.name}
           <span className="mx-2">|</span>
+          <span className="font-medium">半襟:</span> {currentHaneri.name}
+          <span className="mx-2">|</span>
           <span className="font-medium">帯:</span> {currentObi.name}
           <span className="mx-2">|</span>
           <span className="font-medium">帯揚げ:</span> {currentObiage.name}
@@ -396,6 +478,23 @@ export function KimonoView({ kimonos, obis, obiages, obijimes }: KimonoViewProps
                 style={{ backgroundColor: index === kimonoIndex ? kimono.color : undefined }}
                 onClick={() => setKimonoIndex(index)}
                 aria-label={`${kimono.name}を選択`}
+              />
+            ))}
+          </div>
+        </div>
+        <div className="flex items-center gap-2">
+          <span className="w-12 text-xs text-gray-600">半襟:</span>
+          <div className="flex gap-1">
+            {haneris.map((haneri, index) => (
+              <button
+                key={haneri.id}
+                type="button"
+                className={`h-3 w-3 rounded-full border transition-colors ${
+                  index === haneriIndex ? "border-gray-800 bg-gray-800" : "border-gray-400 bg-white"
+                }`}
+                style={{ backgroundColor: index === haneriIndex ? haneri.color : undefined }}
+                onClick={() => setHaneriIndex(index)}
+                aria-label={`${haneri.name}を選択`}
               />
             ))}
           </div>

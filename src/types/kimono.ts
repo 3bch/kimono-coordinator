@@ -23,6 +23,18 @@ export interface ObiItem {
 }
 
 /**
+ * 半襟アイテムを表すインターフェース
+ */
+export interface HaneriItem {
+  /** 半襟の一意な識別子 */
+  id: string;
+  /** 半襟の名前（例: 白、桜色） */
+  name: string;
+  /** 半襟の色（CSS カラーコード） */
+  color: string;
+}
+
+/**
  * 帯揚げアイテムを表すインターフェース
  */
 export interface ObiageItem {

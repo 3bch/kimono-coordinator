@@ -1,4 +1,4 @@
-import type { KimonoItem, ObiageItem, ObiItem, ObijimeItem } from "#src/types/kimono";
+import type { HaneriItem, KimonoItem, ObiageItem, ObiItem, ObijimeItem } from "#src/types/kimono";
 
 /**
  * サンプル着物データ
@@ -22,6 +22,18 @@ export const sampleObis: ObiItem[] = [
   { id: "obi-3", name: "朱色", color: "#E24D3D" },
   { id: "obi-4", name: "深緑", color: "#004D40" },
   { id: "obi-5", name: "紫紺", color: "#460E44" },
+];
+
+/**
+ * サンプル半襟データ
+ * アプリケーションのデモ用に使用される半襟の一覧
+ */
+export const sampleHaneris: HaneriItem[] = [
+  { id: "haneri-1", name: "白", color: "#FBF7F0" },
+  { id: "haneri-2", name: "生成り", color: "#EDE3D0" },
+  { id: "haneri-3", name: "桜色", color: "#F4C2C8" },
+  { id: "haneri-4", name: "水浅葱", color: "#8FC5C0" },
+  { id: "haneri-5", name: "金", color: "#D4AF37" },
 ];
 
 /**
