@@ -7,10 +7,10 @@ import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
  * @returns ルートレイアウトの React 要素
  */
 const RootLayout = () => (
-  <>
+  <div className="min-h-screen bg-pink-100">
     <Outlet />
     <TanStackRouterDevtools />
-  </>
+  </div>
 );
 
 /**
