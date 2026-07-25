@@ -3,8 +3,8 @@
   "editor.formatOnSave": true,
   "npm.autoDetect": "on",
   "npm.packageManager": "pnpm",
-  "typescript.preferences.importModuleSpecifier": "non-relative",
-  "typescript.preferences.importModuleSpecifierEnding": "js",
+  "js/ts.preferences.importModuleSpecifier": "non-relative",
+  "js/ts.preferences.importModuleSpecifierEnding": "js",
   "files.readonlyInclude": {
     "**/routeTree.gen.ts": true
   },
