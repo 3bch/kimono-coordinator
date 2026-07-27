@@ -8,6 +8,7 @@
 - [x] npm をふさぐ
 - [x] CLAUDE.md や カスタムコマンド系 の設定
 - [x] Vite 8 を試す
+- [ ] shadcn を BaseUI ベースに移行する
 - [ ] playwright-cli でブラウザ確認をエージェントができるようにする
 - [ ] まずは UI の試作
     - [x] スワイプ動作

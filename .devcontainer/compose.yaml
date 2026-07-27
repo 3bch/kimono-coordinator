@@ -17,5 +17,5 @@ services:
       - "TZ=Asia/Tokyo"
 
 volumes:
-  mise-data:
-  mise-cache:
+  mise-data: {}
+  mise-cache: {}
