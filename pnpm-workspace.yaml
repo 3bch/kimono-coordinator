@@ -11,6 +11,6 @@ allowBuilds:
   lefthook: true
   msw: true
 
-trustPolicy: no-downgrade
+trustPolicy: 'no-downgrade'
 
 trustPolicyIgnoreAfter: 525600

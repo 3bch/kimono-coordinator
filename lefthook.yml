@@ -1,10 +1,10 @@
 pre-commit:
   jobs:
-    - name: Fix Lint
-      run: pnpm run fix:lint
-    - name: Format
-      run: pnpm run fix:format
-    - name: Add Files
-      run: git add -u
-    - name: Check
-      run: pnpm run check
+    - name: 'Fix Lint'
+      run: 'pnpm run fix:lint'
+      stage_fixed: true
+    - name: 'Format'
+      run: 'pnpm run fix:format'
+      stage_fixed: true
+    - name: 'Check'
+      run: 'pnpm run check'

@@ -1,5 +1,11 @@
 {
   "$schema": "./node_modules/oxfmt/configuration_schema.json",
+  "overrides": [
+    {
+      "files": ["**/*.{yml,yaml}"],
+      "options": { "singleQuote": true }
+    }
+  ],
   "sortImports": {
     "internalPattern": ["#src/**"],
     "newlinesBetween": true,
