@@ -13,9 +13,11 @@ services:
       - './claude/.claude.json:/home/vscode/.claude.json'
       - 'mise-data:/home/vscode/.local/share/mise'
       - 'mise-cache:/home/vscode/.cache/mise'
+      - 'playwright-cache:/home/vscode/.cache/ms-playwright'
     environment:
       - 'TZ=Asia/Tokyo'
 
 volumes:
   mise-data: {}
   mise-cache: {}
+  playwright-cache: {}

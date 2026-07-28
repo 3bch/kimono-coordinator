@@ -20,3 +20,13 @@
 ユーザーに対して重要な情報は、ツール呼び出し前の途中メッセージではなく、必ずターンの最後の通常テキストとして出力してください。
 
 ※ これは Fable5 と Claude Code の AskUserQuestion との組み合わせのバグに対する対策です
+
+## Git コミットメッセージ
+
+メッセージの末尾に下記トレーラーを付与してください。
+
+```text
+Claude-Code-Model: <Opus 5 など>
+Claude-Code-Effort: <High など>
+Claude-Code-Version: <Claude Code のバージョン>
+```

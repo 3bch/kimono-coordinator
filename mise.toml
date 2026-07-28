@@ -6,3 +6,4 @@ npm.package_manager = "pnpm"
 [tools]
 node = "24"
 pnpm = "11"
+"npm:@playwright/cli" = "0.1"
