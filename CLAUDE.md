@@ -13,6 +13,15 @@
 - トップレベルに宣言した型やコンポーネントや関数などには、jsdoc を記述すること
 - 型チェックやリント、フォーマットなどは package.json の scripts に定義されたものを使うこと
 
+## ブラウザでの表示確認
+
+- 表示確認には playwright-cli を利用すること（skill は `.claude/skills/playwright-cli/` に導入済み）
+- 確認前に `pnpm dev` で dev サーバーを起動すること（http://localhost:5173）
+- ブラウザ設定は `.playwright/cli.config.json` にあるため `--browser` の指定は不要
+- スワイプを再現する場合は対象要素の範囲内で mousemove を完結させること
+  （要素外に出ると onMouseLeave でキャンセルされる）
+- 確認が終わったら `playwright-cli close-all` でブラウザを終了すること
+
 ## AskUserQuestion の使い方について
 
 ユーザーに見せる説明文や成果物と AskUserQuestion を同じターンで出さないでください。
