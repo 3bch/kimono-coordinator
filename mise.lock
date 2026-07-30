@@ -38,6 +38,10 @@ url = "https://nodejs.org/dist/v24.18.1/node-v24.18.1-win-x64.zip"
 version = "0.1.17"
 backend = "npm:@playwright/cli"
 
+[[tools."npm:ccusage"]]
+version = "20.0.19"
+backend = "npm:ccusage"
+
 [[tools.pnpm]]
 version = "11.17.0"
 backend = "aqua:pnpm/pnpm"

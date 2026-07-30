@@ -1,3 +1,8 @@
+prepare-commit-msg:
+  jobs:
+    - name: 'Commit Trailer'
+      run: './scripts/commit-trailer.sh {1} {2}'
+
 pre-commit:
   jobs:
     - name: 'Fix Lint'

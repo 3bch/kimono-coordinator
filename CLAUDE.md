@@ -32,10 +32,5 @@
 
 ## Git コミットメッセージ
 
-メッセージの末尾に下記トレーラーを付与してください。
-
-```text
-Claude-Code-Model: <Opus 5 など>
-Claude-Code-Effort: <High など>
-Claude-Code-Version: <Claude Code のバージョン>
-```
+トレーラーは `prepare-commit-msg` フック（`scripts/commit-trailer.sh`）が自動で付与するため、
+**手動で書かないこと**（重複の原因になります）。付与内容の詳細はスクリプトを参照してください。
