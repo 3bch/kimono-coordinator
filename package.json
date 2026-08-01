@@ -20,7 +20,8 @@
     "fix:format": "oxfmt --write"
   },
   "dependencies": {
-    "@radix-ui/react-slot": "^1.3.3",
+    "@base-ui/react": "^1.6.0",
+    "@fontsource-variable/geist": "^5.3.0",
     "@tailwindcss/vite": "^4.3.3",
     "@tanstack/react-router": "^1.170.18",
     "@tanstack/react-router-devtools": "^1.167.0",
