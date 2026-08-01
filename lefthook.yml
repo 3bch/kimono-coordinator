@@ -5,6 +5,8 @@ prepare-commit-msg:
 
 pre-commit:
   jobs:
+    - name: 'Check pnpm peers'
+      run: 'pnpm peers check'
     - name: 'Fix Lint'
       run: 'pnpm run fix:lint'
       stage_fixed: true
