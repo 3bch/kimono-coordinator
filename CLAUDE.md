@@ -13,7 +13,6 @@
 - トップレベルに宣言した型やコンポーネントや関数などには、jsdoc を記述すること
   （ただし `src/components/ui/**` の shadcn/ui 生成物は外部由来のため対象外。再インストール時に
   上書きされるので、生成されたコードには手を入れないこと）
-- shadcn/ui のコンポーネントは Base UI ベース（`components.json` の `style` は `base-nova`）
 - 型チェックやリント、フォーマットなどは package.json の scripts に定義されたものを使うこと
 
 ## ブラウザでの表示確認
