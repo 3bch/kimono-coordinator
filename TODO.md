@@ -10,10 +10,14 @@
 - [x] Vite 8 を試す
 - [x] shadcn を BaseUI ベースに移行する
 - [x] playwright-cli でブラウザ確認をエージェントができるようにする
-- [ ] 背景透過に関する方針を決める
+- [x] 背景透過に関する方針を決める → `@imgly/background-removal` に決定
     - 方針: クライアントサイド推論。SaaS API はバックエンドと月額費用が要るので見送り
-    - まずは `@imgly/background-removal` を試す
-    - ダメなら `transformers.js` + BiRefNet に差し替える
+    - `@imgly/background-removal` を帯留め画像で検証: 外形はきれいに抜けるが、
+      透かし(穴)部分に背景が残る。処理時間は devcontainer の WASM で 20〜30 秒
+    - ライセンスは AGPL-3.0 なので、非 OSS で商用化する場合は要商用ライセンス
+    - `transformers.js` + BiRefNet_lite も試したが、ブラウザの WASM では
+      fp32 / fp16 とも std::bad_alloc(メモリ不足)で断念(モデルは MIT で商用可)
+    - 検証ページは `/bg-test`(検証用画像は `public/obidome-sample.jpg`)
 - [ ] まずは UI の試作
     - [x] スワイプ動作
     - [x] 着物の SVG
