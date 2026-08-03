@@ -14,3 +14,6 @@ fi
 if [ ! -f "${dir}/claude/.claude.json" ]; then
   echo '{}' > "${dir}/claude/.claude.json"
 fi
+
+# playwright-cli の一時出力（スナップショット・ログ・スクリーンショット）を破棄する
+rm -rf "$(dirname "${dir}")/.playwright-cli"
