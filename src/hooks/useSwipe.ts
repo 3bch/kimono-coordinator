@@ -44,9 +44,6 @@ interface UseSwipeReturn {
     onTouchMove: (e: React.TouchEvent) => void;
     onTouchEnd: () => void;
     onMouseDown: (e: React.MouseEvent) => void;
-    onMouseMove: (e: React.MouseEvent) => void;
-    onMouseUp: () => void;
-    onMouseLeave: () => void;
   };
 }
 
@@ -69,6 +66,9 @@ export function useSwipe(options: UseSwipeOptions = {}): UseSwipeReturn {
 
   const startX = useRef(0);
   const isDragging = useRef(false);
+  // handleEnd は window リスナーなど古いクロージャから呼ばれるため、最新値を ref でも保持する
+  const offsetXRef = useRef(0);
+  const swipeDirectionRef = useRef<SwipeDirection>(null);
 
   // アニメーション完了後にコールバックを呼び出す
   useEffect(() => {
@@ -113,6 +113,7 @@ export function useSwipe(options: UseSwipeOptions = {}): UseSwipeReturn {
   const handleStart = (clientX: number) => {
     startX.current = clientX;
     isDragging.current = true;
+    offsetXRef.current = 0;
     setIsSwiping(true);
   };
 
@@ -121,11 +122,14 @@ export function useSwipe(options: UseSwipeOptions = {}): UseSwipeReturn {
       return;
     }
     const diff = clientX - startX.current;
+    offsetXRef.current = diff;
     setOffsetX(diff);
     // スワイプ方向を更新（左にドラッグ = 左スワイプ = 次へ、右にドラッグ = 右スワイプ = 前へ）
     if (diff < 0) {
+      swipeDirectionRef.current = "left";
       setSwipeDirection("left");
     } else if (diff > 0) {
+      swipeDirectionRef.current = "right";
       setSwipeDirection("right");
     }
   };
@@ -139,11 +143,12 @@ export function useSwipe(options: UseSwipeOptions = {}): UseSwipeReturn {
     setIsSwiping(false);
 
     // スワイプが確定した場合、アニメーションを開始
-    if (offsetX > threshold && onSwipeRight) {
+    const endOffsetX = offsetXRef.current;
+    if (endOffsetX > threshold && onSwipeRight) {
       setIsAnimating(true);
       setOffsetX(containerWidth); // 現在の要素を右に出す
       setPendingCallback(() => onSwipeRight);
-    } else if (offsetX < -threshold && onSwipeLeft) {
+    } else if (endOffsetX < -threshold && onSwipeLeft) {
       setIsAnimating(true);
       setOffsetX(-containerWidth); // 現在の要素を左に出す
       setPendingCallback(() => onSwipeLeft);
@@ -151,10 +156,11 @@ export function useSwipe(options: UseSwipeOptions = {}): UseSwipeReturn {
       // スワイプがキャンセルされた場合、元に戻す
       setOffsetX(0);
       // swipeDirection はアニメーション完了後にリセット（隣の要素が瞬間的に消えるのを防ぐ）
-      if (swipeDirection) {
+      if (swipeDirectionRef.current) {
         setIsCancelling(true);
       }
     }
+    swipeDirectionRef.current = null;
   };
 
   const handlers = {
@@ -173,19 +179,20 @@ export function useSwipe(options: UseSwipeOptions = {}): UseSwipeReturn {
     onTouchEnd: () => {
       handleEnd();
     },
+    // マウス操作は要素外に出てもスワイプを継続できるよう、
+    // mousedown 以降は window でマウスを追跡し mouseup で確定する
     onMouseDown: (e: React.MouseEvent) => {
       handleStart(e.clientX);
-    },
-    onMouseMove: (e: React.MouseEvent) => {
-      handleMove(e.clientX);
-    },
-    onMouseUp: () => {
-      handleEnd();
-    },
-    onMouseLeave: () => {
-      if (isDragging.current) {
+      const onWindowMouseMove = (event: MouseEvent) => {
+        handleMove(event.clientX);
+      };
+      const onWindowMouseUp = () => {
+        window.removeEventListener("mousemove", onWindowMouseMove);
+        window.removeEventListener("mouseup", onWindowMouseUp);
         handleEnd();
-      }
+      };
+      window.addEventListener("mousemove", onWindowMouseMove);
+      window.addEventListener("mouseup", onWindowMouseUp);
     },
   };
 

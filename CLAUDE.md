@@ -20,8 +20,8 @@
 - 表示確認には playwright-cli を利用すること（skill は `.claude/skills/playwright-cli/` に導入済み）
 - 確認前に `pnpm dev` で dev サーバーを起動すること（http://localhost:5173）
 - ブラウザ設定は `.playwright/cli.config.json` にあるため `--browser` の指定は不要
-- スワイプを再現する場合は対象要素の範囲内で mousemove を完結させること
-  （要素外に出ると onMouseLeave でキャンセルされる）
+- スワイプはドラッグ中に要素外へ出ても継続される
+  （mousedown 以降は window でマウスを追跡し mouseup で確定する）
 - 確認が終わったら `playwright-cli close-all` でブラウザを終了すること
 
 ## AskUserQuestion の使い方について

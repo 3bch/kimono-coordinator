@@ -117,14 +117,14 @@ const HAORI_AREA_Y_END = 1400 / 2000;
 
 /**
  * 羽織着用時の羽織エリアの左端位置（コンテナ幅に対する比率）
- * 前の開き（左身頃の前端 x=360〜370 付近）より外側を羽織エリアとする
+ * 前の開き（左身頃の前端 x=212〜220 付近）より外側を羽織エリアとする
  */
-const HAORI_WORN_X_START = 350 / 1000;
+const HAORI_WORN_X_START = 220 / 1000;
 
 /**
  * 羽織着用時の羽織エリアの右端位置（コンテナ幅に対する比率）
  */
-const HAORI_WORN_X_END = 650 / 1000;
+const HAORI_WORN_X_END = 780 / 1000;
 
 /**
  * 羽織なし時の羽織エリアの左端位置（コンテナ幅に対する比率）
@@ -421,7 +421,8 @@ export function KimonoView({
     }
   };
 
-  // Move/End/Leave は現在の activeLayer に応じて振り分け
+  // タッチの Move/End は現在の activeLayer に応じて振り分け
+  // （マウスの Move/Up は useSwipe が window で追跡するため不要）
   const getActiveHandlers = () => {
     if (activeLayer === "kimono") {
       return kimonoHandlers;
@@ -591,9 +592,6 @@ export function KimonoView({
         onTouchMove={activeHandlers.onTouchMove}
         onTouchEnd={activeHandlers.onTouchEnd}
         onMouseDown={handleMouseDown}
-        onMouseMove={activeHandlers.onMouseMove}
-        onMouseUp={activeHandlers.onMouseUp}
-        onMouseLeave={activeHandlers.onMouseLeave}
       >
         {/* 着物レイヤー（現在） */}
         <div className="absolute inset-0" style={kimonoStyle}>
