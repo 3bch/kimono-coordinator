@@ -59,6 +59,20 @@ export interface ObijimeItem {
 }
 
 /**
+ * 羽織アイテムを表すインターフェース
+ */
+export interface HaoriItem {
+  /** 羽織の一意な識別子 */
+  id: string;
+  /** 羽織の名前（例: 黒、臙脂） */
+  name: string;
+  /** 羽織の色（CSS カラーコード、インジケーターと描画に使用） */
+  color: string;
+  /** 「羽織なし」を表すフラグ（true のときシルエットを描画しない） */
+  none?: boolean;
+}
+
+/**
  * 帯留めアイテムを表すインターフェース
  */
 export interface ObidomeItem {

@@ -3,6 +3,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { KimonoView } from "#src/components/KimonoView";
 import {
   sampleHaneris,
+  sampleHaoris,
   sampleKimonos,
   sampleObiages,
   sampleObidomes,
@@ -28,7 +29,7 @@ function Index() {
     <div className="mx-auto flex min-h-screen max-w-md flex-col items-center gap-6 p-4">
       <h1 className="text-center text-2xl font-bold">Kimono Coordinator</h1>
       <p className="text-center text-sm text-gray-600">
-        着物・半襟・帯・帯揚げ・帯締め・帯留めの組み合わせをお試しください
+        着物・半襟・帯・帯揚げ・帯締め・帯留め・羽織の組み合わせをお試しください
       </p>
 
       <KimonoView
@@ -38,6 +39,7 @@ function Index() {
         obiages={sampleObiages}
         obijimes={sampleObijimes}
         obidomes={sampleObidomes}
+        haoris={sampleHaoris}
       />
     </div>
   );

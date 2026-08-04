@@ -1,5 +1,6 @@
 import type {
   HaneriItem,
+  HaoriItem,
   KimonoItem,
   ObiageItem,
   ObidomeItem,
@@ -75,4 +76,17 @@ export const sampleObijimes: ObijimeItem[] = [
 export const sampleObidomes: ObidomeItem[] = [
   { id: "obidome-1", name: "白", color: "#F0EDE6" },
   { id: "obidome-2", name: "銀杏", color: "#E8D5A3", imageUrl: "/obidome-1.png" },
+];
+
+/**
+ * サンプル羽織データ
+ * アプリケーションのデモ用に使用される羽織の一覧
+ * 先頭の「なし」は羽織を着ていない状態を表す
+ */
+export const sampleHaoris: HaoriItem[] = [
+  { id: "haori-none", name: "なし", color: "#FFFFFF", none: true },
+  { id: "haori-1", name: "黒", color: "#3A3A3A" },
+  { id: "haori-2", name: "臙脂", color: "#7A2F3B" },
+  { id: "haori-3", name: "利休鼠", color: "#888E7E" },
+  { id: "haori-4", name: "藍鼠", color: "#5C6B73" },
 ];

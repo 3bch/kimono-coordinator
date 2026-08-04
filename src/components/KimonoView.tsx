@@ -1,6 +1,7 @@
 import { useRef, useState } from "react";
 
 import { HaneriSilhouette } from "#src/components/HaneriSilhouette";
+import { HaoriSilhouette } from "#src/components/HaoriSilhouette";
 import { KimonoSilhouette } from "#src/components/KimonoSilhouette";
 import { ObiageSilhouette } from "#src/components/ObiageSilhouette";
 import { ObidomeSilhouette } from "#src/components/ObidomeSilhouette";
@@ -9,6 +10,7 @@ import { ObiSilhouette } from "#src/components/ObiSilhouette";
 import { useSwipe } from "#src/hooks/useSwipe";
 import type {
   HaneriItem,
+  HaoriItem,
   KimonoItem,
   ObiageItem,
   ObidomeItem,
@@ -32,6 +34,8 @@ interface KimonoViewProps {
   obijimes: ObijimeItem[];
   /** 表示する帯留めアイテムの配列 */
   obidomes: ObidomeItem[];
+  /** 表示する羽織アイテムの配列 */
+  haoris: HaoriItem[];
 }
 
 /**
@@ -106,8 +110,37 @@ const OBIDOME_AREA_X_START = 75 / 200;
 const OBIDOME_AREA_X_END = 125 / 200;
 
 /**
- * 着物と半襟と帯と帯揚げと帯締めと帯留めを重ねて表示し、スワイプで切り替えるコンポーネント
- * タッチ位置に応じて着物・半襟・帯・帯揚げ・帯締め・帯留めを操作対象として判定する
+ * 羽織エリアの終了位置（コンテナ高さに対する比率）
+ * 羽織の viewBox="0 0 1000 2000" で裾は y=1400 で終わる
+ */
+const HAORI_AREA_Y_END = 1400 / 2000;
+
+/**
+ * 羽織着用時の羽織エリアの左端位置（コンテナ幅に対する比率）
+ * 前の開き（左身頃の前端 x=360〜370 付近）より外側を羽織エリアとする
+ */
+const HAORI_WORN_X_START = 350 / 1000;
+
+/**
+ * 羽織着用時の羽織エリアの右端位置（コンテナ幅に対する比率）
+ */
+const HAORI_WORN_X_END = 650 / 1000;
+
+/**
+ * 羽織なし時の羽織エリアの左端位置（コンテナ幅に対する比率）
+ * 着物の袖（x=0〜145）にあたる外縁だけを羽織エリアとして残し、
+ * スワイプで羽織を再び着られるようにする
+ */
+const HAORI_NONE_X_START = 145 / 1000;
+
+/**
+ * 羽織なし時の羽織エリアの右端位置（コンテナ幅に対する比率）
+ */
+const HAORI_NONE_X_END = 855 / 1000;
+
+/**
+ * 着物と半襟と帯と帯揚げと帯締めと帯留めと羽織を重ねて表示し、スワイプで切り替えるコンポーネント
+ * タッチ位置に応じて着物・半襟・帯・帯揚げ・帯締め・帯留め・羽織を操作対象として判定する
  * @param props - コンポーネントのプロパティ
  * @param props.kimonos - 表示する着物アイテムの配列
  * @param props.haneris - 表示する半襟アイテムの配列
@@ -115,6 +148,7 @@ const OBIDOME_AREA_X_END = 125 / 200;
  * @param props.obiages - 表示する帯揚げアイテムの配列
  * @param props.obijimes - 表示する帯締めアイテムの配列
  * @param props.obidomes - 表示する帯留めアイテムの配列
+ * @param props.haoris - 表示する羽織アイテムの配列
  * @returns 着物コーディネートビューの React 要素
  */
 export function KimonoView({
@@ -124,6 +158,7 @@ export function KimonoView({
   obiages,
   obijimes,
   obidomes,
+  haoris,
 }: KimonoViewProps) {
   const [kimonoIndex, setKimonoIndex] = useState(0);
   const [haneriIndex, setHaneriIndex] = useState(0);
@@ -131,8 +166,9 @@ export function KimonoView({
   const [obiageIndex, setObiageIndex] = useState(0);
   const [obijimeIndex, setObijimeIndex] = useState(0);
   const [obidomeIndex, setObidomeIndex] = useState(0);
+  const [haoriIndex, setHaoriIndex] = useState(0);
   const [activeLayer, setActiveLayer] = useState<
-    "kimono" | "haneri" | "obi" | "obiage" | "obijime" | "obidome"
+    "kimono" | "haneri" | "obi" | "obiage" | "obijime" | "obidome" | "haori"
   >("kimono");
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -182,6 +218,14 @@ export function KimonoView({
 
   const goToNextObidome = () => {
     setObidomeIndex((prev) => (prev === obidomes.length - 1 ? 0 : prev + 1));
+  };
+
+  const goToPrevHaori = () => {
+    setHaoriIndex((prev) => (prev === 0 ? haoris.length - 1 : prev - 1));
+  };
+
+  const goToNextHaori = () => {
+    setHaoriIndex((prev) => (prev === haoris.length - 1 ? 0 : prev + 1));
   };
 
   const containerWidth = 200;
@@ -271,11 +315,25 @@ export function KimonoView({
     onSwipeRight: goToPrevObidome,
   });
 
+  const {
+    offsetX: haoriOffsetX,
+    nextOffsetX: haoriNextOffsetX,
+    swipeDirection: haoriSwipeDirection,
+    isSwiping: haoriSwiping,
+    isResetting: haoriResetting,
+    handlers: haoriHandlers,
+  } = useSwipe({
+    threshold: containerWidth / 4,
+    containerWidth,
+    onSwipeLeft: goToNextHaori,
+    onSwipeRight: goToPrevHaori,
+  });
+
   // タッチ位置から操作対象を判定
   const determineActiveLayer = (
     clientX: number,
     clientY: number,
-  ): "kimono" | "haneri" | "obi" | "obiage" | "obijime" | "obidome" => {
+  ): "kimono" | "haneri" | "obi" | "obiage" | "obijime" | "obidome" | "haori" => {
     if (!containerRef.current) {
       return "kimono";
     }
@@ -284,8 +342,17 @@ export function KimonoView({
     const relativeY = clientY - rect.top;
     const ratioX = relativeX / containerWidth;
     const ratio = relativeY / containerHeight;
-    // 半襟エリア内なら半襟、帯留めエリア（帯締め中央付近）内なら帯留め、
+    // 左右の外縁エリア内なら羽織、半襟エリア内なら半襟、
+    // 帯留めエリア（帯締め中央付近）内なら帯留め、
     // 帯締めエリア内なら帯締め、帯揚げエリア内なら帯揚げ、帯エリア内なら帯、それ以外は着物
+    // 羽織エリアの幅は着用状態で変える（着用時は見えている身頃・袖全体、
+    // なし時は着物の袖にあたる外縁のみを残して再着用のスワイプ経路とする）
+    const haoriWorn = haoris[haoriIndex]?.none !== true;
+    const haoriXStart = haoriWorn ? HAORI_WORN_X_START : HAORI_NONE_X_START;
+    const haoriXEnd = haoriWorn ? HAORI_WORN_X_END : HAORI_NONE_X_END;
+    if (ratio <= HAORI_AREA_Y_END && (ratioX <= haoriXStart || ratioX >= haoriXEnd)) {
+      return "haori";
+    }
     if (ratio >= HANERI_AREA_START && ratio <= HANERI_AREA_END) {
       return "haneri";
     }
@@ -327,6 +394,8 @@ export function KimonoView({
       obiageHandlers.onTouchStart(e);
     } else if (layer === "obidome") {
       obidomeHandlers.onTouchStart(e);
+    } else if (layer === "haori") {
+      haoriHandlers.onTouchStart(e);
     } else {
       obijimeHandlers.onTouchStart(e);
     }
@@ -345,6 +414,8 @@ export function KimonoView({
       obiageHandlers.onMouseDown(e);
     } else if (layer === "obidome") {
       obidomeHandlers.onMouseDown(e);
+    } else if (layer === "haori") {
+      haoriHandlers.onMouseDown(e);
     } else {
       obijimeHandlers.onMouseDown(e);
     }
@@ -367,6 +438,9 @@ export function KimonoView({
     if (activeLayer === "obidome") {
       return obidomeHandlers;
     }
+    if (activeLayer === "haori") {
+      return haoriHandlers;
+    }
     return obijimeHandlers;
   };
   const activeHandlers = getActiveHandlers();
@@ -377,6 +451,7 @@ export function KimonoView({
   const currentObiage = obiages[obiageIndex];
   const currentObijime = obijimes[obijimeIndex];
   const currentObidome = obidomes[obidomeIndex];
+  const currentHaori = haoris[haoriIndex];
 
   // 次/前の着物インデックスを計算
   const nextKimonoIndex = kimonoIndex === kimonos.length - 1 ? 0 : kimonoIndex + 1;
@@ -415,6 +490,12 @@ export function KimonoView({
   const adjacentObidomeIndex =
     obidomeSwipeDirection === "left" ? nextObidomeIndex : prevObidomeIndex;
   const adjacentObidome = obidomeSwipeDirection ? obidomes[adjacentObidomeIndex] : null;
+
+  // 次/前の羽織インデックスを計算
+  const nextHaoriIndex = haoriIndex === haoris.length - 1 ? 0 : haoriIndex + 1;
+  const prevHaoriIndex = haoriIndex === 0 ? haoris.length - 1 : haoriIndex - 1;
+  const adjacentHaoriIndex = haoriSwipeDirection === "left" ? nextHaoriIndex : prevHaoriIndex;
+  const adjacentHaori = haoriSwipeDirection ? haoris[adjacentHaoriIndex] : null;
 
   const kimonoStyle = {
     transform: activeLayer === "kimono" ? `translateX(${kimonoOffsetX}px)` : undefined,
@@ -476,13 +557,24 @@ export function KimonoView({
     transition: obidomeSwiping || obidomeResetting ? "none" : "transform 0.3s ease-out",
   };
 
+  const haoriStyle = {
+    transform: activeLayer === "haori" ? `translateX(${haoriOffsetX}px)` : undefined,
+    transition: haoriSwiping || haoriResetting ? "none" : "transform 0.3s ease-out",
+  };
+
+  const haoriNextStyle = {
+    transform: `translateX(${haoriNextOffsetX}px)`,
+    transition: haoriSwiping || haoriResetting ? "none" : "transform 0.3s ease-out",
+  };
+
   if (
     !currentKimono ||
     !currentHaneri ||
     !currentObi ||
     !currentObiage ||
     !currentObijime ||
-    !currentObidome
+    !currentObidome ||
+    !currentHaori
   ) {
     return null;
   }
@@ -571,6 +663,20 @@ export function KimonoView({
             />
           </div>
         )}
+        {/* 羽織レイヤー（現在）- 最前面に重ねる。「なし」のときは描画しない */}
+        <div className="pointer-events-none absolute inset-0" style={haoriStyle}>
+          {currentHaori.none !== true && (
+            <HaoriSilhouette color={currentHaori.color} className="h-full w-full" />
+          )}
+        </div>
+        {/* 羽織レイヤー（次/前）- スワイプ中のみ表示。「なし」のときは描画しない */}
+        {activeLayer === "haori" && adjacentHaori && (
+          <div className="pointer-events-none absolute inset-0" style={haoriNextStyle}>
+            {adjacentHaori.none !== true && (
+              <HaoriSilhouette color={adjacentHaori.color} className="h-full w-full" />
+            )}
+          </div>
+        )}
       </div>
 
       {/* 現在の選択情報 */}
@@ -587,6 +693,8 @@ export function KimonoView({
           <span className="font-medium">帯締め:</span> {currentObijime.name}
           <span className="mx-2">|</span>
           <span className="font-medium">帯留め:</span> {currentObidome.name}
+          <span className="mx-2">|</span>
+          <span className="font-medium">羽織:</span> {currentHaori.name}
         </p>
         <p className="mt-1 text-sm text-gray-500">← スワイプで切り替え →</p>
       </div>
@@ -695,6 +803,23 @@ export function KimonoView({
                 style={{ backgroundColor: index === obidomeIndex ? obidome.color : undefined }}
                 onClick={() => setObidomeIndex(index)}
                 aria-label={`${obidome.name}を選択`}
+              />
+            ))}
+          </div>
+        </div>
+        <div className="flex items-center gap-2">
+          <span className="w-12 text-xs text-gray-600">羽織:</span>
+          <div className="flex gap-1">
+            {haoris.map((haori, index) => (
+              <button
+                key={haori.id}
+                type="button"
+                className={`h-3 w-3 rounded-full border transition-colors ${
+                  index === haoriIndex ? "border-gray-800 bg-gray-800" : "border-gray-400 bg-white"
+                }`}
+                style={{ backgroundColor: index === haoriIndex ? haori.color : undefined }}
+                onClick={() => setHaoriIndex(index)}
+                aria-label={`${haori.name}を選択`}
               />
             ))}
           </div>
