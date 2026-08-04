@@ -3,10 +3,18 @@ import { useRef, useState } from "react";
 import { HaneriSilhouette } from "#src/components/HaneriSilhouette";
 import { KimonoSilhouette } from "#src/components/KimonoSilhouette";
 import { ObiageSilhouette } from "#src/components/ObiageSilhouette";
+import { ObidomeSilhouette } from "#src/components/ObidomeSilhouette";
 import { ObijimeSilhouette } from "#src/components/ObijimeSilhouette";
 import { ObiSilhouette } from "#src/components/ObiSilhouette";
 import { useSwipe } from "#src/hooks/useSwipe";
-import type { HaneriItem, KimonoItem, ObiageItem, ObiItem, ObijimeItem } from "#src/types/kimono";
+import type {
+  HaneriItem,
+  KimonoItem,
+  ObiageItem,
+  ObidomeItem,
+  ObiItem,
+  ObijimeItem,
+} from "#src/types/kimono";
 
 /**
  * KimonoView コンポーネントのプロパティ
@@ -22,6 +30,8 @@ interface KimonoViewProps {
   obiages: ObiageItem[];
   /** 表示する帯締めアイテムの配列 */
   obijimes: ObijimeItem[];
+  /** 表示する帯留めアイテムの配列 */
+  obidomes: ObidomeItem[];
 }
 
 /**
@@ -73,24 +83,56 @@ const OBIJIME_AREA_START = 120 / 300;
 const OBIJIME_AREA_END = 130 / 300;
 
 /**
- * 着物と半襟と帯と帯揚げと帯締めを重ねて表示し、スワイプで切り替えるコンポーネント
- * タッチ位置に応じて着物・半襟・帯・帯揚げ・帯締めを操作対象として判定する
+ * 帯留めエリアの開始位置（コンテナ高さに対する比率）
+ * SVG viewBox="0 0 200 300" で帯留めは y=115 付近から開始
+ */
+const OBIDOME_AREA_START = 115 / 300;
+
+/**
+ * 帯留めエリアの終了位置（コンテナ高さに対する比率）
+ * SVG viewBox="0 0 200 300" で帯留めは y=135 付近で終了
+ */
+const OBIDOME_AREA_END = 135 / 300;
+
+/**
+ * 帯留めエリアの左端位置（コンテナ幅に対する比率）
+ * 帯留めは帯締め中央（x=100 付近）の飾りなので、x 座標でも帯締めと区別する
+ */
+const OBIDOME_AREA_X_START = 75 / 200;
+
+/**
+ * 帯留めエリアの右端位置（コンテナ幅に対する比率）
+ */
+const OBIDOME_AREA_X_END = 125 / 200;
+
+/**
+ * 着物と半襟と帯と帯揚げと帯締めと帯留めを重ねて表示し、スワイプで切り替えるコンポーネント
+ * タッチ位置に応じて着物・半襟・帯・帯揚げ・帯締め・帯留めを操作対象として判定する
  * @param props - コンポーネントのプロパティ
  * @param props.kimonos - 表示する着物アイテムの配列
  * @param props.haneris - 表示する半襟アイテムの配列
  * @param props.obis - 表示する帯アイテムの配列
  * @param props.obiages - 表示する帯揚げアイテムの配列
  * @param props.obijimes - 表示する帯締めアイテムの配列
+ * @param props.obidomes - 表示する帯留めアイテムの配列
  * @returns 着物コーディネートビューの React 要素
  */
-export function KimonoView({ kimonos, haneris, obis, obiages, obijimes }: KimonoViewProps) {
+export function KimonoView({
+  kimonos,
+  haneris,
+  obis,
+  obiages,
+  obijimes,
+  obidomes,
+}: KimonoViewProps) {
   const [kimonoIndex, setKimonoIndex] = useState(0);
   const [haneriIndex, setHaneriIndex] = useState(0);
   const [obiIndex, setObiIndex] = useState(0);
   const [obiageIndex, setObiageIndex] = useState(0);
   const [obijimeIndex, setObijimeIndex] = useState(0);
+  const [obidomeIndex, setObidomeIndex] = useState(0);
   const [activeLayer, setActiveLayer] = useState<
-    "kimono" | "haneri" | "obi" | "obiage" | "obijime"
+    "kimono" | "haneri" | "obi" | "obiage" | "obijime" | "obidome"
   >("kimono");
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -132,6 +174,14 @@ export function KimonoView({ kimonos, haneris, obis, obiages, obijimes }: Kimono
 
   const goToNextObijime = () => {
     setObijimeIndex((prev) => (prev === obijimes.length - 1 ? 0 : prev + 1));
+  };
+
+  const goToPrevObidome = () => {
+    setObidomeIndex((prev) => (prev === 0 ? obidomes.length - 1 : prev - 1));
+  };
+
+  const goToNextObidome = () => {
+    setObidomeIndex((prev) => (prev === obidomes.length - 1 ? 0 : prev + 1));
   };
 
   const containerWidth = 200;
@@ -207,19 +257,45 @@ export function KimonoView({ kimonos, haneris, obis, obiages, obijimes }: Kimono
     onSwipeRight: goToPrevObijime,
   });
 
+  const {
+    offsetX: obidomeOffsetX,
+    nextOffsetX: obidomeNextOffsetX,
+    swipeDirection: obidomeSwipeDirection,
+    isSwiping: obidomeSwiping,
+    isResetting: obidomeResetting,
+    handlers: obidomeHandlers,
+  } = useSwipe({
+    threshold: containerWidth / 4,
+    containerWidth,
+    onSwipeLeft: goToNextObidome,
+    onSwipeRight: goToPrevObidome,
+  });
+
   // タッチ位置から操作対象を判定
   const determineActiveLayer = (
+    clientX: number,
     clientY: number,
-  ): "kimono" | "haneri" | "obi" | "obiage" | "obijime" => {
+  ): "kimono" | "haneri" | "obi" | "obiage" | "obijime" | "obidome" => {
     if (!containerRef.current) {
       return "kimono";
     }
     const rect = containerRef.current.getBoundingClientRect();
+    const relativeX = clientX - rect.left;
     const relativeY = clientY - rect.top;
+    const ratioX = relativeX / containerWidth;
     const ratio = relativeY / containerHeight;
-    // 半襟エリア内なら半襟、帯締めエリア内なら帯締め、帯揚げエリア内なら帯揚げ、帯エリア内なら帯、それ以外は着物
+    // 半襟エリア内なら半襟、帯留めエリア（帯締め中央付近）内なら帯留め、
+    // 帯締めエリア内なら帯締め、帯揚げエリア内なら帯揚げ、帯エリア内なら帯、それ以外は着物
     if (ratio >= HANERI_AREA_START && ratio <= HANERI_AREA_END) {
       return "haneri";
+    }
+    if (
+      ratio >= OBIDOME_AREA_START &&
+      ratio <= OBIDOME_AREA_END &&
+      ratioX >= OBIDOME_AREA_X_START &&
+      ratioX <= OBIDOME_AREA_X_END
+    ) {
+      return "obidome";
     }
     if (ratio >= OBIJIME_AREA_START && ratio <= OBIJIME_AREA_END) {
       return "obijime";
@@ -239,7 +315,7 @@ export function KimonoView({ kimonos, haneris, obis, obiages, obijimes }: Kimono
     if (!touch) {
       return;
     }
-    const layer = determineActiveLayer(touch.clientY);
+    const layer = determineActiveLayer(touch.clientX, touch.clientY);
     setActiveLayer(layer);
     if (layer === "kimono") {
       kimonoHandlers.onTouchStart(e);
@@ -249,13 +325,15 @@ export function KimonoView({ kimonos, haneris, obis, obiages, obijimes }: Kimono
       obiHandlers.onTouchStart(e);
     } else if (layer === "obiage") {
       obiageHandlers.onTouchStart(e);
+    } else if (layer === "obidome") {
+      obidomeHandlers.onTouchStart(e);
     } else {
       obijimeHandlers.onTouchStart(e);
     }
   };
 
   const handleMouseDown = (e: React.MouseEvent) => {
-    const layer = determineActiveLayer(e.clientY);
+    const layer = determineActiveLayer(e.clientX, e.clientY);
     setActiveLayer(layer);
     if (layer === "kimono") {
       kimonoHandlers.onMouseDown(e);
@@ -265,6 +343,8 @@ export function KimonoView({ kimonos, haneris, obis, obiages, obijimes }: Kimono
       obiHandlers.onMouseDown(e);
     } else if (layer === "obiage") {
       obiageHandlers.onMouseDown(e);
+    } else if (layer === "obidome") {
+      obidomeHandlers.onMouseDown(e);
     } else {
       obijimeHandlers.onMouseDown(e);
     }
@@ -284,6 +364,9 @@ export function KimonoView({ kimonos, haneris, obis, obiages, obijimes }: Kimono
     if (activeLayer === "obiage") {
       return obiageHandlers;
     }
+    if (activeLayer === "obidome") {
+      return obidomeHandlers;
+    }
     return obijimeHandlers;
   };
   const activeHandlers = getActiveHandlers();
@@ -293,6 +376,7 @@ export function KimonoView({ kimonos, haneris, obis, obiages, obijimes }: Kimono
   const currentObi = obis[obiIndex];
   const currentObiage = obiages[obiageIndex];
   const currentObijime = obijimes[obijimeIndex];
+  const currentObidome = obidomes[obidomeIndex];
 
   // 次/前の着物インデックスを計算
   const nextKimonoIndex = kimonoIndex === kimonos.length - 1 ? 0 : kimonoIndex + 1;
@@ -324,6 +408,13 @@ export function KimonoView({ kimonos, haneris, obis, obiages, obijimes }: Kimono
   const adjacentObijimeIndex =
     obijimeSwipeDirection === "left" ? nextObijimeIndex : prevObijimeIndex;
   const adjacentObijime = obijimeSwipeDirection ? obijimes[adjacentObijimeIndex] : null;
+
+  // 次/前の帯留めインデックスを計算
+  const nextObidomeIndex = obidomeIndex === obidomes.length - 1 ? 0 : obidomeIndex + 1;
+  const prevObidomeIndex = obidomeIndex === 0 ? obidomes.length - 1 : obidomeIndex - 1;
+  const adjacentObidomeIndex =
+    obidomeSwipeDirection === "left" ? nextObidomeIndex : prevObidomeIndex;
+  const adjacentObidome = obidomeSwipeDirection ? obidomes[adjacentObidomeIndex] : null;
 
   const kimonoStyle = {
     transform: activeLayer === "kimono" ? `translateX(${kimonoOffsetX}px)` : undefined,
@@ -375,7 +466,24 @@ export function KimonoView({ kimonos, haneris, obis, obiages, obijimes }: Kimono
     transition: obijimeSwiping || obijimeResetting ? "none" : "transform 0.3s ease-out",
   };
 
-  if (!currentKimono || !currentHaneri || !currentObi || !currentObiage || !currentObijime) {
+  const obidomeStyle = {
+    transform: activeLayer === "obidome" ? `translateX(${obidomeOffsetX}px)` : undefined,
+    transition: obidomeSwiping || obidomeResetting ? "none" : "transform 0.3s ease-out",
+  };
+
+  const obidomeNextStyle = {
+    transform: `translateX(${obidomeNextOffsetX}px)`,
+    transition: obidomeSwiping || obidomeResetting ? "none" : "transform 0.3s ease-out",
+  };
+
+  if (
+    !currentKimono ||
+    !currentHaneri ||
+    !currentObi ||
+    !currentObiage ||
+    !currentObijime ||
+    !currentObidome
+  ) {
     return null;
   }
 
@@ -445,6 +553,24 @@ export function KimonoView({ kimonos, haneris, obis, obiages, obijimes }: Kimono
             <ObijimeSilhouette color={adjacentObijime.color} className="h-full w-full" />
           </div>
         )}
+        {/* 帯留めレイヤー（現在）- 帯締めの前面に重ねる */}
+        <div className="pointer-events-none absolute inset-0" style={obidomeStyle}>
+          <ObidomeSilhouette
+            color={currentObidome.color}
+            imageUrl={currentObidome.imageUrl}
+            className="h-full w-full"
+          />
+        </div>
+        {/* 帯留めレイヤー（次/前）- スワイプ中のみ表示 */}
+        {activeLayer === "obidome" && adjacentObidome && (
+          <div className="pointer-events-none absolute inset-0" style={obidomeNextStyle}>
+            <ObidomeSilhouette
+              color={adjacentObidome.color}
+              imageUrl={adjacentObidome.imageUrl}
+              className="h-full w-full"
+            />
+          </div>
+        )}
       </div>
 
       {/* 現在の選択情報 */}
@@ -459,6 +585,8 @@ export function KimonoView({ kimonos, haneris, obis, obiages, obijimes }: Kimono
           <span className="font-medium">帯揚げ:</span> {currentObiage.name}
           <span className="mx-2">|</span>
           <span className="font-medium">帯締め:</span> {currentObijime.name}
+          <span className="mx-2">|</span>
+          <span className="font-medium">帯留め:</span> {currentObidome.name}
         </p>
         <p className="mt-1 text-sm text-gray-500">← スワイプで切り替え →</p>
       </div>
@@ -548,6 +676,25 @@ export function KimonoView({ kimonos, haneris, obis, obiages, obijimes }: Kimono
                 style={{ backgroundColor: index === obijimeIndex ? obijime.color : undefined }}
                 onClick={() => setObijimeIndex(index)}
                 aria-label={`${obijime.name}を選択`}
+              />
+            ))}
+          </div>
+        </div>
+        <div className="flex items-center gap-2">
+          <span className="w-12 text-xs text-gray-600">帯留め:</span>
+          <div className="flex gap-1">
+            {obidomes.map((obidome, index) => (
+              <button
+                key={obidome.id}
+                type="button"
+                className={`h-3 w-3 rounded-full border transition-colors ${
+                  index === obidomeIndex
+                    ? "border-gray-800 bg-gray-800"
+                    : "border-gray-400 bg-white"
+                }`}
+                style={{ backgroundColor: index === obidomeIndex ? obidome.color : undefined }}
+                onClick={() => setObidomeIndex(index)}
+                aria-label={`${obidome.name}を選択`}
               />
             ))}
           </div>

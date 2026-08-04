@@ -1,4 +1,11 @@
-import type { HaneriItem, KimonoItem, ObiageItem, ObiItem, ObijimeItem } from "#src/types/kimono";
+import type {
+  HaneriItem,
+  KimonoItem,
+  ObiageItem,
+  ObidomeItem,
+  ObiItem,
+  ObijimeItem,
+} from "#src/types/kimono";
 
 /**
  * サンプル着物データ
@@ -58,4 +65,14 @@ export const sampleObijimes: ObijimeItem[] = [
   { id: "obijime-3", name: "金", color: "#D4AF37" },
   { id: "obijime-4", name: "紫", color: "#7B287D" },
   { id: "obijime-5", name: "黒", color: "#1A1A1A" },
+];
+
+/**
+ * サンプル帯留めデータ
+ * アプリケーションのデモ用に使用される帯留めの一覧
+ * 銀杏は背景透過済みの実写画像（`/bg-test` で生成）を使用する
+ */
+export const sampleObidomes: ObidomeItem[] = [
+  { id: "obidome-1", name: "白", color: "#F0EDE6" },
+  { id: "obidome-2", name: "銀杏", color: "#E8D5A3", imageUrl: "/obidome-1.png" },
 ];

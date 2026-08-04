@@ -57,3 +57,17 @@ export interface ObijimeItem {
   /** 帯締めの色（CSS カラーコード） */
   color: string;
 }
+
+/**
+ * 帯留めアイテムを表すインターフェース
+ */
+export interface ObidomeItem {
+  /** 帯留めの一意な識別子 */
+  id: string;
+  /** 帯留めの名前（例: 白、銀杏） */
+  name: string;
+  /** 帯留めの色（CSS カラーコード、インジケーターと単色描画に使用） */
+  color: string;
+  /** 帯留めの画像 URL（指定時は単色の四角の代わりに画像で描画） */
+  imageUrl?: string;
+}
