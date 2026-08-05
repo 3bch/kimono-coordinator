@@ -1,41 +1,40 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 620" width="235" role="img" aria-label="保存コーデ一覧画面のワイヤーフレーム">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 580" width="235" role="img" aria-label="保存コーデ一覧画面のワイヤーフレーム">
   <style>
     text { font-family: "Hiragino Sans", "Noto Sans JP", system-ui, sans-serif; }
   </style>
-  <rect width="300" height="620" fill="#ffffff"/>
+  <defs>
+    <g id="mini-kimono" fill="#f1f1f4" stroke="#9a9aa4" stroke-width="1.5">
+      <path d="M40,0 L26,5 L3,12 L0,56 L15,52 L18,42 L19,100 L61,100 L62,42 L65,52 L80,56 L77,12 L54,5 Z"/>
+      <rect x="19" y="56" width="42" height="18" fill="#e2e2e8"/>
+    </g>
+  </defs>
+  <rect width="300" height="580" fill="#ffffff"/>
   <g transform="translate(10,10)">
     <rect x="6" y="6" width="268" height="548" rx="28" fill="#ffffff" stroke="#2b2b33" stroke-width="2"/>
     <path d="M40,38 L30,46 L40,54" fill="none" stroke="#2b2b33" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
     <text x="140" y="51" text-anchor="middle" font-size="15" font-weight="bold" fill="#2b2b33">保存コーデ一覧</text>
+    <!-- 行 1 -->
     <g>
-      <rect x="20" y="80" width="115" height="160" rx="10" fill="#ffffff" stroke="#9a9aa4"/>
-      <g fill="#f1f1f4" stroke="#9a9aa4" stroke-width="1">
-        <path d="M77,96 L63,101 L40,108 L37,152 L52,148 L55,138 L56,196 L98,196 L99,138 L102,148 L117,152 L114,108 L91,101 Z"/>
-        <rect x="56" y="152" width="42" height="18" fill="#e2e2e8"/>
-      </g>
-      <text x="66" y="226" font-size="12" fill="#2b2b33">名前</text>
-      <circle cx="118" cy="222" r="1.6" fill="#2b2b33"/>
-      <circle cx="118" cy="217" r="1.6" fill="#2b2b33"/>
-      <circle cx="118" cy="227" r="1.6" fill="#2b2b33"/>
+      <rect x="20" y="80" width="240" height="72" rx="10" fill="#ffffff" stroke="#9a9aa4"/>
+      <use href="#mini-kimono" transform="translate(30,88) scale(0.55)"/>
+      <text x="90" y="121" font-size="13" fill="#2b2b33">8/5 のコーデ</text>
     </g>
+    <!-- 行 2 -->
     <g>
-      <rect x="145" y="80" width="115" height="160" rx="10" fill="#ffffff" stroke="#9a9aa4"/>
-      <g fill="#f1f1f4" stroke="#9a9aa4" stroke-width="1">
-        <path d="M202,96 L188,101 L165,108 L162,152 L177,148 L180,138 L181,196 L223,196 L224,138 L227,148 L242,152 L239,108 L216,101 Z"/>
-        <rect x="181" y="152" width="42" height="18" fill="#e2e2e8"/>
-      </g>
-      <text x="191" y="226" font-size="12" fill="#2b2b33">名前</text>
-      <circle cx="243" cy="222" r="1.6" fill="#2b2b33"/>
-      <circle cx="243" cy="217" r="1.6" fill="#2b2b33"/>
-      <circle cx="243" cy="227" r="1.6" fill="#2b2b33"/>
+      <rect x="20" y="160" width="240" height="72" rx="10" fill="#ffffff" stroke="#9a9aa4"/>
+      <use href="#mini-kimono" transform="translate(30,168) scale(0.55)"/>
+      <text x="90" y="201" font-size="13" fill="#2b2b33">7/28 のコーデ</text>
     </g>
-    <rect x="130" y="248" width="130" height="82" rx="10" fill="#ffffff" stroke="#2b2b33" stroke-width="1.5"/>
-    <text x="148" y="280" font-size="13" fill="#2b2b33">名前変更</text>
-    <line x1="130" y1="290" x2="260" y2="290" stroke="#d7d7de"/>
-    <text x="148" y="316" font-size="13" fill="#c0392b">削除</text>
-    <text x="140" y="368" text-anchor="middle" font-size="11" fill="#5c5c66">縦三点メニュー: 名前変更 / 削除</text>
-    <text x="140" y="404" text-anchor="middle" font-size="11" fill="#5c5c66">カードタップでその内容を</text>
-    <text x="140" y="420" text-anchor="middle" font-size="11" fill="#5c5c66">コーディネート画面に流し込んで戻る</text>
-    <text x="140" y="592" text-anchor="middle" font-size="13" fill="#5c5c66">一覧と縦三点メニュー</text>
+    <!-- 行 3: スワイプで削除ボタンが出た状態 -->
+    <g>
+      <rect x="188" y="240" width="64" height="72" rx="10" fill="#c0392b"/>
+      <text x="220" y="281" text-anchor="middle" font-size="12" fill="#ffffff">削除</text>
+      <rect x="10" y="240" width="170" height="72" rx="10" fill="#ffffff" stroke="#9a9aa4"/>
+      <use href="#mini-kimono" transform="translate(20,248) scale(0.55)"/>
+      <text x="80" y="281" font-size="12" fill="#2b2b33">7/20 のコーデ</text>
+    </g>
+    <text x="140" y="352" text-anchor="middle" font-size="11" fill="#5c5c66">行タップ → コーディネートに反映して戻る</text>
+    <text x="140" y="370" text-anchor="middle" font-size="11" fill="#5c5c66">名前タップ → その場で編集（自動名を変更）</text>
+    <text x="140" y="388" text-anchor="middle" font-size="11" fill="#5c5c66">行を横スワイプ → 削除</text>
   </g>
 </svg>
