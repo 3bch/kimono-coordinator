@@ -18,12 +18,14 @@
       <rect x="20" y="80" width="240" height="72" rx="10" fill="#ffffff" stroke="#9a9aa4"/>
       <use href="#mini-kimono" transform="translate(30,88) scale(0.55)"/>
       <text x="90" y="121" font-size="13" fill="#2b2b33">8/5 のコーデ</text>
+      <path d="M3,11 L11,3 L13,5 L5,13 L2,14 Z" transform="translate(228,108)" fill="none" stroke="#5c5c66" stroke-width="1.3" stroke-linejoin="round"/>
     </g>
     <!-- 行 2 -->
     <g>
       <rect x="20" y="160" width="240" height="72" rx="10" fill="#ffffff" stroke="#9a9aa4"/>
       <use href="#mini-kimono" transform="translate(30,168) scale(0.55)"/>
       <text x="90" y="201" font-size="13" fill="#2b2b33">7/28 のコーデ</text>
+      <path d="M3,11 L11,3 L13,5 L5,13 L2,14 Z" transform="translate(228,188)" fill="none" stroke="#5c5c66" stroke-width="1.3" stroke-linejoin="round"/>
     </g>
     <!-- 行 3: スワイプで削除ボタンが出た状態 -->
     <g>
@@ -34,7 +36,8 @@
       <text x="80" y="281" font-size="12" fill="#2b2b33">7/20 のコーデ</text>
     </g>
     <text x="140" y="352" text-anchor="middle" font-size="11" fill="#5c5c66">行タップ → コーディネートに反映して戻る</text>
-    <text x="140" y="370" text-anchor="middle" font-size="11" fill="#5c5c66">名前タップ → その場で編集（自動名を変更）</text>
+    <text x="140" y="370" text-anchor="middle" font-size="11" fill="#5c5c66">鉛筆ボタン → 名前をその場で編集（自動名を変更）</text>
     <text x="140" y="388" text-anchor="middle" font-size="11" fill="#5c5c66">行を横スワイプ → 削除</text>
+    <text x="140" y="406" text-anchor="middle" font-size="11" fill="#5c5c66">長押しドラッグ → 並べ替え</text>
   </g>
 </svg>

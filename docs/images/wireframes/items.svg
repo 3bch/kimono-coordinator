@@ -54,17 +54,21 @@
       <rect x="210" y="308" width="36" height="20" rx="10" fill="#d7d7de" stroke="#9a9aa4"/>
       <circle cx="219" cy="318" r="7" fill="#ffffff" stroke="#9a9aa4"/>
     </g>
-    <!-- 行: ＋追加 -->
+    <text x="140" y="368" text-anchor="middle" font-size="11" fill="#5c5c66">薄い行 = 候補から外し中（トグル OFF）</text>
+    <text x="140" y="386" text-anchor="middle" font-size="11" fill="#5c5c66">長押しドラッグで並べ替え（＝スワイプ順）</text>
+    <text x="140" y="404" text-anchor="middle" font-size="11" fill="#5c5c66">追加は右下の ＋ FAB から（行は末尾に増える）</text>
+    <!-- 追加 FAB（タップで 写真 / 色 の 2 択が開いた状態） -->
     <g>
-      <rect x="20" y="352" width="240" height="52" rx="10" fill="#f1f1f4" stroke="#9a9aa4" stroke-dasharray="5 4"/>
-      <g stroke="#7a5c9e" stroke-width="3" stroke-linecap="round">
-        <line x1="46" y1="366" x2="46" y2="390"/>
-        <line x1="34" y1="378" x2="58" y2="378"/>
+      <rect x="188" y="418" width="64" height="28" rx="14" fill="#ffffff" stroke="#7a5c9e" stroke-width="1.5"/>
+      <text x="220" y="437" text-anchor="middle" font-size="11" fill="#2b2b33">色</text>
+      <rect x="188" y="452" width="64" height="28" rx="14" fill="#ffffff" stroke="#7a5c9e" stroke-width="1.5"/>
+      <text x="220" y="471" text-anchor="middle" font-size="11" fill="#2b2b33">写真</text>
+      <circle cx="228" cy="508" r="24" fill="#7a5c9e"/>
+      <g stroke="#ffffff" stroke-width="3" stroke-linecap="round">
+        <line x1="228" y1="496" x2="228" y2="520"/>
+        <line x1="216" y1="508" x2="240" y2="508"/>
       </g>
-      <text x="76" y="383" font-size="12" fill="#2b2b33">追加（写真 / 色）</text>
     </g>
-    <text x="140" y="434" text-anchor="middle" font-size="11" fill="#5c5c66">薄い行 = 候補から外し中（トグル OFF）</text>
-    <text x="140" y="452" text-anchor="middle" font-size="11" fill="#5c5c66">長押しドラッグで並べ替え（＝スワイプ順）</text>
     <text x="140" y="592" text-anchor="middle" font-size="13" fill="#5c5c66">一覧</text>
   </g>
   <!-- 名前の編集と削除 -->
