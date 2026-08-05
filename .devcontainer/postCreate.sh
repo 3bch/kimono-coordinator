@@ -4,7 +4,9 @@ set -euo pipefail
 
 git config pull.ff only
 
-curl -fsSL https://claude.ai/install.sh | bash
+# mise feature の trust は --verbose 固定で DEBUG ログが大量に出るため自前で実行する
+mise trust --yes
+mise install --yes
 
 mise exec -- pnpm install
 
