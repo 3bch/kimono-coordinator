@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 580" width="235" role="img" aria-label="ログイン画面のワイヤーフレーム">
+  <style>
+    text { font-family: "Hiragino Sans", "Noto Sans JP", system-ui, sans-serif; }
+  </style>
+  <rect width="300" height="580" fill="#ffffff"/>
+  <g transform="translate(10,10)">
+    <rect x="6" y="6" width="268" height="548" rx="28" fill="#ffffff" stroke="#2b2b33" stroke-width="2"/>
+    <text x="140" y="180" text-anchor="middle" font-size="17" font-weight="bold" fill="#2b2b33">Kimono Coordinator</text>
+    <text x="42" y="242" font-size="12" fill="#2b2b33">メール</text>
+    <rect x="42" y="252" width="196" height="34" rx="8" fill="#f1f1f4" stroke="#9a9aa4"/>
+    <text x="42" y="316" font-size="12" fill="#2b2b33">パスワード</text>
+    <rect x="42" y="326" width="196" height="34" rx="8" fill="#f1f1f4" stroke="#9a9aa4"/>
+    <rect x="76" y="392" width="128" height="38" rx="19" fill="#7a5c9e"/>
+    <text x="140" y="416" text-anchor="middle" font-size="14" fill="#ffffff">ログイン</text>
+  </g>
+</svg>

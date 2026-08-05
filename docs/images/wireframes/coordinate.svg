@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 885 620" width="700" role="img" aria-label="コーディネート画面のワイヤーフレーム">
+  <style>
+    text { font-family: "Hiragino Sans", "Noto Sans JP", system-ui, sans-serif; }
+  </style>
+  <rect width="885" height="620" fill="#ffffff"/>
+  <!-- 基本状態 -->
+  <g transform="translate(10,10)">
+    <rect x="6" y="6" width="268" height="548" rx="28" fill="#ffffff" stroke="#2b2b33" stroke-width="2"/>
+    <g stroke="#2b2b33" stroke-width="2.5" stroke-linecap="round">
+      <line x1="30" y1="38" x2="52" y2="38"/>
+      <line x1="30" y1="46" x2="52" y2="46"/>
+      <line x1="30" y1="54" x2="52" y2="54"/>
+    </g>
+    <rect x="192" y="30" width="60" height="30" rx="15" fill="#7a5c9e"/>
+    <text x="222" y="50" text-anchor="middle" font-size="13" fill="#ffffff">保存</text>
+    <g fill="#f1f1f4" stroke="#9a9aa4" stroke-width="1.5">
+      <path d="M140,120
+               L108,132 L48,150 L40,268 L78,258 L86,232
+               L88,470 L192,470 L194,232
+               L202,258 L240,268 L232,150 L172,132 Z"/>
+    </g>
+    <path d="M122,126 L140,196 L158,126" fill="none" stroke="#9a9aa4" stroke-width="1.5"/>
+    <rect x="88" y="268" width="104" height="46" fill="#e2e2e8" stroke="#9a9aa4" stroke-width="1.5"/>
+    <g stroke="#7a5c9e" stroke-width="2" fill="none" stroke-linecap="round">
+      <line x1="110" y1="291" x2="170" y2="291"/>
+      <path d="M118,285 L110,291 L118,297"/>
+      <path d="M162,285 L170,291 L162,297"/>
+    </g>
+    <text x="140" y="510" text-anchor="middle" font-size="11" fill="#5c5c66">部位を直接スワイプして</text>
+    <text x="140" y="526" text-anchor="middle" font-size="11" fill="#5c5c66">アイテムを切り替える</text>
+    <text x="140" y="592" text-anchor="middle" font-size="13" fill="#5c5c66">基本状態</text>
+  </g>
+  <!-- メニューを開いた状態 -->
+  <g transform="translate(305,10)">
+    <rect x="6" y="6" width="268" height="548" rx="28" fill="#ffffff" stroke="#2b2b33" stroke-width="2"/>
+    <g stroke="#2b2b33" stroke-width="2.5" stroke-linecap="round">
+      <line x1="30" y1="38" x2="52" y2="38"/>
+      <line x1="30" y1="46" x2="52" y2="46"/>
+      <line x1="30" y1="54" x2="52" y2="54"/>
+    </g>
+    <rect x="192" y="30" width="60" height="30" rx="15" fill="#7a5c9e" opacity=".35"/>
+    <text x="222" y="50" text-anchor="middle" font-size="13" fill="#ffffff">保存</text>
+    <g fill="#f1f1f4" stroke="#9a9aa4" stroke-width="1.5" opacity=".35">
+      <path d="M140,120 L108,132 L48,150 L40,268 L78,258 L86,232 L88,470 L192,470 L194,232 L202,258 L240,268 L232,150 L172,132 Z"/>
+      <rect x="88" y="268" width="104" height="46" fill="#e2e2e8"/>
+    </g>
+    <rect x="20" y="70" width="160" height="150" rx="10" fill="#ffffff" stroke="#2b2b33" stroke-width="1.5"/>
+    <text x="40" y="106" font-size="14" fill="#2b2b33">アイテム一覧</text>
+    <line x1="20" y1="120" x2="180" y2="120" stroke="#d7d7de"/>
+    <text x="40" y="156" font-size="14" fill="#2b2b33">保存コーデ一覧</text>
+    <line x1="20" y1="170" x2="180" y2="170" stroke="#d7d7de"/>
+    <text x="40" y="206" font-size="14" fill="#5c5c66">ログアウト</text>
+    <text x="140" y="592" text-anchor="middle" font-size="13" fill="#5c5c66">メニューを開いた状態</text>
+  </g>
+  <!-- 保存ダイアログ -->
+  <g transform="translate(600,10)">
+    <rect x="6" y="6" width="268" height="548" rx="28" fill="#ffffff" stroke="#2b2b33" stroke-width="2"/>
+    <rect x="8" y="8" width="264" height="544" rx="26" fill="#2b2b33" opacity=".25"/>
+    <rect x="34" y="200" width="212" height="140" rx="12" fill="#ffffff" stroke="#2b2b33" stroke-width="1.5"/>
+    <text x="52" y="234" font-size="13" fill="#2b2b33">名前</text>
+    <rect x="52" y="246" width="176" height="32" rx="6" fill="#f1f1f4" stroke="#9a9aa4"/>
+    <rect x="52" y="292" width="82" height="30" rx="15" fill="#ffffff" stroke="#9a9aa4"/>
+    <text x="93" y="312" text-anchor="middle" font-size="12" fill="#2b2b33">キャンセル</text>
+    <rect x="146" y="292" width="82" height="30" rx="15" fill="#7a5c9e"/>
+    <text x="187" y="312" text-anchor="middle" font-size="12" fill="#ffffff">保存</text>
+    <text x="140" y="592" text-anchor="middle" font-size="13" fill="#5c5c66">[保存] → 名前入力ダイアログ</text>
+  </g>
+</svg>

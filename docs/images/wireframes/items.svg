@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 590 620" width="470" role="img" aria-label="アイテム一覧画面のワイヤーフレーム">
+  <style>
+    text { font-family: "Hiragino Sans", "Noto Sans JP", system-ui, sans-serif; }
+  </style>
+  <rect width="590" height="620" fill="#ffffff"/>
+  <!-- 一覧 -->
+  <g transform="translate(10,10)">
+    <rect x="6" y="6" width="268" height="548" rx="28" fill="#ffffff" stroke="#2b2b33" stroke-width="2"/>
+    <path d="M40,38 L30,46 L40,54" fill="none" stroke="#2b2b33" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="140" y="51" text-anchor="middle" font-size="15" font-weight="bold" fill="#2b2b33">アイテム一覧</text>
+    <g font-size="11" fill="#2b2b33">
+      <rect x="20" y="70" width="46" height="26" rx="13" fill="#7a5c9e"/>
+      <text x="43" y="87" text-anchor="middle" fill="#ffffff">着物</text>
+      <rect x="72" y="70" width="46" height="26" rx="13" fill="#f1f1f4" stroke="#9a9aa4"/>
+      <text x="95" y="87" text-anchor="middle">半襟</text>
+      <rect x="124" y="70" width="40" height="26" rx="13" fill="#f1f1f4" stroke="#9a9aa4"/>
+      <text x="144" y="87" text-anchor="middle">帯</text>
+      <rect x="170" y="70" width="56" height="26" rx="13" fill="#f1f1f4" stroke="#9a9aa4"/>
+      <text x="198" y="87" text-anchor="middle">帯揚げ</text>
+      <text x="242" y="87" font-size="13" fill="#5c5c66">…</text>
+    </g>
+    <g>
+      <rect x="20" y="112" width="115" height="130" rx="10" fill="#ffffff" stroke="#9a9aa4"/>
+      <rect x="30" y="122" width="95" height="80" rx="6" fill="#f1f1f4" stroke="#9a9aa4"/>
+      <path d="M38,192 L62,164 L80,184 L94,170 L117,192" fill="none" stroke="#9a9aa4" stroke-width="1.5"/>
+      <circle cx="52" cy="142" r="7" fill="none" stroke="#9a9aa4" stroke-width="1.5"/>
+      <text x="77" y="228" text-anchor="middle" font-size="12" fill="#2b2b33">名前</text>
+    </g>
+    <g>
+      <rect x="145" y="112" width="115" height="130" rx="10" fill="#ffffff" stroke="#9a9aa4" stroke-dasharray="5 4"/>
+      <rect x="155" y="122" width="95" height="80" rx="6" fill="#f1f1f4"/>
+      <circle cx="202" cy="155" r="14" fill="none" stroke="#7a5c9e" stroke-width="3" stroke-dasharray="16 8" stroke-linecap="round"/>
+      <text x="202" y="192" text-anchor="middle" font-size="11" fill="#7a5c9e">処理中…</text>
+      <text x="202" y="228" text-anchor="middle" font-size="12" fill="#2b2b33">名前</text>
+    </g>
+    <g opacity=".4">
+      <rect x="20" y="252" width="115" height="130" rx="10" fill="#ffffff" stroke="#9a9aa4"/>
+      <rect x="30" y="262" width="95" height="80" rx="6" fill="#c9b8d8"/>
+      <text x="77" y="368" text-anchor="middle" font-size="12" fill="#2b2b33">名前</text>
+    </g>
+    <text x="77" y="398" text-anchor="middle" font-size="10" fill="#5c5c66">薄い表示 = 候補から外し中</text>
+    <g>
+      <rect x="145" y="252" width="115" height="130" rx="10" fill="#f1f1f4" stroke="#9a9aa4" stroke-dasharray="5 4"/>
+      <g stroke="#7a5c9e" stroke-width="3" stroke-linecap="round">
+        <line x1="202" y1="292" x2="202" y2="320"/>
+        <line x1="188" y1="306" x2="216" y2="306"/>
+      </g>
+      <text x="202" y="348" text-anchor="middle" font-size="12" fill="#2b2b33">追加</text>
+      <text x="202" y="366" text-anchor="middle" font-size="10" fill="#5c5c66">写真 / 色</text>
+    </g>
+    <text x="202" y="398" text-anchor="middle" font-size="10" fill="#5c5c66">「＋追加」は常に末尾</text>
+    <text x="140" y="440" text-anchor="middle" font-size="11" fill="#5c5c66">長押しドラッグで並べ替え</text>
+    <text x="140" y="456" text-anchor="middle" font-size="11" fill="#5c5c66">（＝コーディネートのスワイプ順）</text>
+    <text x="140" y="592" text-anchor="middle" font-size="13" fill="#5c5c66">一覧</text>
+  </g>
+  <!-- 編集シート -->
+  <g transform="translate(300,10)">
+    <rect x="6" y="6" width="268" height="548" rx="28" fill="#ffffff" stroke="#2b2b33" stroke-width="2"/>
+    <rect x="8" y="8" width="264" height="544" rx="26" fill="#2b2b33" opacity=".25"/>
+    <path d="M8,270 h264 v256 a26,26 0 0 1 -26,26 h-212 a26,26 0 0 1 -26,-26 Z" fill="#ffffff" stroke="#2b2b33" stroke-width="1.5"/>
+    <rect x="120" y="280" width="40" height="5" rx="2.5" fill="#d7d7de"/>
+    <text x="32" y="316" font-size="13" fill="#2b2b33">名前</text>
+    <rect x="90" y="298" width="158" height="30" rx="6" fill="#f1f1f4" stroke="#9a9aa4"/>
+    <text x="32" y="366" font-size="13" fill="#2b2b33">見た目</text>
+    <rect x="90" y="346" width="98" height="30" rx="15" fill="#ffffff" stroke="#9a9aa4"/>
+    <text x="139" y="366" text-anchor="middle" font-size="11" fill="#2b2b33">画像を差し替え</text>
+    <rect x="196" y="346" width="52" height="30" rx="15" fill="#ffffff" stroke="#9a9aa4"/>
+    <text x="222" y="366" text-anchor="middle" font-size="11" fill="#2b2b33">色</text>
+    <text x="32" y="418" font-size="13" fill="#2b2b33">コーディネート候補にする</text>
+    <rect x="204" y="404" width="44" height="22" rx="11" fill="#7a5c9e"/>
+    <circle cx="237" cy="415" r="8" fill="#ffffff"/>
+    <line x1="24" y1="446" x2="256" y2="446" stroke="#d7d7de"/>
+    <rect x="32" y="462" width="216" height="34" rx="17" fill="none" stroke="#c0392b"/>
+    <text x="140" y="484" text-anchor="middle" font-size="13" fill="#c0392b">削除</text>
+    <text x="140" y="592" text-anchor="middle" font-size="13" fill="#5c5c66">カードタップ → 編集シート</text>
+  </g>
+</svg>
