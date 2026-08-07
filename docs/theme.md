@@ -98,9 +98,33 @@ pnpm で導入し、`src/main.css` の `@import` に加える。現在の Figtre
 
 ## プレビューの作り方
 
-`design/theme/*.html` は Claude Design 上で外部通信なしに表示できるよう、
-フォントを**見本文のグリフだけにサブセット化して data URI で埋め込んでいる**。
-和文フォントは元が数 MB あるため、そのままでは埋め込めない。
+Claude Design へ送る HTML は生成物で、**直接編集しない**。編集するのは
+`design/templates/` の下で、次のコマンドで生成する。
 
-生成は fonttools（Python）で行う。プレビュー専用の措置であり、
-アプリ本体には関係しない（本体は @fontsource で導入する）。
+```sh
+uv run design/tools/build-previews.py
+```
+
+`design/` 以下の構成は次のとおり。
+
+| パス                                    | 役割                                                 |
+| --------------------------------------- | ---------------------------------------------------- |
+| `templates/partials/`                   | 共通パーツ（テーマのトークン定義、シルエットの SVG） |
+| `templates/theme/`                      | テーマ見本のテンプレート                             |
+| `templates/components/`                 | アプリ固有コンポーネントのテンプレート               |
+| `tools/`                                | ビルドスクリプト                                     |
+| `theme/` `components/` `thumbnail.html` | 生成物。Claude Design と同期する                     |
+
+ビルドがしていることは 2 つ。
+
+- `<!-- @include foo.html -->` を `templates/partials/foo.html` の内容に置き換える
+- フォントを**そのページに出てくるグリフだけへサブセット化し**、data URI で埋め込む。
+  Claude Design のプレビューは外部へ通信できず、和文フォントは元が数 MB あるため、
+  そのままでは埋め込めない
+
+依存（fonttools）はスクリプト先頭の PEP 723 で宣言してあり、uv が解決するので
+事前の準備は要らない。元の TTF は Google Fonts から取得して `design/tools/.fonts/`
+にキャッシュする（gitignore 済み）。
+
+いずれもプレビュー専用の措置であり、アプリ本体には関係しない
+（本体は @fontsource で導入する）。

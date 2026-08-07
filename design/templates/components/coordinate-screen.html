@@ -1,0 +1,244 @@
+<!-- @dsCard group="コーディネート" -->
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>コーディネート画面</title>
+    <!-- @include base-style.html -->
+    <style>
+      .silhouette {
+        --c-kimono: #c41e3a;
+        --c-haneri: #fbf7f0;
+        --c-obiage: #d9455f;
+        --c-obi: #c9a84c;
+        --c-obijime: #f5f5f5;
+        --c-obidome: #f0ede6;
+        --c-haori: #3a3a3a;
+        --c-obi-next: #460e44;
+      }
+
+      /* 端末の画面。シルエットが大部分を占め、常設要素はメニューと保存だけ */
+      .phone {
+        position: relative;
+        width: 300px;
+        height: 600px;
+        background: var(--background);
+        border: 1px solid var(--foreground);
+        border-radius: 28px;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      /* 左上のメニューボタン */
+      .menu-button {
+        position: absolute;
+        top: 16px;
+        left: 16px;
+        width: 40px;
+        height: 40px;
+        border: none;
+        border-radius: 999px;
+        background: transparent;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 5px;
+        cursor: pointer;
+      }
+      .menu-button span {
+        display: block;
+        width: 20px;
+        height: 2px;
+        border-radius: 2px;
+        background: var(--foreground);
+      }
+
+      /* 右上の保存ボタン。タップした瞬間に自動命名で 1 件保存される */
+      .save-button {
+        position: absolute;
+        top: 16px;
+        right: 16px;
+        font-family: inherit;
+        font-size: 14px;
+        font-weight: 700;
+        color: var(--primary-foreground);
+        background: var(--primary);
+        border: none;
+        border-radius: 999px;
+        padding: 9px 20px;
+        cursor: pointer;
+      }
+
+      /* メニュー。左上のボタンから開く */
+      .menu {
+        position: absolute;
+        top: 64px;
+        left: 16px;
+        width: 190px;
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        box-shadow: 0 8px 24px oklch(0.26 0.018 290 / 12%);
+        overflow: hidden;
+      }
+      .menu button {
+        display: block;
+        width: 100%;
+        text-align: left;
+        font-family: inherit;
+        font-size: 14px;
+        color: var(--foreground);
+        background: transparent;
+        border: none;
+        border-bottom: 1px solid var(--border);
+        padding: 13px 16px;
+        cursor: pointer;
+      }
+      .menu button:last-child {
+        border-bottom: none;
+        color: var(--muted-foreground);
+      }
+
+      /* メニューを開いている間は背後を控えめにする（操作は妨げない） */
+      .dimmed .silhouette,
+      .dimmed .save-button {
+        opacity: 0.35;
+      }
+
+      /* 保存直後の短いフィードバック */
+      .toast {
+        position: absolute;
+        left: 50%;
+        bottom: 28px;
+        transform: translateX(-50%);
+        white-space: nowrap;
+        font-size: 13px;
+        color: var(--accent-foreground);
+        background: var(--accent);
+        border-radius: 999px;
+        padding: 9px 18px;
+      }
+
+      /* 初回の空状態。シルエットの下にアイテム一覧への誘導を出す */
+      .empty {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 14px;
+      }
+      .empty .title {
+        font-family: "Kaisei Decol", serif;
+        font-weight: 700;
+        font-size: 17px;
+      }
+      .empty .desc {
+        font-size: 12px;
+        color: var(--muted-foreground);
+        text-align: center;
+        line-height: 1.8;
+      }
+      .empty .cta {
+        font-family: inherit;
+        font-size: 14px;
+        font-weight: 700;
+        color: var(--primary-foreground);
+        background: var(--primary);
+        border: none;
+        border-radius: var(--radius);
+        padding: 11px 22px;
+        cursor: pointer;
+      }
+      .empty .silhouette {
+        transform: scale(0.8);
+        transform-origin: top center;
+        margin-bottom: -80px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>コーディネート画面</h1>
+    <p class="lead">
+      起点になる画面。シルエットが大部分を占め、常設する要素はメニューと保存ボタンだけにする。
+      保存はタップした瞬間に日付ベースの自動名で 1 件記録され、画面はそのまま組み合わせを
+      試し続けられる（ダイアログもモードも作らない）。
+    </p>
+
+    <div class="cards">
+      <div class="case">
+        <div class="phone">
+          <button class="menu-button" type="button" aria-label="メニュー">
+            <span></span><span></span><span></span>
+          </button>
+          <button class="save-button" type="button">保存</button>
+          <!-- @include silhouette.html -->
+        </div>
+        <div class="caption">
+          <div class="name">基本状態</div>
+          <div class="desc">部位を直接スワイプしてアイテムを切り替える。</div>
+        </div>
+      </div>
+
+      <div class="case">
+        <div class="phone dimmed">
+          <button class="menu-button" type="button" aria-label="メニュー">
+            <span></span><span></span><span></span>
+          </button>
+          <button class="save-button" type="button">保存</button>
+          <!-- @include silhouette.html -->
+          <nav class="menu">
+            <button type="button">アイテム一覧</button>
+            <button type="button">保存コーデ一覧</button>
+            <button type="button">ログアウト</button>
+          </nav>
+        </div>
+        <div class="caption">
+          <div class="name">メニューを開いた状態</div>
+          <div class="desc">他の 2 画面へはここから行く。ログアウトもここに置く。</div>
+        </div>
+      </div>
+
+      <div class="case">
+        <div class="phone">
+          <button class="menu-button" type="button" aria-label="メニュー">
+            <span></span><span></span><span></span>
+          </button>
+          <button class="save-button" type="button">保存</button>
+          <!-- @include silhouette.html -->
+          <div class="toast">8/5 のコーデを保存しました</div>
+        </div>
+        <div class="caption">
+          <div class="name">保存した直後</div>
+          <div class="desc">
+            自動でついた名前を短く知らせる。操作は止めず、そのまま組み合わせを続けられる。
+            名前を変えたくなったら保存コーデ一覧で直す。
+          </div>
+        </div>
+      </div>
+
+      <div class="case">
+        <div class="phone">
+          <button class="menu-button" type="button" aria-label="メニュー">
+            <span></span><span></span><span></span>
+          </button>
+          <div class="empty unset-all">
+            <!-- @include silhouette.html -->
+            <div class="title">まだアイテムがありません</div>
+            <div class="desc">着物や帯を登録すると<br />ここで組み合わせを試せます</div>
+            <button class="cta" type="button">アイテムを登録する</button>
+          </div>
+        </div>
+        <div class="caption">
+          <div class="name">初回（全カテゴリが空）</div>
+          <div class="desc">
+            何も登録していないうちは保存ボタンを出さず、アイテム一覧への誘導だけを見せる。
+            シルエットは未選択の形で残し、これから何が並ぶのかを示す。
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

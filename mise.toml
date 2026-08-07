@@ -10,4 +10,5 @@ pnpm = "11"
 claude = "latest"
 "npm:@playwright/cli" = "0.1"
 "npm:ccusage" = "20"
+uv = "latest"
 

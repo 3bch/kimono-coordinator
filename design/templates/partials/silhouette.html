@@ -1,0 +1,99 @@
+<!-- シルエット 7 レイヤー。色は CSS 変数（--c-kimono など）で外から与える。
+     未選択のレイヤーは .unset を付けると薄い塗り＋破線の輪郭になる。
+     src/components/*Silhouette.tsx の SVG をそのまま写している -->
+<div class="silhouette">
+  <svg class="layer l-kimono" viewBox="0 0 1000 2000" xmlns="http://www.w3.org/2000/svg">
+    <path
+      fill-rule="evenodd"
+      fill="var(--c-kimono)"
+      d="
+      M 0500 0200 L 0650 0000 Q 0830 0053 0900 0200 L 1000 0467 L 1000 1333
+      Q 0870 1467 0855 1333 L 0855 1333 L 0855 0467 L 0850 0467 L 0850 1333
+      L 0820 2000 L 0300 2000 L 0300 1067 L 0350 0667 L 0380 0360 Z
+      M 0495 0200 L 0350 0000 Q 0170 0053 0100 0200 L 0000 0467 L 0000 1333
+      Q 0130 1467 0145 1333 L 0145 1333 L 0145 0467 L 0150 0467 L 0150 1333
+      L 0180 2000 L 0295 2000 L 0295 1067 L 0345 0667 L 0375 0360 Z
+      M 0850 1200 L 0850 1205 L 0150 1205 L 0150 1200 Z
+      M 0390 0360 L 0498 0422 L 0767 0060 L 0773 0060 L 0500 0428 L 0470 0735
+      L 0429 1067 L 0424 1067 L 0465 0735 L 0496 0426 L 0380 0360 Z
+      M 0233 0060 L 0416 0307 L 0413 0311 L 0227 0060 Z
+    "
+    />
+  </svg>
+  <svg class="layer l-haneri" viewBox="0 0 1000 2000" xmlns="http://www.w3.org/2000/svg">
+    <path
+      fill="var(--c-haneri)"
+      d="
+      M 0350 0000 L 0447 0134 C 0463 0115 0474 0106 0494 0091
+      C 0462 0067 0400 0028 0350 0000 Z
+    "
+    />
+    <path
+      fill="var(--c-haneri)"
+      d="
+      M 0650 0000 L 0500 0200 L 0495 0200 L 0452 0140
+      C 0488 0095 0590 0033 0650 0000 Z
+    "
+    />
+  </svg>
+  <svg
+    class="layer l-obiage"
+    viewBox="0 0 200 300"
+    preserveAspectRatio="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      fill="var(--c-obiage)"
+      d="
+      M 30 92 L 30 87.5 Q 30 85.5, 36 85.5 C 55 85.8, 72 87, 94 87
+      C 96.5 85.4, 103.5 85.4, 106 87 C 128 87, 145 85.8, 164 85.5
+      Q 170 85.5, 170 87.5 L 170 92 Z
+    "
+    />
+  </svg>
+  <svg
+    class="layer l-obi"
+    viewBox="0 0 200 300"
+    preserveAspectRatio="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <rect x="30" y="90" width="140" height="70" fill="var(--c-obi)" />
+  </svg>
+  <!-- スワイプ中に隣から入ってくる帯。.swiping のときだけ見せる -->
+  <svg
+    class="layer l-obi-next hidden"
+    viewBox="0 0 200 300"
+    preserveAspectRatio="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <rect x="30" y="90" width="140" height="70" fill="var(--c-obi-next)" />
+  </svg>
+  <svg
+    class="layer l-obijime"
+    viewBox="0 0 200 300"
+    preserveAspectRatio="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <rect x="30" y="123" width="140" height="4" fill="var(--c-obijime)" />
+  </svg>
+  <svg
+    class="layer l-obidome"
+    viewBox="0 0 200 300"
+    preserveAspectRatio="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <rect x="90" y="117.5" width="20" height="15" fill="var(--c-obidome)" />
+  </svg>
+  <svg class="layer l-haori" viewBox="0 0 1000 2000" xmlns="http://www.w3.org/2000/svg">
+    <path
+      fill-rule="evenodd"
+      fill="var(--c-haori)"
+      d="
+      M 0780 0059 Q 0861 0115 0903 0205 L 1000 0467 L 1000 1360
+      Q 0870 1490 0855 1360 L 0855 0480 L 0850 0480 L 0850 1400 L 0788 1400 Z
+      M 0220 0059 Q 0139 0115 0097 0205 L 0000 0467 L 0000 1360
+      Q 0130 1490 0145 1360 L 0145 0480 L 0150 0480 L 0150 1400 L 0212 1400 Z
+    "
+    />
+  </svg>
+</div>

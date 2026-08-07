@@ -1,0 +1,108 @@
+<!-- @dsCard group="コーディネート" -->
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>シルエット表示</title>
+    <!-- @include base-style.html -->
+    <style>
+      /* サンプルのアイテム色。実際はユーザーが登録したアイテムの色が入る */
+      .silhouette {
+        --c-kimono: #c41e3a;
+        --c-haneri: #fbf7f0;
+        --c-obiage: #d9455f;
+        --c-obi: #c9a84c;
+        --c-obijime: #f5f5f5;
+        --c-obidome: #f0ede6;
+        --c-haori: #3a3a3a;
+        --c-obi-next: #460e44;
+      }
+
+      /* スワイプ中の見え方。触っている部位だけが動き、隣のアイテムが入ってくる。
+     入ってくる帯が羽織の袖の裏に隠れないよう、羽織なしの組み合わせで示す */
+      .swiping .silhouette {
+        overflow: hidden;
+      }
+      .swiping .l-obi {
+        transform: translateX(-100px);
+      }
+      .swiping .l-obi-next {
+        display: block;
+        transform: translateX(100px);
+      }
+
+      .frame {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        padding: 12px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>シルエット表示</h1>
+    <p class="lead">
+      7 つのレイヤー（着物・半襟・帯揚げ・帯・帯締め・帯留め・羽織）を重ねて 1 人の姿にする。
+      切り替えは部位を直接スワイプする操作だけで行い、インジケーター列や選択情報は置かない。 形は
+      <code>src/components/*Silhouette.tsx</code> の SVG と同一。
+    </p>
+
+    <div class="cards">
+      <div class="case">
+        <div class="frame">
+          <!-- @include silhouette.html -->
+        </div>
+        <div class="caption">
+          <div class="name">基本</div>
+          <div class="desc">全カテゴリにアイテムが選ばれている状態。</div>
+        </div>
+      </div>
+
+      <div class="case">
+        <div class="frame">
+          <div class="haori-none">
+            <!-- @include silhouette.html -->
+          </div>
+        </div>
+        <div class="caption">
+          <div class="name">羽織なし</div>
+          <div class="desc">
+            羽織を着ていない状態。「なし」を選んだ結果なので、未選択とは違い何も描かない。
+          </div>
+        </div>
+      </div>
+
+      <div class="case">
+        <div class="frame">
+          <div class="unset-obidome unset-obiage">
+            <!-- @include silhouette.html -->
+          </div>
+        </div>
+        <div class="caption">
+          <div class="name">未選択のカテゴリがある</div>
+          <div class="desc">
+            帯留めと帯揚げをまだ登録していない状態。薄い塗りと破線の輪郭で位置だけ示し、
+            そこに何を置けるのかが分かるようにする。
+          </div>
+        </div>
+      </div>
+
+      <div class="case">
+        <div class="frame">
+          <div class="swiping haori-none">
+            <!-- @include silhouette.html -->
+          </div>
+        </div>
+        <div class="caption">
+          <div class="name">スワイプ中</div>
+          <div class="desc">
+            帯の上を横にドラッグしている途中。触っている帯だけが動き、隣の帯が入ってくる。
+            他のレイヤーは動かないので、どの部位を操作しているかが分かる
+            （入ってくる帯が袖に隠れないよう、羽織なしの組み合わせで示している）。
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

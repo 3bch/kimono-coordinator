@@ -1,0 +1,159 @@
+<!-- @dsCard group="Type" -->
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>タイポグラフィ — Kaisei Decol × Zen Maru Gothic</title>
+    <style>
+      @font-face {
+        font-family: "Kaisei Decol";
+        font-weight: 400;
+        src: url(data:font/woff2;base64,__WOFF2_KaiseiDecol-Regular__) format("woff2");
+      }
+      @font-face {
+        font-family: "Kaisei Decol";
+        font-weight: 700;
+        src: url(data:font/woff2;base64,__WOFF2_KaiseiDecol-Bold__) format("woff2");
+      }
+      @font-face {
+        font-family: "Zen Maru Gothic";
+        font-weight: 400;
+        src: url(data:font/woff2;base64,__WOFF2_ZenMaruGothic-Regular__) format("woff2");
+      }
+      @font-face {
+        font-family: "Zen Maru Gothic";
+        font-weight: 700;
+        src: url(data:font/woff2;base64,__WOFF2_ZenMaruGothic-Bold__) format("woff2");
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: "Zen Maru Gothic", sans-serif;
+        background: oklch(0.97 0.013 350);
+        color: oklch(0.26 0.018 290);
+        padding: 24px;
+      }
+      .head {
+        font-family: "Kaisei Decol", serif;
+      }
+      h1 {
+        font-size: 20px;
+        margin-bottom: 4px;
+        font-family: "Kaisei Decol", serif;
+      }
+      .note {
+        font-size: 12px;
+        color: oklch(0.52 0.025 320);
+        margin-bottom: 20px;
+      }
+      .spec {
+        background: oklch(0.99 0.007 350);
+        border: 1px solid oklch(0.9 0.018 345);
+        border-radius: 12px;
+        padding: 18px 20px;
+        margin-bottom: 14px;
+      }
+      .spec .label {
+        font-size: 11px;
+        color: oklch(0.52 0.025 320);
+        margin-bottom: 8px;
+      }
+      .display {
+        font-family: "Kaisei Decol", serif;
+        font-weight: 700;
+        font-size: 32px;
+      }
+      .title-lg {
+        font-family: "Kaisei Decol", serif;
+        font-weight: 700;
+        font-size: 22px;
+      }
+      .title-md {
+        font-family: "Kaisei Decol", serif;
+        font-weight: 400;
+        font-size: 18px;
+      }
+      .body-text {
+        font-size: 16px;
+        line-height: 1.9;
+      }
+      .body-strong {
+        font-size: 16px;
+        font-weight: 700;
+      }
+      .ui-label {
+        font-size: 14px;
+      }
+      .ui-caption {
+        font-size: 12px;
+        color: oklch(0.52 0.025 320);
+      }
+      .btn-row {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        margin-top: 6px;
+      }
+      .btn {
+        font-family: "Zen Maru Gothic", sans-serif;
+        font-size: 14px;
+        font-weight: 700;
+        border: none;
+        border-radius: 0.625rem;
+        padding: 9px 18px;
+        background: oklch(0.5 0.13 345);
+        color: oklch(0.98 0.01 350);
+      }
+      .num {
+        font-feature-settings: "tnum";
+      }
+    </style>
+  </head>
+  <body>
+    <h1>タイポグラフィ — 案2（採用ベース）</h1>
+    <p class="note">見出し: Kaisei Decol（装飾明朝）／ 本文・UI: Zen Maru Gothic（丸ゴシック）</p>
+
+    <div class="spec">
+      <div class="label">Display — Kaisei Decol 700 / 32px（アプリ名）</div>
+      <div class="display">着物コーディネーター</div>
+    </div>
+
+    <div class="spec">
+      <div class="label">Title L — Kaisei Decol 700 / 22px（画面タイトル）</div>
+      <div class="title-lg">アイテム一覧</div>
+    </div>
+
+    <div class="spec">
+      <div class="label">Title M — Kaisei Decol 400 / 18px（セクション見出し）</div>
+      <div class="title-md">保存したコーディネート</div>
+    </div>
+
+    <div class="spec">
+      <div class="label">Body — Zen Maru Gothic 400 / 16px・行間 1.9（本文）</div>
+      <p class="body-text">
+        薄桜の地に梅紫をひと差し。半襟と帯揚げの色を合わせ、帯締めと帯留めで遊ぶのが今日の気分。スワイプで組み合わせを試して、気に入ったら保存する。
+      </p>
+    </div>
+
+    <div class="spec">
+      <div class="label">Body Strong — Zen Maru Gothic 700 / 16px（強調）</div>
+      <div class="body-strong">8/5 のコーデを保存しました</div>
+    </div>
+
+    <div class="spec">
+      <div class="label">UI — Zen Maru Gothic 400 / 14px・12px（ラベル・キャプション）</div>
+      <div class="ui-label">着物　半襟　帯　帯揚げ　帯締め　帯留め　羽織</div>
+      <div class="ui-caption num">
+        処理中… ／ 透過に失敗しました ／ Kimono Coordinator 0123456789
+      </div>
+      <div class="btn-row">
+        <button class="btn" type="button">保存</button>
+        <span class="ui-caption">← ボタンは 700</span>
+      </div>
+    </div>
+  </body>
+</html>

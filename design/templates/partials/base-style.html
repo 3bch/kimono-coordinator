@@ -1,0 +1,135 @@
+<style>
+  /* テーマのフォント（見本文のグリフだけにサブセット化して埋め込み） */
+  @font-face {
+    font-family: "Kaisei Decol";
+    font-weight: 400;
+    src: url(data:font/woff2;base64,__WOFF2_KaiseiDecol-Regular__) format("woff2");
+  }
+  @font-face {
+    font-family: "Kaisei Decol";
+    font-weight: 700;
+    src: url(data:font/woff2;base64,__WOFF2_KaiseiDecol-Bold__) format("woff2");
+  }
+  @font-face {
+    font-family: "Zen Maru Gothic";
+    font-weight: 400;
+    src: url(data:font/woff2;base64,__WOFF2_ZenMaruGothic-Regular__) format("woff2");
+  }
+  @font-face {
+    font-family: "Zen Maru Gothic";
+    font-weight: 700;
+    src: url(data:font/woff2;base64,__WOFF2_ZenMaruGothic-Bold__) format("woff2");
+  }
+
+  /* テーマのトークン（docs/theme.md と design/theme/colors.html が正） */
+  :root {
+    --background: oklch(0.97 0.013 350);
+    --card: oklch(0.99 0.007 350);
+    --foreground: oklch(0.26 0.018 290);
+    --primary: oklch(0.5 0.13 345);
+    --primary-foreground: oklch(0.98 0.01 350);
+    --secondary: oklch(0.93 0.02 345);
+    --secondary-foreground: oklch(0.32 0.03 320);
+    --muted: oklch(0.94 0.016 345);
+    --muted-foreground: oklch(0.52 0.025 320);
+    --accent: oklch(0.9 0.05 350);
+    --accent-foreground: oklch(0.35 0.09 340);
+    --destructive: oklch(0.55 0.21 12);
+    --border: oklch(0.9 0.018 345);
+    --input: oklch(0.9 0.018 345);
+    --ring: oklch(0.5 0.13 345);
+    --radius: 0.625rem;
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: "Zen Maru Gothic", sans-serif;
+    background: var(--background);
+    color: var(--foreground);
+    padding: 24px;
+  }
+
+  h1 {
+    font-family: "Kaisei Decol", serif;
+    font-weight: 700;
+    font-size: 20px;
+    margin-bottom: 4px;
+  }
+
+  .lead {
+    font-size: 12px;
+    color: var(--muted-foreground);
+    margin-bottom: 20px;
+    line-height: 1.8;
+  }
+
+  /* カードを横に並べる。1 枚ごとに状態の名前と補足を添える */
+  .cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    align-items: flex-start;
+  }
+  .case {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .case > .caption {
+    max-width: 300px;
+  }
+  .caption .name {
+    font-size: 13px;
+    font-weight: 700;
+  }
+  .caption .desc {
+    font-size: 11px;
+    color: var(--muted-foreground);
+    line-height: 1.7;
+  }
+
+  /* シルエット。KimonoView と同じ 200x400 の比率で重ねる */
+  .silhouette {
+    position: relative;
+    width: 200px;
+    height: 400px;
+  }
+  .layer {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  /* 未選択のカテゴリ。薄い塗りと破線の輪郭で「まだ何も無い」ことを示す。
+     祖先に .unset-<部位> を付けると、そのレイヤーだけが未選択の見た目になる */
+  .unset-kimono .l-kimono path,
+  .unset-haneri .l-haneri path,
+  .unset-obiage .l-obiage path,
+  .unset-obi .l-obi rect,
+  .unset-obijime .l-obijime rect,
+  .unset-obidome .l-obidome rect,
+  .unset-haori .l-haori path,
+  .unset-all .layer path,
+  .unset-all .layer rect {
+    fill: var(--muted);
+    stroke: var(--muted-foreground);
+    stroke-width: 1.25;
+    stroke-dasharray: 4 3;
+    vector-effect: non-scaling-stroke;
+  }
+
+  /* 羽織を着ていない状態。「なし」を選んだ結果なので何も描かない */
+  .haori-none .l-haori {
+    display: none;
+  }
+
+  .layer.hidden {
+    display: none;
+  }
+</style>
