@@ -32,12 +32,14 @@ RUN bash -euo pipefail -s <<'EOF'
   rm -rf /var/lib/apt/lists/*
 EOF
 
-# mise と Playwright 関連のボリュームのマウント先の所有者が vscode となるよう事前に作成しておく
+# mise・uv・Playwright 関連のボリュームのマウント先の所有者が vscode となるよう事前に作成しておく
 RUN bash -euo pipefail -s <<'EOF'
   mkdir -p /home/vscode/.local/share/mise
+  mkdir -p /home/vscode/.local/share/uv
   chown -R vscode:vscode /home/vscode/.local
 
   mkdir -p /home/vscode/.cache/mise
+  mkdir -p /home/vscode/.cache/uv
   mkdir -p /home/vscode/.cache/ms-playwright
   chown -R vscode:vscode /home/vscode/.cache
 EOF
