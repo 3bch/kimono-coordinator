@@ -1,0 +1,310 @@
+<style>
+  /* 2 つの一覧で共通の作り。アイテム一覧と保存コーデ一覧は同じ操作体系にするため、
+     行・スワイプ削除・ドラッグの見た目を揃える（docs/wireframes.md）*/
+
+  .phone {
+    position: relative;
+    width: 300px;
+    height: 600px;
+    background: var(--background);
+    border: 1px solid var(--foreground);
+    border-radius: 28px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* 画面上部。戻る矢印とタイトルだけ */
+  .appbar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 16px 16px 10px;
+    flex: none;
+  }
+  .appbar .back {
+    width: 20px;
+    height: 20px;
+    flex: none;
+  }
+  .appbar .title {
+    font-family: "Kaisei Decol", serif;
+    font-weight: 700;
+    font-size: 16px;
+  }
+
+  /* カテゴリチップ列。7 種固定で、入りきらない分は横スクロール */
+  .chips {
+    display: flex;
+    gap: 6px;
+    padding: 0 16px 12px;
+    overflow-x: auto;
+    flex: none;
+  }
+  .chip {
+    font-size: 12px;
+    padding: 5px 13px;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    background: var(--card);
+    color: var(--muted-foreground);
+    white-space: nowrap;
+  }
+  .chip.on {
+    background: var(--accent);
+    color: var(--accent-foreground);
+    border-color: var(--accent);
+    font-weight: 700;
+  }
+
+  /* 1 列リスト。並び順がコーディネート画面のスワイプ順になる */
+  .rows {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 0 16px;
+    overflow: hidden;
+  }
+  .row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 8px 12px;
+    position: relative;
+  }
+  .thumb {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    flex: none;
+  }
+  .row .name {
+    flex: 1;
+    font-size: 13px;
+    min-width: 0;
+  }
+  .row .sub {
+    font-size: 10px;
+    color: var(--muted-foreground);
+  }
+
+  /* コーディネート候補のトグル。外した行は薄く表示する */
+  .toggle {
+    width: 36px;
+    height: 20px;
+    border-radius: 999px;
+    background: var(--primary);
+    position: relative;
+    flex: none;
+  }
+  .toggle::after {
+    content: "";
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    width: 16px;
+    height: 16px;
+    border-radius: 999px;
+    background: var(--card);
+  }
+  .row.off {
+    opacity: 0.45;
+  }
+  .row.off .toggle {
+    background: var(--input);
+  }
+  .row.off .toggle::after {
+    right: auto;
+    left: 2px;
+  }
+
+  /* 名前のその場編集 */
+  .name-edit {
+    flex: 1;
+    font-size: 13px;
+    border: 1.5px solid var(--ring);
+    border-radius: 6px;
+    padding: 5px 8px;
+    background: var(--card);
+    position: relative;
+  }
+  .name-edit::after {
+    content: "";
+    position: absolute;
+    top: 5px;
+    bottom: 5px;
+    width: 1.5px;
+    background: var(--ring);
+    margin-left: 1px;
+  }
+
+  /* 横スワイプで出る削除ボタン。行の背後に置き、行をずらして見せる */
+  .swipe {
+    position: relative;
+  }
+  .swipe .delete {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 72px;
+    border-radius: var(--radius);
+    background: var(--destructive);
+    color: var(--primary-foreground);
+    font-size: 12px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .swipe .row {
+    transform: translateX(-78px);
+  }
+
+  /* 長押しドラッグで並べ替え中の行 */
+  .row.dragging {
+    box-shadow: 0 8px 20px oklch(0.26 0.018 290 / 18%);
+    transform: scale(1.02);
+    border-color: var(--ring);
+  }
+
+  /* 処理中の行。透過が終わるまでの 20〜30 秒、他の操作は妨げない */
+  .row.processing {
+    border-style: dashed;
+  }
+  .spinner {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    flex: none;
+    background: var(--muted);
+    position: relative;
+  }
+  .spinner::after {
+    content: "";
+    position: absolute;
+    inset: 9px;
+    border-radius: 999px;
+    border: 2.5px solid var(--primary);
+    border-right-color: transparent;
+    border-bottom-color: transparent;
+  }
+
+  /* 透過に失敗した行。行の上で復帰できるようにする */
+  .row.failed {
+    border-color: var(--destructive);
+  }
+  .row .actions {
+    display: flex;
+    gap: 6px;
+    margin-top: 4px;
+  }
+  .row .actions button {
+    font-family: inherit;
+    font-size: 10px;
+    white-space: nowrap;
+    border: 1px solid var(--border);
+    background: var(--card);
+    color: var(--foreground);
+    border-radius: 999px;
+    padding: 3px 9px;
+    cursor: pointer;
+  }
+
+  /* 追加の FAB。スクロール位置に関係なく常に見える */
+  .fab {
+    position: absolute;
+    right: 16px;
+    bottom: 16px;
+    width: 52px;
+    height: 52px;
+    border: none;
+    border-radius: 999px;
+    background: var(--primary);
+    color: var(--primary-foreground);
+    font-size: 24px;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 6px 16px oklch(0.26 0.018 290 / 20%);
+    cursor: pointer;
+  }
+  .fab-options {
+    position: absolute;
+    right: 16px;
+    bottom: 80px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .fab-options button {
+    font-family: inherit;
+    font-size: 12px;
+    width: 84px;
+    border: 1.5px solid var(--primary);
+    background: var(--card);
+    color: var(--foreground);
+    border-radius: 999px;
+    padding: 7px 0;
+    cursor: pointer;
+  }
+
+  /* 空状態。案内だけを出す */
+  .empty-note {
+    padding: 40px 24px;
+    text-align: center;
+    font-size: 12px;
+    color: var(--muted-foreground);
+    line-height: 1.9;
+  }
+
+  /* 保存コーデ行のプレビュー。シルエットをそのまま縮小して使う */
+  .mini {
+    width: 30px;
+    height: 60px;
+    flex: none;
+    overflow: hidden;
+  }
+  .mini .silhouette {
+    transform: scale(0.15);
+    transform-origin: top left;
+  }
+
+  /* 名前を編集する鉛筆ボタン。行タップの「反映」と衝突させないため */
+  .pencil {
+    width: 28px;
+    height: 28px;
+    flex: none;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+  }
+
+  h2 {
+    font-family: "Kaisei Decol", serif;
+    font-weight: 400;
+    font-size: 17px;
+    margin: 28px 0 4px;
+  }
+  .section-lead {
+    font-size: 12px;
+    color: var(--muted-foreground);
+    margin-bottom: 16px;
+    line-height: 1.8;
+  }
+
+  /* 行だけを見せるカード */
+  .row-case {
+    width: 300px;
+    background: var(--background);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 14px;
+    /* スワイプでずれた行が画面端で切れる様子を、カードの縁で再現する */
+    overflow: hidden;
+  }
+</style>

@@ -1,0 +1,233 @@
+<!-- @dsCard group="保存コーデ一覧" -->
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>保存コーデ一覧</title>
+    <!-- @include base-style.html -->
+    <!-- @include list-style.html -->
+    <style>
+      /* プレビューに使うサンプルの組み合わせ */
+      .c1 {
+        --c-kimono: #c41e3a;
+        --c-haneri: #fbf7f0;
+        --c-obiage: #d9455f;
+        --c-obi: #c9a84c;
+        --c-obijime: #f5f5f5;
+        --c-obidome: #f0ede6;
+        --c-haori: #3a3a3a;
+      }
+      .c2 {
+        --c-kimono: #264348;
+        --c-haneri: #ede3d0;
+        --c-obiage: #8fc1d4;
+        --c-obi: #a0a0a0;
+        --c-obijime: #d4af37;
+        --c-obidome: #f0ede6;
+        --c-haori: #7a2f3b;
+      }
+      .c3 {
+        --c-kimono: #8db255;
+        --c-haneri: #f4c2c8;
+        --c-obiage: #b79fcb;
+        --c-obi: #460e44;
+        --c-obijime: #1a1a1a;
+        --c-obidome: #e8d5a3;
+        --c-haori: #888e7e;
+      }
+      .c4 {
+        --c-kimono: #a388c4;
+        --c-haneri: #8fc5c0;
+        --c-obiage: #a8c97f;
+        --c-obi: #e24d3d;
+        --c-obijime: #7b287d;
+        --c-obidome: #f0ede6;
+        --c-haori: #5c6b73;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>保存コーデ一覧</h1>
+    <p class="lead">
+      保存した組み合わせを見る画面。行をタップするとその内容をコーディネート画面に流し込んで戻る。
+      アイテム一覧と同じ 1 列リストにし、インライン編集・横スワイプ削除・長押しドラッグを共通の
+      操作にする。ただし<strong>名前編集の入口だけは鉛筆ボタンにする</strong>（行タップが
+      「反映して戻る」の主操作なので、誤タップで画面が遷移するのを避けるため）。
+    </p>
+
+    <h2>画面</h2>
+    <div class="cards">
+      <div class="case">
+        <div class="phone">
+          <div class="appbar">
+            <svg class="back" viewBox="0 0 20 20" fill="none">
+              <path
+                d="M12 4 L6 10 L12 16"
+                stroke="var(--foreground)"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+            <span class="title">保存コーデ一覧</span>
+          </div>
+          <div class="rows">
+            <div class="row">
+              <div class="mini c1">
+                <!-- @include silhouette.html -->
+              </div>
+              <span class="name">8/5 のコーデ</span>
+              <button class="pencil" type="button" aria-label="名前を変える">
+                <svg viewBox="0 0 20 20" fill="none">
+                  <path
+                    d="M4 16 L4.5 12.5 L13 4 L16 7 L7.5 15.5 Z"
+                    stroke="var(--muted-foreground)"
+                    stroke-width="1.4"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </button>
+            </div>
+            <div class="row">
+              <div class="mini c2">
+                <!-- @include silhouette.html -->
+              </div>
+              <span class="name">7/28 のコーデ</span>
+              <button class="pencil" type="button" aria-label="名前を変える">
+                <svg viewBox="0 0 20 20" fill="none">
+                  <path
+                    d="M4 16 L4.5 12.5 L13 4 L16 7 L7.5 15.5 Z"
+                    stroke="var(--muted-foreground)"
+                    stroke-width="1.4"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </button>
+            </div>
+            <div class="row">
+              <div class="mini c3">
+                <!-- @include silhouette.html -->
+              </div>
+              <span class="name">お茶会</span>
+              <button class="pencil" type="button" aria-label="名前を変える">
+                <svg viewBox="0 0 20 20" fill="none">
+                  <path
+                    d="M4 16 L4.5 12.5 L13 4 L16 7 L7.5 15.5 Z"
+                    stroke="var(--muted-foreground)"
+                    stroke-width="1.4"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="caption">
+          <div class="name">一覧</div>
+          <div class="desc">
+            行はプレビューと名前。名前は保存時の自動名（例: 8/5 のコーデ）で、
+            変えたければ鉛筆から直す。新規保存は先頭に追加される（最新が上）。
+          </div>
+        </div>
+      </div>
+
+      <div class="case">
+        <div class="phone">
+          <div class="appbar">
+            <svg class="back" viewBox="0 0 20 20" fill="none">
+              <path
+                d="M12 4 L6 10 L12 16"
+                stroke="var(--foreground)"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+            <span class="title">保存コーデ一覧</span>
+          </div>
+          <p class="empty-note">
+            まだ保存したコーデがありません<br />
+            コーディネート画面で保存すると<br />
+            ここに並びます
+          </p>
+        </div>
+        <div class="caption">
+          <div class="name">空状態</div>
+          <div class="desc">案内だけを出す。ここから登録する導線は持たない。</div>
+        </div>
+      </div>
+    </div>
+
+    <h2>行の状態</h2>
+    <p class="section-lead">
+      アイテム一覧と同じ操作体系。片方で覚えた操作がもう片方でもそのまま通用するようにする。
+    </p>
+    <div class="cards">
+      <div class="case">
+        <div class="row-case">
+          <div class="row">
+            <div class="mini c1">
+              <!-- @include silhouette.html -->
+            </div>
+            <div class="name-edit">8/5 のコーデ</div>
+          </div>
+        </div>
+        <div class="caption">
+          <div class="name">鉛筆から名前を編集</div>
+          <div class="desc">
+            鉛筆ボタンをタップするとその場で入力になる。行タップの「反映して戻る」と
+            衝突させないための入口。
+          </div>
+        </div>
+      </div>
+
+      <div class="case">
+        <div class="row-case">
+          <div class="swipe">
+            <span class="delete">削除</span>
+            <div class="row">
+              <div class="mini c4">
+                <!-- @include silhouette.html -->
+              </div>
+              <span class="name">7/20 のコーデ</span>
+            </div>
+          </div>
+        </div>
+        <div class="caption">
+          <div class="name">横スワイプで削除</div>
+          <div class="desc">
+            上書き更新は持たない。中身を差し替えたいときは新しく保存して古い方を消す。
+          </div>
+        </div>
+      </div>
+
+      <div class="case">
+        <div class="row-case">
+          <div class="row dragging">
+            <div class="mini c2">
+              <!-- @include silhouette.html -->
+            </div>
+            <span class="name">7/28 のコーデ</span>
+            <button class="pencil" type="button" aria-label="名前を変える">
+              <svg viewBox="0 0 20 20" fill="none">
+                <path
+                  d="M4 16 L4.5 12.5 L13 4 L16 7 L7.5 15.5 Z"
+                  stroke="var(--muted-foreground)"
+                  stroke-width="1.4"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div class="caption">
+          <div class="name">長押しドラッグ中</div>
+          <div class="desc">
+            並べ替えられるが、こちらの並び順は表示上の整理だけで、何かの動作には影響しない。
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,287 @@
+<!-- @dsCard group="アイテム一覧" -->
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>アイテム一覧</title>
+    <!-- @include base-style.html -->
+    <!-- @include list-style.html -->
+  </head>
+  <body>
+    <h1>アイテム一覧</h1>
+    <p class="lead">
+      所有アイテムをカテゴリ別に見る画面。登録・名前の変更・削除・並べ替えを、すべてこの一覧の中で
+      完結させる（登録専用の画面や編集シートは作らない）。
+      <strong>行の並び順がコーディネート画面のスワイプ順になる。</strong>
+    </p>
+
+    <h2>画面</h2>
+    <div class="cards">
+      <div class="case">
+        <div class="phone">
+          <div class="appbar">
+            <svg class="back" viewBox="0 0 20 20" fill="none">
+              <path
+                d="M12 4 L6 10 L12 16"
+                stroke="var(--foreground)"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+            <span class="title">アイテム一覧</span>
+          </div>
+          <div class="chips">
+            <span class="chip on">着物</span>
+            <span class="chip">半襟</span>
+            <span class="chip">帯</span>
+            <span class="chip">帯揚げ</span>
+            <span class="chip">帯締め</span>
+          </div>
+          <div class="rows">
+            <div class="row">
+              <div class="thumb" style="background: #c41e3a"></div>
+              <span class="name">紅色</span>
+              <span class="toggle"></span>
+            </div>
+            <div class="row">
+              <div class="thumb" style="background: #264348"></div>
+              <span class="name">藍色</span>
+              <span class="toggle"></span>
+            </div>
+            <div class="row">
+              <svg class="thumb" viewBox="0 0 36 36">
+                <rect width="36" height="36" rx="8" fill="var(--muted)" />
+                <circle
+                  cx="12"
+                  cy="13"
+                  r="3"
+                  fill="none"
+                  stroke="var(--muted-foreground)"
+                  stroke-width="1.5"
+                />
+                <path
+                  d="M6 28 L15 17 L21 23 L25 19 L31 28 Z"
+                  fill="none"
+                  stroke="var(--muted-foreground)"
+                  stroke-width="1.5"
+                  stroke-linejoin="round"
+                />
+              </svg>
+              <span class="name">母の付け下げ</span>
+              <span class="toggle"></span>
+            </div>
+            <div class="row off">
+              <div class="thumb" style="background: #8db255"></div>
+              <span class="name">若草色</span>
+              <span class="toggle"></span>
+            </div>
+          </div>
+          <button class="fab" type="button" aria-label="追加">＋</button>
+        </div>
+        <div class="caption">
+          <div class="name">一覧</div>
+          <div class="desc">
+            カテゴリはチップで切り替える。行はサムネイル・名前・候補トグルの 1 列。
+            薄い行は候補から外したもので、一覧には残るがコーディネート画面のスワイプ候補には出ない。
+          </div>
+        </div>
+      </div>
+
+      <div class="case">
+        <div class="phone">
+          <div class="appbar">
+            <svg class="back" viewBox="0 0 20 20" fill="none">
+              <path
+                d="M12 4 L6 10 L12 16"
+                stroke="var(--foreground)"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+            <span class="title">アイテム一覧</span>
+          </div>
+          <div class="chips">
+            <span class="chip on">着物</span>
+            <span class="chip">半襟</span>
+            <span class="chip">帯</span>
+            <span class="chip">帯揚げ</span>
+            <span class="chip">帯締め</span>
+          </div>
+          <div class="rows">
+            <div class="row">
+              <div class="thumb" style="background: #c41e3a"></div>
+              <span class="name">紅色</span>
+              <span class="toggle"></span>
+            </div>
+            <div class="row">
+              <div class="thumb" style="background: #264348"></div>
+              <span class="name">藍色</span>
+              <span class="toggle"></span>
+            </div>
+          </div>
+          <div class="fab-options">
+            <button type="button">色</button>
+            <button type="button">写真</button>
+          </div>
+          <button class="fab" type="button" aria-label="閉じる">＋</button>
+        </div>
+        <div class="caption">
+          <div class="name">FAB を開いた状態</div>
+          <div class="desc">
+            ＋ をタップすると「写真 / 色」の 2 択がその場に開く。写真は OS のピッカー、
+            色はカラーピッカーに続き、決めた瞬間に自動名の行が末尾に増える（画面遷移はしない）。
+          </div>
+        </div>
+      </div>
+
+      <div class="case">
+        <div class="phone">
+          <div class="appbar">
+            <svg class="back" viewBox="0 0 20 20" fill="none">
+              <path
+                d="M12 4 L6 10 L12 16"
+                stroke="var(--foreground)"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+            <span class="title">アイテム一覧</span>
+          </div>
+          <div class="chips">
+            <span class="chip">着物</span>
+            <span class="chip on">帯留め</span>
+            <span class="chip">羽織</span>
+          </div>
+          <p class="empty-note">
+            まだ帯留めがありません<br />
+            右下の ＋ から登録できます
+          </p>
+          <button class="fab" type="button" aria-label="追加">＋</button>
+        </div>
+        <div class="caption">
+          <div class="name">空のカテゴリ</div>
+          <div class="desc">案内と FAB だけが見える状態。</div>
+        </div>
+      </div>
+    </div>
+
+    <h2>行の状態</h2>
+    <p class="section-lead">
+      行の上で完結させるため、状態は行の見た目だけで表す。別画面もシートも開かない。
+    </p>
+    <div class="cards">
+      <div class="case">
+        <div class="row-case">
+          <div class="row">
+            <div class="thumb" style="background: #c41e3a"></div>
+            <div class="name-edit">紅色</div>
+            <span class="toggle"></span>
+          </div>
+        </div>
+        <div class="caption">
+          <div class="name">名前をその場で編集</div>
+          <div class="desc">
+            名前をタップすると入力になる。行タップに他の意味がないので直接編集に入れる。
+            画像や色の差し替えは無い（直したいときは削除して追加し直す）。
+          </div>
+        </div>
+      </div>
+
+      <div class="case">
+        <div class="row-case">
+          <div class="swipe">
+            <span class="delete">削除</span>
+            <div class="row">
+              <div class="thumb" style="background: #a388c4"></div>
+              <span class="name">藤色</span>
+            </div>
+          </div>
+        </div>
+        <div class="caption">
+          <div class="name">横スワイプで削除</div>
+          <div class="desc">2 つの一覧で共通の操作にする。</div>
+        </div>
+      </div>
+
+      <div class="case">
+        <div class="row-case">
+          <div class="row dragging">
+            <div class="thumb" style="background: #f8b500"></div>
+            <span class="name">山吹色</span>
+            <span class="toggle"></span>
+          </div>
+        </div>
+        <div class="caption">
+          <div class="name">長押しドラッグ中</div>
+          <div class="desc">
+            並べ替えモードは作らず、その場で入れ替える。この並び順がスワイプ順になる。
+          </div>
+        </div>
+      </div>
+
+      <div class="case">
+        <div class="row-case">
+          <div class="row processing">
+            <div class="spinner"></div>
+            <div class="name">
+              着物 5
+              <div class="sub">処理中…</div>
+            </div>
+          </div>
+        </div>
+        <div class="caption">
+          <div class="name">処理中（背景透過）</div>
+          <div class="desc">
+            写真を選んだ瞬間に行が増え、透過は裏で走る（20〜30 秒）。この間も一覧の閲覧・別アイテムの
+            追加・コーディネートへの移動を続けられる。完了するまでスワイプ候補には出さない。
+          </div>
+        </div>
+      </div>
+
+      <div class="case">
+        <div class="row-case">
+          <div class="row failed">
+            <svg class="thumb" viewBox="0 0 36 36">
+              <rect width="36" height="36" rx="8" fill="var(--muted)" />
+              <circle
+                cx="12"
+                cy="13"
+                r="3"
+                fill="none"
+                stroke="var(--muted-foreground)"
+                stroke-width="1.5"
+              />
+              <path
+                d="M6 28 L15 17 L21 23 L25 19 L31 28 Z"
+                fill="none"
+                stroke="var(--muted-foreground)"
+                stroke-width="1.5"
+                stroke-linejoin="round"
+              />
+            </svg>
+            <div class="name">
+              帯留め 3
+              <div class="sub">透過に失敗しました</div>
+              <div class="actions">
+                <button type="button">やり直す</button>
+                <button type="button">元画像で使う</button>
+                <button type="button">削除</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="caption">
+          <div class="name">透過に失敗</div>
+          <div class="desc">
+            行の上で復帰できるようにする。やり直す・元画像で使う・削除の 3 つを行内に置き、
+            失敗したまま放置されないようにする。
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
