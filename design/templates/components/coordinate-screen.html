@@ -123,7 +123,7 @@
         padding: 9px 18px;
       }
 
-      /* 初回だけ出す案内文。3 案の比較用 */
+      /* ゴーストがある間ずっと出す案内文。登録が一通り済めば自然に消える */
       .hint {
         position: absolute;
         left: 0;
@@ -211,55 +211,14 @@
 
     </div>
 
-    <h2>初回（全カテゴリが 0 点）の伝え方</h2>
+    <h2>ゴーストがあるとき</h2>
     <p class="section-lead">
       初回も専用の画面にはせず、同じ画面のままゴーストが並ぶだけにする。保存ボタンも出したまま
-      にする（中身の無い記録ができるだけで、消せばよい）。
-      残る論点は<strong>ゴーストがタップできると気づけるか</strong>で、次の 3 案を比べる。
+      にする（中身の無い記録ができるだけで、消せばよい）。 ゴーストがタップできると気づけるよう、
+      <strong>ゴーストが 1 つでもある間は案内文を出す</strong>。 出す条件がゴーストの有無そのもの
+      なので、初回だけの特別な作りにはならない。
     </p>
     <div class="cards">
-      <div class="case">
-        <div class="phone">
-          <button class="menu-button" type="button" aria-label="メニュー">
-            <span></span><span></span><span></span>
-          </button>
-          <button class="save-button" type="button">保存</button>
-          <div
-            class="unset-kimono unset-haneri unset-obiage unset-obi unset-obijime none-haori none-obidome"
-          >
-            <!-- @include silhouette.html -->
-          </div>
-        </div>
-        <div class="caption">
-          <div class="name">1. ゴーストのみ</div>
-          <div class="desc">
-            規則そのまま。何も足さない。破線の枠は「埋められる場所」として広く使われる表現でも
-            あるので、これで足りる可能性はある。
-          </div>
-        </div>
-      </div>
-
-      <div class="case">
-        <div class="phone">
-          <button class="menu-button" type="button" aria-label="メニュー">
-            <span></span><span></span><span></span>
-          </button>
-          <button class="save-button" type="button">保存</button>
-          <div
-            class="show-plus unset-kimono unset-haneri unset-obiage unset-obi unset-obijime none-haori none-obidome"
-          >
-            <!-- @include silhouette.html -->
-          </div>
-        </div>
-        <div class="caption">
-          <div class="name">2. ＋ 記号</div>
-          <div class="desc">
-            ゴーストの見た目の一部なので、画面の状態による分岐にならない。あとで 0 点に戻った
-            ときにも効く。細い帯揚げ・帯締めには入らないため、着物と帯にだけ置いている。
-          </div>
-        </div>
-      </div>
-
       <div class="case">
         <div class="phone">
           <button class="menu-button" type="button" aria-label="メニュー">
@@ -274,10 +233,30 @@
           <p class="hint">薄い部分をタップすると登録できます</p>
         </div>
         <div class="caption">
-          <div class="name">3. 案内文</div>
+          <div class="name">初回（全カテゴリが 0 点）</div>
           <div class="desc">
-            何が起きるかまで言葉で説明できる。ただし全カテゴリ 0 点のときだけという分岐を持ち、
-            一度登録すると二度と出ないため、あとで 0 点に戻ったときには助けにならない。
+            着物から帯締めまではゴースト、羽織と帯留めは何も描かない。 見出しや専用の登録ボタンは
+            置かず、案内文だけを添える。
+          </div>
+        </div>
+      </div>
+
+      <div class="case">
+        <div class="phone">
+          <button class="menu-button" type="button" aria-label="メニュー">
+            <span></span><span></span><span></span>
+          </button>
+          <button class="save-button" type="button">保存</button>
+          <div class="unset-obiage none-haori none-obidome">
+            <!-- @include silhouette.html -->
+          </div>
+          <p class="hint">薄い部分をタップすると登録できます</p>
+        </div>
+        <div class="caption">
+          <div class="name">一部だけ未登録（帯揚げ）</div>
+          <div class="desc">
+            ゴーストが 1 つでも残っていれば案内文は出続ける。 5 つのカテゴリを登録し終えれば
+            ゴーストが消え、案内文も自然に消える （羽織と帯留めはゴーストを出さないので影響しない）。
           </div>
         </div>
       </div>
