@@ -106,27 +106,48 @@
     height: 100%;
   }
 
-  /* 未選択のカテゴリ。薄い塗りと破線の輪郭で「まだ何も無い」ことを示す。
-     祖先に .unset-<部位> を付けると、そのレイヤーだけが未選択の見た目になる */
+  /* 未登録のカテゴリ（ゴースト）。薄い塗りと破線の輪郭で「ここが埋まっていない」
+     ことを示す。祖先に .unset-<部位> を付けると、そのレイヤーだけがゴーストになる。
+     濃さは --ghost-fill / --ghost-stroke で差し替えられる */
+  :root {
+    --ghost-fill: var(--muted);
+    --ghost-stroke: var(--muted-foreground);
+  }
   .unset-kimono .l-kimono path,
   .unset-haneri .l-haneri path,
   .unset-obiage .l-obiage path,
   .unset-obi .l-obi rect,
   .unset-obijime .l-obijime rect,
   .unset-obidome .l-obidome rect,
-  .unset-haori .l-haori path,
-  .unset-all .layer path,
-  .unset-all .layer rect {
-    fill: var(--muted);
-    stroke: var(--muted-foreground);
+  .unset-haori .l-haori path {
+    fill: var(--ghost-fill);
+    stroke: var(--ghost-stroke);
     stroke-width: 1.25;
     stroke-dasharray: 4 3;
     vector-effect: non-scaling-stroke;
   }
 
-  /* 羽織を着ていない状態。「なし」を選んだ結果なので何も描かない */
-  .haori-none .l-haori {
+  /* 「なし」。着けないと選んだ状態なので何も描かない。
+     羽織と帯留めだけが持ち、0 点のときもこの状態になる */
+  .none-haori .l-haori,
+  .none-obidome .l-obidome {
     display: none;
+  }
+
+  /* 指が触れている間だけ、なしの領域に輪郭を出す。
+     どこを掴んだかが分かり、指を離せば消えるので着けていない姿の確認を邪魔しない */
+  .touching.none-haori .l-haori,
+  .touching.none-obidome .l-obidome {
+    display: block;
+  }
+  .touching.none-haori .l-haori path,
+  .touching.none-obidome .l-obidome rect,
+  .outline-card .l-haori-next path {
+    fill: none;
+    stroke: var(--muted-foreground);
+    stroke-width: 1.25;
+    stroke-dasharray: 4 3;
+    vector-effect: non-scaling-stroke;
   }
 
   .layer.hidden {

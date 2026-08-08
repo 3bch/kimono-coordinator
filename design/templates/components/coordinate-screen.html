@@ -224,7 +224,9 @@
           <button class="menu-button" type="button" aria-label="メニュー">
             <span></span><span></span><span></span>
           </button>
-          <div class="empty unset-all">
+          <div
+            class="empty unset-kimono unset-haneri unset-obiage unset-obi unset-obijime none-haori none-obidome"
+          >
             <!-- @include silhouette.html -->
             <div class="title">まだアイテムがありません</div>
             <div class="desc">着物や帯を登録すると<br />ここで組み合わせを試せます</div>
@@ -232,10 +234,10 @@
           </div>
         </div>
         <div class="caption">
-          <div class="name">初回（全カテゴリが空）</div>
+          <div class="name">初回（全カテゴリが 0 点）</div>
           <div class="desc">
             何も登録していないうちは保存ボタンを出さず、アイテム一覧への誘導だけを見せる。
-            シルエットは未選択の形で残し、これから何が並ぶのかを示す。
+            着物から帯締めまではゴーストで位置を示し、着けなくてよい羽織と帯留めは描かない。
           </div>
         </div>
       </div>

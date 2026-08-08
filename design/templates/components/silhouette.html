@@ -17,10 +17,10 @@
         --c-obidome: #f0ede6;
         --c-haori: #3a3a3a;
         --c-obi-next: #460e44;
+        --c-haori-next: #7a2f3b;
       }
 
-      /* スワイプ中の見え方。触っている部位だけが動き、隣のアイテムが入ってくる。
-     入ってくる帯が羽織の袖の裏に隠れないよう、羽織なしの組み合わせで示す */
+      /* スワイプ中の見え方。触っている部位だけが動き、隣のアイテムが入ってくる */
       .swiping .silhouette {
         overflow: hidden;
       }
@@ -32,11 +32,46 @@
         transform: translateX(100px);
       }
 
+      /* 羽織を「なし」へ切り替えている途中。輪郭だけの札が滑り込んでくる */
+      .swiping-haori .silhouette {
+        overflow: hidden;
+      }
+      .swiping-haori .l-haori {
+        transform: translateX(-100px);
+      }
+      .swiping-haori .l-haori-next {
+        display: block;
+        transform: translateX(100px);
+      }
+
       .frame {
         background: var(--card);
         border: 1px solid var(--border);
         border-radius: 16px;
         padding: 12px;
+      }
+
+      h2 {
+        font-family: "Kaisei Decol", serif;
+        font-weight: 400;
+        font-size: 17px;
+        margin: 28px 0 4px;
+      }
+      .section-lead {
+        font-size: 12px;
+        color: var(--muted-foreground);
+        margin-bottom: 16px;
+        line-height: 1.8;
+      }
+
+      /* ゴーストの濃さの比較用 */
+      .ghost-soft {
+        --ghost-fill: oklch(0.96 0.008 345);
+        --ghost-stroke: oklch(0.78 0.02 330);
+      }
+      .ghost-strong {
+        --ghost-fill: oklch(0.89 0.025 345);
+        --ghost-stroke: oklch(0.58 0.035 330);
       }
     </style>
   </head>
@@ -48,60 +83,157 @@
       <code>src/components/*Silhouette.tsx</code> の SVG と同一。
     </p>
 
+    <h2>基本の状態</h2>
+    <p class="section-lead">アイテムが登録してあるときの見え方。</p>
     <div class="cards">
       <div class="case">
         <div class="frame">
           <!-- @include silhouette.html -->
         </div>
         <div class="caption">
-          <div class="name">基本</div>
-          <div class="desc">全カテゴリにアイテムが選ばれている状態。</div>
+          <div class="name">全カテゴリを着用</div>
+          <div class="desc">各カテゴリからアイテムを選んでいる状態。</div>
         </div>
       </div>
 
       <div class="case">
         <div class="frame">
-          <div class="haori-none">
+          <div class="none-haori none-obidome">
             <!-- @include silhouette.html -->
           </div>
         </div>
         <div class="caption">
-          <div class="name">羽織なし</div>
+          <div class="name">なし（羽織・帯留め）</div>
           <div class="desc">
-            羽織を着ていない状態。「なし」を選んだ結果なので、未選択とは違い何も描かない。
+            着けないと選んだ状態。何も描かないので、着けていない姿がそのまま見える。
+            「なし」を持つのは羽織と帯留めだけ。
           </div>
         </div>
       </div>
 
       <div class="case">
         <div class="frame">
-          <div class="unset-obidome unset-obiage">
+          <div class="swiping none-haori">
             <!-- @include silhouette.html -->
           </div>
         </div>
         <div class="caption">
-          <div class="name">未選択のカテゴリがある</div>
-          <div class="desc">
-            帯留めと帯揚げをまだ登録していない状態。薄い塗りと破線の輪郭で位置だけ示し、
-            そこに何を置けるのかが分かるようにする。
-          </div>
-        </div>
-      </div>
-
-      <div class="case">
-        <div class="frame">
-          <div class="swiping haori-none">
-            <!-- @include silhouette.html -->
-          </div>
-        </div>
-        <div class="caption">
-          <div class="name">スワイプ中</div>
+          <div class="name">スワイプ中（アイテム間）</div>
           <div class="desc">
             帯の上を横にドラッグしている途中。触っている帯だけが動き、隣の帯が入ってくる。
             他のレイヤーは動かないので、どの部位を操作しているかが分かる
-            （入ってくる帯が袖に隠れないよう、羽織なしの組み合わせで示している）。
+            （入ってくる帯が袖に隠れないよう羽織なしで示している）。
           </div>
         </div>
+      </div>
+    </div>
+
+    <h2>空の表現</h2>
+    <p class="section-lead">
+      同じ「何も着ていない」でも、アイテムが 1 点も無い<strong>未登録</strong>と、
+      着けないと選んだ<strong>なし</strong>は別の状態として扱う。 ゴーストを出すのは
+      <strong>無いと困るのに無い</strong>ときだけで、着けなくてよい羽織・帯留めには出さない。
+    </p>
+    <div class="cards">
+      <div class="case">
+        <div class="frame">
+          <div class="unset-obiage unset-obijime none-obidome">
+            <!-- @include silhouette.html -->
+          </div>
+        </div>
+        <div class="caption">
+          <div class="name">未登録（帯揚げ・帯締め）</div>
+          <div class="desc">
+            そのカテゴリにアイテムが 1 点も無い状態。薄い塗りと破線で位置を示し、
+            タップするとその場に追加できる。
+          </div>
+        </div>
+      </div>
+
+      <div class="case">
+        <div class="frame">
+          <div
+            class="unset-kimono unset-haneri unset-obiage unset-obi unset-obijime none-haori none-obidome"
+          >
+            <!-- @include silhouette.html -->
+          </div>
+        </div>
+        <div class="caption">
+          <div class="name">初回（全カテゴリが 0 点）</div>
+          <div class="desc">
+            着物から帯締めまではゴースト、羽織と帯留めは何も描かない。 これから何を埋めればよいかが
+            読める状態になる。
+          </div>
+        </div>
+      </div>
+
+      <div class="case">
+        <div class="frame">
+          <div class="none-haori none-obidome touching">
+            <!-- @include silhouette.html -->
+          </div>
+        </div>
+        <div class="caption">
+          <div class="name">指が触れている間</div>
+          <div class="desc">
+            なしの領域に輪郭が浮かび、どこを掴んだかが分かる。指を離せば消えるので、
+            着けていない姿の確認は邪魔しない。
+          </div>
+        </div>
+      </div>
+
+      <div class="case">
+        <div class="frame">
+          <div class="swiping-haori outline-card none-obidome">
+            <!-- @include silhouette.html -->
+          </div>
+        </div>
+        <div class="caption">
+          <div class="name">スワイプ中（なしへ）</div>
+          <div class="desc">
+            羽織を脱ぐ向きにドラッグしている途中。なしも輪郭だけの札として滑り込むので、
+            アイテム間の切り替えと同じ動きになり、切り替わったことが分かる。
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h2>ゴーストの濃さ</h2>
+    <p class="section-lead">
+      薄すぎると気づけず、濃すぎると登録済みのアイテムに見えてしまう。中央が現行案。
+    </p>
+    <div class="cards">
+      <div class="case">
+        <div class="frame">
+          <div
+            class="ghost-soft unset-kimono unset-haneri unset-obiage unset-obi unset-obijime none-haori none-obidome"
+          >
+            <!-- @include silhouette.html -->
+          </div>
+        </div>
+        <div class="caption"><div class="name">薄い</div></div>
+      </div>
+
+      <div class="case">
+        <div class="frame">
+          <div
+            class="unset-kimono unset-haneri unset-obiage unset-obi unset-obijime none-haori none-obidome"
+          >
+            <!-- @include silhouette.html -->
+          </div>
+        </div>
+        <div class="caption"><div class="name">現行</div></div>
+      </div>
+
+      <div class="case">
+        <div class="frame">
+          <div
+            class="ghost-strong unset-kimono unset-haneri unset-obiage unset-obi unset-obijime none-haori none-obidome"
+          >
+            <!-- @include silhouette.html -->
+          </div>
+        </div>
+        <div class="caption"><div class="name">濃い</div></div>
       </div>
     </div>
   </body>
