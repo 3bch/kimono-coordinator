@@ -153,4 +153,28 @@
   .layer.hidden {
     display: none;
   }
+
+  /* ゴーストが埋められることを示す ＋。細い部位（帯揚げ・帯締めなど）には
+     入らないので、面のある着物と帯にだけ置く */
+  .plus {
+    position: absolute;
+    display: none;
+    color: var(--ghost-stroke);
+    font-size: 26px;
+    line-height: 1;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+  }
+  .show-plus.unset-kimono .p-kimono,
+  .show-plus.unset-obi .p-obi {
+    display: block;
+  }
+  .p-kimono {
+    left: 50%;
+    top: 70%;
+  }
+  .p-obi {
+    left: 50%;
+    top: 41.7%;
+  }
 </style>

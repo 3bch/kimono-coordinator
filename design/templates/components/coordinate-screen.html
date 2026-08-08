@@ -123,39 +123,28 @@
         padding: 9px 18px;
       }
 
-      /* 初回の空状態。シルエットの下にアイテム一覧への誘導を出す */
-      .empty {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 14px;
-      }
-      .empty .title {
-        font-family: "Kaisei Decol", serif;
-        font-weight: 700;
-        font-size: 17px;
-      }
-      .empty .desc {
+      /* 初回だけ出す案内文。3 案の比較用 */
+      .hint {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 40px;
+        text-align: center;
         font-size: 12px;
         color: var(--muted-foreground);
-        text-align: center;
+      }
+
+      h2 {
+        font-family: "Kaisei Decol", serif;
+        font-weight: 400;
+        font-size: 17px;
+        margin: 28px 0 4px;
+      }
+      .section-lead {
+        font-size: 12px;
+        color: var(--muted-foreground);
+        margin-bottom: 16px;
         line-height: 1.8;
-      }
-      .empty .cta {
-        font-family: inherit;
-        font-size: 14px;
-        font-weight: 700;
-        color: var(--primary-foreground);
-        background: var(--primary);
-        border: none;
-        border-radius: var(--radius);
-        padding: 11px 22px;
-        cursor: pointer;
-      }
-      .empty .silhouette {
-        transform: scale(0.8);
-        transform-origin: top center;
-        margin-bottom: -80px;
       }
     </style>
   </head>
@@ -167,6 +156,7 @@
       試し続けられる（ダイアログもモードも作らない）。
     </p>
 
+    <h2>画面の状態</h2>
     <div class="cards">
       <div class="case">
         <div class="phone">
@@ -219,25 +209,75 @@
         </div>
       </div>
 
+    </div>
+
+    <h2>初回（全カテゴリが 0 点）の伝え方</h2>
+    <p class="section-lead">
+      初回も専用の画面にはせず、同じ画面のままゴーストが並ぶだけにする。保存ボタンも出したまま
+      にする（中身の無い記録ができるだけで、消せばよい）。
+      残る論点は<strong>ゴーストがタップできると気づけるか</strong>で、次の 3 案を比べる。
+    </p>
+    <div class="cards">
       <div class="case">
         <div class="phone">
           <button class="menu-button" type="button" aria-label="メニュー">
             <span></span><span></span><span></span>
           </button>
+          <button class="save-button" type="button">保存</button>
           <div
-            class="empty unset-kimono unset-haneri unset-obiage unset-obi unset-obijime none-haori none-obidome"
+            class="unset-kimono unset-haneri unset-obiage unset-obi unset-obijime none-haori none-obidome"
           >
             <!-- @include silhouette.html -->
-            <div class="title">まだアイテムがありません</div>
-            <div class="desc">着物や帯を登録すると<br />ここで組み合わせを試せます</div>
-            <button class="cta" type="button">アイテムを登録する</button>
           </div>
         </div>
         <div class="caption">
-          <div class="name">初回（全カテゴリが 0 点）</div>
+          <div class="name">1. ゴーストのみ</div>
           <div class="desc">
-            何も登録していないうちは保存ボタンを出さず、アイテム一覧への誘導だけを見せる。
-            着物から帯締めまではゴーストで位置を示し、着けなくてよい羽織と帯留めは描かない。
+            規則そのまま。何も足さない。破線の枠は「埋められる場所」として広く使われる表現でも
+            あるので、これで足りる可能性はある。
+          </div>
+        </div>
+      </div>
+
+      <div class="case">
+        <div class="phone">
+          <button class="menu-button" type="button" aria-label="メニュー">
+            <span></span><span></span><span></span>
+          </button>
+          <button class="save-button" type="button">保存</button>
+          <div
+            class="show-plus unset-kimono unset-haneri unset-obiage unset-obi unset-obijime none-haori none-obidome"
+          >
+            <!-- @include silhouette.html -->
+          </div>
+        </div>
+        <div class="caption">
+          <div class="name">2. ＋ 記号</div>
+          <div class="desc">
+            ゴーストの見た目の一部なので、画面の状態による分岐にならない。あとで 0 点に戻った
+            ときにも効く。細い帯揚げ・帯締めには入らないため、着物と帯にだけ置いている。
+          </div>
+        </div>
+      </div>
+
+      <div class="case">
+        <div class="phone">
+          <button class="menu-button" type="button" aria-label="メニュー">
+            <span></span><span></span><span></span>
+          </button>
+          <button class="save-button" type="button">保存</button>
+          <div
+            class="unset-kimono unset-haneri unset-obiage unset-obi unset-obijime none-haori none-obidome"
+          >
+            <!-- @include silhouette.html -->
+          </div>
+          <p class="hint">薄い部分をタップすると登録できます</p>
+        </div>
+        <div class="caption">
+          <div class="name">3. 案内文</div>
+          <div class="desc">
+            何が起きるかまで言葉で説明できる。ただし全カテゴリ 0 点のときだけという分岐を持ち、
+            一度登録すると二度と出ないため、あとで 0 点に戻ったときには助けにならない。
           </div>
         </div>
       </div>
