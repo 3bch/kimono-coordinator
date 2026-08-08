@@ -113,18 +113,29 @@
     --ghost-fill: oklch(0.96 0.008 345);
     --ghost-stroke: oklch(0.78 0.02 330);
   }
-  .unset-kimono .l-kimono path,
   .unset-haneri .l-haneri path,
   .unset-obiage .l-obiage path,
   .unset-obi .l-obi rect,
   .unset-obijime .l-obijime rect,
   .unset-obidome .l-obidome rect,
-  .unset-haori .l-haori path {
+  .unset-haori .l-haori path,
+  .unset-kimono .l-kimono .k-ghost {
     fill: var(--ghost-fill);
     stroke: var(--ghost-stroke);
     stroke-width: 1.25;
     stroke-dasharray: 4 3;
     vector-effect: non-scaling-stroke;
+  }
+
+  /* 着物だけは、ゴーストのとき内部の装飾線を持たない外形の path に差し替える */
+  .k-ghost {
+    display: none;
+  }
+  .unset-kimono .l-kimono .k-full {
+    display: none;
+  }
+  .unset-kimono .l-kimono .k-ghost {
+    display: block;
   }
 
   /* 「なし」。着けないと選んだ状態なので何も描かない。
