@@ -63,16 +63,6 @@
         margin-bottom: 16px;
         line-height: 1.8;
       }
-
-      /* ゴーストの濃さの比較用 */
-      .ghost-soft {
-        --ghost-fill: oklch(0.96 0.008 345);
-        --ghost-stroke: oklch(0.78 0.02 330);
-      }
-      .ghost-strong {
-        --ghost-fill: oklch(0.89 0.025 345);
-        --ghost-stroke: oklch(0.58 0.035 330);
-      }
     </style>
   </head>
   <body>
@@ -198,43 +188,5 @@
       </div>
     </div>
 
-    <h2>ゴーストの濃さ</h2>
-    <p class="section-lead">
-      薄すぎると気づけず、濃すぎると登録済みのアイテムに見えてしまう。中央が現行案。
-    </p>
-    <div class="cards">
-      <div class="case">
-        <div class="frame">
-          <div
-            class="ghost-soft unset-kimono unset-haneri unset-obiage unset-obi unset-obijime none-haori none-obidome"
-          >
-            <!-- @include silhouette.html -->
-          </div>
-        </div>
-        <div class="caption"><div class="name">薄い</div></div>
-      </div>
-
-      <div class="case">
-        <div class="frame">
-          <div
-            class="unset-kimono unset-haneri unset-obiage unset-obi unset-obijime none-haori none-obidome"
-          >
-            <!-- @include silhouette.html -->
-          </div>
-        </div>
-        <div class="caption"><div class="name">現行</div></div>
-      </div>
-
-      <div class="case">
-        <div class="frame">
-          <div
-            class="ghost-strong unset-kimono unset-haneri unset-obiage unset-obi unset-obijime none-haori none-obidome"
-          >
-            <!-- @include silhouette.html -->
-          </div>
-        </div>
-        <div class="caption"><div class="name">濃い</div></div>
-      </div>
-    </div>
   </body>
 </html>

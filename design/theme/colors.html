@@ -22,6 +22,8 @@
         --border: oklch(0.9 0.018 345);
         --input: oklch(0.9 0.018 345);
         --ring: oklch(0.5 0.13 345);
+        --ghost-fill: oklch(0.96 0.008 345);
+        --ghost-stroke: oklch(0.78 0.02 330);
         --radius: 0.625rem;
       }
       .dark-vars {
@@ -40,6 +42,8 @@
         --border: oklch(0.95 0.02 350 / 15%);
         --input: oklch(0.95 0.02 350 / 18%);
         --ring: oklch(0.8 0.085 350);
+        --ghost-fill: oklch(0.25 0.02 300);
+        --ghost-stroke: oklch(0.45 0.03 325);
       }
       * {
         margin: 0;
@@ -298,6 +302,22 @@
             <div class="val">oklch(0.5 0.13 345)</div>
           </div>
         </div>
+        <div class="swatch">
+          <div class="chip" style="background: var(--ghost-fill)"></div>
+          <div class="meta">
+            <div class="token">ghost-fill</div>
+            <div class="jp">未登録の塗り</div>
+            <div class="val">oklch(0.96 0.008 345)</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="chip" style="background: var(--ghost-stroke)"></div>
+          <div class="meta">
+            <div class="token">ghost-stroke</div>
+            <div class="jp">未登録の輪郭</div>
+            <div class="val">oklch(0.78 0.02 330)</div>
+          </div>
+        </div>
       </div>
       <div class="samples">
         <button class="btn btn-primary" type="button">保存</button>
@@ -389,6 +409,22 @@
             <div class="token">ring</div>
             <div class="jp">夜桜</div>
             <div class="val">oklch(0.8 0.085 350)</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="chip" style="background: var(--ghost-fill)"></div>
+          <div class="meta">
+            <div class="token">ghost-fill</div>
+            <div class="jp">未登録の塗り</div>
+            <div class="val">oklch(0.25 0.02 300)</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="chip" style="background: var(--ghost-stroke)"></div>
+          <div class="meta">
+            <div class="token">ghost-stroke</div>
+            <div class="jp">未登録の輪郭</div>
+            <div class="val">oklch(0.45 0.03 325)</div>
           </div>
         </div>
       </div>

@@ -108,10 +108,10 @@
 
   /* 未登録のカテゴリ（ゴースト）。薄い塗りと破線の輪郭で「ここが埋まっていない」
      ことを示す。祖先に .unset-<部位> を付けると、そのレイヤーだけがゴーストになる。
-     濃さは --ghost-fill / --ghost-stroke で差し替えられる */
+     濃すぎると登録済みのアイテムに見えてしまうため、地よりわずかに沈む程度にとどめる */
   :root {
-    --ghost-fill: var(--muted);
-    --ghost-stroke: var(--muted-foreground);
+    --ghost-fill: oklch(0.96 0.008 345);
+    --ghost-stroke: oklch(0.78 0.02 330);
   }
   .unset-kimono .l-kimono path,
   .unset-haneri .l-haneri path,
