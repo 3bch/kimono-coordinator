@@ -44,45 +44,60 @@
         transform: translateX(100px);
       }
 
-      /* 「なし」を破線から置き換える案の比較。掴んでいる間だけ出る表示。
-         白い面は下地が濃いときに効き、青墨の線は下地が淡いときに効くので、
-         組み合わせて下地への依存を互いに埋める。
+      /* 「なし」を掴んでいる間の表示。白い面は下地が濃いときに効き、青墨の線は
+         下地が淡いときに効くので、組み合わせて下地への依存を互いに埋める。
+         面の濃さと線の透過だけが未決なので、その 2 つを変数にして振る。
          値が決まったら partials/base-style.html の .touching.none-* へ移す */
-      .opt-i.touching.none-haori .l-haori path,
-      .opt-i.touching.none-obidome .l-obidome rect,
-      .opt-j.touching.none-haori .l-haori path,
-      .opt-j.touching.none-obidome .l-obidome rect,
-      .opt-k.touching.none-haori .l-haori path,
-      .opt-k.touching.none-obidome .l-obidome rect,
-      .opt-l.touching.none-haori .l-haori path,
-      .opt-l.touching.none-obidome .l-obidome rect {
-        stroke: var(--foreground);
+      .opt.touching.none-haori .l-haori path,
+      .opt.touching.none-obidome .l-obidome rect {
+        fill: var(--none-fill);
+        stroke: var(--none-stroke);
+        stroke-width: 0.75;
         stroke-dasharray: none;
         vector-effect: non-scaling-stroke;
       }
-      .opt-i.touching.none-haori .l-haori path,
-      .opt-i.touching.none-obidome .l-obidome rect,
-      .opt-k.touching.none-haori .l-haori path,
-      .opt-k.touching.none-obidome .l-obidome rect {
-        fill: oklch(1 0 0 / 12%);
+      .opt {
+        --none-fill: oklch(1 0 0 / 30%);
+        --none-stroke: oklch(0.26 0.018 290 / 70%);
       }
-      .opt-j.touching.none-haori .l-haori path,
-      .opt-j.touching.none-obidome .l-obidome rect,
-      .opt-l.touching.none-haori .l-haori path,
-      .opt-l.touching.none-obidome .l-obidome rect {
-        fill: oklch(1 0 0 / 22%);
+      .fill-22 {
+        --none-fill: oklch(1 0 0 / 22%);
       }
-      .opt-i.touching.none-haori .l-haori path,
-      .opt-i.touching.none-obidome .l-obidome rect,
-      .opt-j.touching.none-haori .l-haori path,
-      .opt-j.touching.none-obidome .l-obidome rect {
-        stroke-width: 0.75;
+      .fill-30 {
+        --none-fill: oklch(1 0 0 / 30%);
       }
-      .opt-k.touching.none-haori .l-haori path,
-      .opt-k.touching.none-obidome .l-obidome rect,
-      .opt-l.touching.none-haori .l-haori path,
-      .opt-l.touching.none-obidome .l-obidome rect {
-        stroke-width: 1.25;
+      .fill-38 {
+        --none-fill: oklch(1 0 0 / 38%);
+      }
+      .line-100 {
+        --none-stroke: oklch(0.26 0.018 290 / 100%);
+      }
+      .line-70 {
+        --none-stroke: oklch(0.26 0.018 290 / 70%);
+      }
+      .line-50 {
+        --none-stroke: oklch(0.26 0.018 290 / 50%);
+      }
+
+      /* 羽織は袖の切れ目を持たない外周だけの path に差し替える（決定済み） */
+      .opt.touching.none-haori .l-haori .h-full {
+        display: none;
+      }
+      .opt.touching.none-haori .l-haori .h-ghost {
+        display: block;
+      }
+
+      /* ゴーストの半襟の扱いの比較。左右 2 枚をそれぞれ囲むと、
+         接している隙間のまわりに余分な破線が出る */
+      .haneri-outline.unset-haneri .l-haneri .n-left,
+      .haneri-outline.unset-haneri .l-haneri .n-right {
+        display: none;
+      }
+      .haneri-outline.unset-haneri .l-haneri .n-ghost {
+        display: block;
+      }
+      .haneri-front.unset-haneri .l-haneri .n-left {
+        display: none;
       }
 
       /* 透過は下地で見え方が変わるため、淡い着物でも同じ案を見る */
@@ -241,163 +256,255 @@
       </div>
     </div>
 
-    <h2>なしの面の濃さ（検討中）</h2>
+    <h2>なしの見せ方（検討中）</h2>
     <p class="section-lead">
-      掴んでいる間の「なし」を、現行の破線から置き換える案。伝えたいのは境界より 「この範囲を掴んで
-      いる」という領域で、破線は面積のわりに主張が強い。 面だけ・線だけではどちらも下地の明暗で
-      効き方が変わるため、<strong>白い透過の面と青墨の実線を組み合わせて</strong>互いの穴を埋める
-      （白い面は濃い下地で、青墨の線は淡い下地で効く）。 面 2 段階 × 線 2 段階を、濃い着物と淡い
-      着物の両方で見る。
+      掴んでいる間の「なし」は、<strong>白い透過の面と青墨の実線</strong>で示すところまで決まった
+      （白い面は濃い下地で、青墨の線は淡い下地で効くので、互いの穴を埋める）。 線の太さも 0.75 で
+      決まりなので、残るのは<strong>面の濃さ</strong>と<strong>線の透過</strong>の 2 つ。 面と線は
+      効く下地が別なので掛け合わせずに、片方を止めてもう片方だけを振る。
     </p>
 
-    <h3>濃い着物の上（羽織を掴んでいる）</h3>
+    <h3>面の強さ・濃い着物（線は 70% で固定）</h3>
     <div class="cards">
       <div class="case">
         <div class="frame">
-          <div class="none-haori touching opt-i">
+          <div class="none-haori touching opt fill-22 line-70">
             <!-- @include silhouette.html -->
           </div>
         </div>
         <div class="caption">
-          <div class="name">I 面 12% ＋ 線 0.75</div>
-          <div class="desc"><code>oklch(1 0 0 / 12%)</code></div>
-        </div>
-      </div>
-
-      <div class="case">
-        <div class="frame">
-          <div class="none-haori touching opt-j">
-            <!-- @include silhouette.html -->
-          </div>
-        </div>
-        <div class="caption">
-          <div class="name">J 面 22% ＋ 線 0.75</div>
+          <div class="name">面 22%（現行）</div>
           <div class="desc"><code>oklch(1 0 0 / 22%)</code></div>
         </div>
       </div>
 
       <div class="case">
         <div class="frame">
-          <div class="none-haori touching opt-k">
+          <div class="none-haori touching opt fill-30 line-70">
             <!-- @include silhouette.html -->
           </div>
         </div>
         <div class="caption">
-          <div class="name">K 面 12% ＋ 線 1.25</div>
-          <div class="desc">線は現行の破線と同じ太さ。</div>
+          <div class="name">面 30%</div>
+          <div class="desc"><code>oklch(1 0 0 / 30%)</code></div>
         </div>
       </div>
 
       <div class="case">
         <div class="frame">
-          <div class="none-haori touching opt-l">
+          <div class="none-haori touching opt fill-38 line-70">
             <!-- @include silhouette.html -->
           </div>
         </div>
         <div class="caption">
-          <div class="name">L 面 22% ＋ 線 1.25</div>
-          <div class="desc">いちばん強い組み合わせ。</div>
+          <div class="name">面 38%</div>
+          <div class="desc">
+            <code>oklch(1 0 0 / 38%)</code>。強くしすぎると、着ていない姿の確認を邪魔する。
+          </div>
         </div>
       </div>
     </div>
 
-    <h3>淡い着物の上（羽織を掴んでいる）</h3>
+    <h3>面の強さ・淡い着物（線は 70% で固定）</h3>
+    <p class="section-lead">淡い下地では面がほとんど効かないので、上げても悪さをしないかを見る。</p>
     <div class="cards">
       <div class="case">
         <div class="frame">
-          <div class="none-haori touching pale-kimono opt-i">
+          <div class="none-haori touching pale-kimono opt fill-22 line-70">
             <!-- @include silhouette.html -->
           </div>
         </div>
         <div class="caption">
-          <div class="name">I 面 12% ＋ 線 0.75</div>
-          <div class="desc"><code>oklch(1 0 0 / 12%)</code></div>
+          <div class="name">面 22%（現行）</div>
         </div>
       </div>
 
       <div class="case">
         <div class="frame">
-          <div class="none-haori touching pale-kimono opt-j">
+          <div class="none-haori touching pale-kimono opt fill-30 line-70">
             <!-- @include silhouette.html -->
           </div>
         </div>
         <div class="caption">
-          <div class="name">J 面 22% ＋ 線 0.75</div>
-          <div class="desc"><code>oklch(1 0 0 / 22%)</code></div>
+          <div class="name">面 30%</div>
         </div>
       </div>
 
       <div class="case">
         <div class="frame">
-          <div class="none-haori touching pale-kimono opt-k">
+          <div class="none-haori touching pale-kimono opt fill-38 line-70">
             <!-- @include silhouette.html -->
           </div>
         </div>
         <div class="caption">
-          <div class="name">K 面 12% ＋ 線 1.25</div>
-          <div class="desc">線は現行の破線と同じ太さ。</div>
-        </div>
-      </div>
-
-      <div class="case">
-        <div class="frame">
-          <div class="none-haori touching pale-kimono opt-l">
-            <!-- @include silhouette.html -->
-          </div>
-        </div>
-        <div class="caption">
-          <div class="name">L 面 22% ＋ 線 1.25</div>
-          <div class="desc">いちばん強い組み合わせ。</div>
+          <div class="name">面 38%</div>
         </div>
       </div>
     </div>
 
-    <h3>帯留めを掴んでいる</h3>
+    <h3>面の強さ・帯留め（線は 70% で固定）</h3>
     <p class="section-lead">
       羽織と同じ値を共有するので、面積の小さい部位で沈みすぎないかを確かめる。
     </p>
     <div class="cards">
       <div class="case">
         <div class="frame">
-          <div class="none-obidome touching opt-i">
+          <div class="none-obidome touching opt fill-22 line-70">
             <!-- @include silhouette.html -->
           </div>
         </div>
         <div class="caption">
-          <div class="name">I 面 12% ＋ 線 0.75</div>
+          <div class="name">面 22%（現行）</div>
         </div>
       </div>
 
       <div class="case">
         <div class="frame">
-          <div class="none-obidome touching opt-j">
+          <div class="none-obidome touching opt fill-30 line-70">
             <!-- @include silhouette.html -->
           </div>
         </div>
         <div class="caption">
-          <div class="name">J 面 22% ＋ 線 0.75</div>
+          <div class="name">面 30%</div>
         </div>
       </div>
 
       <div class="case">
         <div class="frame">
-          <div class="none-obidome touching opt-k">
+          <div class="none-obidome touching opt fill-38 line-70">
             <!-- @include silhouette.html -->
           </div>
         </div>
         <div class="caption">
-          <div class="name">K 面 12% ＋ 線 1.25</div>
+          <div class="name">面 38%</div>
+        </div>
+      </div>
+    </div>
+
+    <h3>線の弱さ・淡い着物（面は 30% で固定）</h3>
+    <p class="section-lead">
+      線が効くのは淡い下地なので、弱めてもまだ輪郭が読めるかはこちらで決まる。 色は青墨
+      <code>oklch(0.26 0.018 290)</code> の透過を変えている。
+    </p>
+    <div class="cards">
+      <div class="case">
+        <div class="frame">
+          <div class="none-haori touching pale-kimono opt fill-30 line-100">
+            <!-- @include silhouette.html -->
+          </div>
+        </div>
+        <div class="caption">
+          <div class="name">線 100%（現行）</div>
+          <div class="desc">本文と同じ濃さ。掴んでいるだけの一時的な表示にしては強い。</div>
         </div>
       </div>
 
       <div class="case">
         <div class="frame">
-          <div class="none-obidome touching opt-l">
+          <div class="none-haori touching pale-kimono opt fill-30 line-70">
             <!-- @include silhouette.html -->
           </div>
         </div>
         <div class="caption">
-          <div class="name">L 面 22% ＋ 線 1.25</div>
+          <div class="name">線 70%</div>
+        </div>
+      </div>
+
+      <div class="case">
+        <div class="frame">
+          <div class="none-haori touching pale-kimono opt fill-30 line-50">
+            <!-- @include silhouette.html -->
+          </div>
+        </div>
+        <div class="caption">
+          <div class="name">線 50%</div>
+        </div>
+      </div>
+    </div>
+
+    <h3>線の弱さ・濃い着物（面は 30% で固定）</h3>
+    <p class="section-lead">濃い下地では線が沈むので、弱めると消えてしまわないかを見る。</p>
+    <div class="cards">
+      <div class="case">
+        <div class="frame">
+          <div class="none-haori touching opt fill-30 line-100">
+            <!-- @include silhouette.html -->
+          </div>
+        </div>
+        <div class="caption">
+          <div class="name">線 100%（現行）</div>
+        </div>
+      </div>
+
+      <div class="case">
+        <div class="frame">
+          <div class="none-haori touching opt fill-30 line-70">
+            <!-- @include silhouette.html -->
+          </div>
+        </div>
+        <div class="caption">
+          <div class="name">線 70%</div>
+        </div>
+      </div>
+
+      <div class="case">
+        <div class="frame">
+          <div class="none-haori touching opt fill-30 line-50">
+            <!-- @include silhouette.html -->
+          </div>
+        </div>
+        <div class="caption">
+          <div class="name">線 50%</div>
+        </div>
+      </div>
+    </div>
+
+    <h3>ゴーストの半襟</h3>
+    <p class="section-lead">
+      「なし」ではなく未登録の側の話。半襟は左右 2 枚の衿でできていて、奥の衿は手前の衿に隠れる
+      ため途中で終わる細い三角になる。2 枚は 5 単位の隙間で接しており、 それぞれに枠線を引くと
+      隙間のまわりに余分な破線が出る。着物・羽織と同じく<strong>外周 1 本</strong>にまとめる。
+      V 字が二重に見えるのは半襟が幅を持つ帯だからで、外周にしても内側の線は残る。
+    </p>
+    <div class="cards">
+      <div class="case">
+        <div class="frame">
+          <div class="unset-kimono unset-haneri none-haori none-obidome">
+            <!-- @include silhouette.html -->
+          </div>
+        </div>
+        <div class="caption">
+          <div class="name">現行（左右 2 枚それぞれ）</div>
+          <div class="desc">接点のまわりで破線が交差する。</div>
+        </div>
+      </div>
+
+      <div class="case">
+        <div class="frame">
+          <div class="unset-kimono unset-haneri haneri-outline none-haori none-obidome">
+            <!-- @include silhouette.html -->
+          </div>
+        </div>
+        <div class="caption">
+          <div class="name">外周 1 本</div>
+          <div class="desc">
+            2 枚の接点を跨いで 1 本の閉じた線にする（<code>n-ghost</code>）。
+            形はそのままで、余分な破線だけが消える。
+          </div>
+        </div>
+      </div>
+
+      <div class="case">
+        <div class="frame">
+          <div class="unset-kimono unset-haneri haneri-front none-haori none-obidome">
+            <!-- @include silhouette.html -->
+          </div>
+        </div>
+        <div class="caption">
+          <div class="name">手前の衿だけ</div>
+          <div class="desc">
+            奥の衿を描かず、手前の 1 枚だけにする。半襟をひと続きの帯として見せる。
+          </div>
         </div>
       </div>
     </div>
