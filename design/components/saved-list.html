@@ -46,6 +46,37 @@
     --input: oklch(0.9 0.018 345);
     --ring: oklch(0.5 0.13 345);
     --radius: 0.625rem;
+
+    /* 空の表現に使う色。ゴースト（未登録）は薄い塗り＋破線、
+       なし（掴んでいる間）は白い面＋青墨の実線。
+       ゴーストの塗りが透過なのは、帯揚げ・帯締めのように登録済みのレイヤーへ
+       重なるものがあり、下地を 1 つに決め打ちできないため */
+    --ghost-fill: oklch(0.96 0.008 345 / 70%);
+    --ghost-stroke: oklch(0.62 0.02 330);
+    --none-fill: oklch(1 0 0 / 30%);
+    --none-stroke: oklch(0.26 0.018 290 / 70%);
+  }
+
+  /* ダーク（夜桜）。プレビューでは .dark-vars を付けた要素以下に効かせる。
+     なしの 2 つはライトと同じ値なので、ここでは上書きしない */
+  .dark-vars {
+    --background: oklch(0.21 0.022 295);
+    --card: oklch(0.26 0.024 295);
+    --foreground: oklch(0.95 0.012 350);
+    --primary: oklch(0.8 0.085 350);
+    --primary-foreground: oklch(0.26 0.05 340);
+    --secondary: oklch(0.31 0.03 320);
+    --secondary-foreground: oklch(0.92 0.02 350);
+    --muted: oklch(0.3 0.028 310);
+    --muted-foreground: oklch(0.72 0.025 330);
+    --accent: oklch(0.36 0.05 335);
+    --accent-foreground: oklch(0.93 0.03 350);
+    --destructive: oklch(0.66 0.19 12);
+    --border: oklch(0.95 0.02 350 / 15%);
+    --input: oklch(0.95 0.02 350 / 18%);
+    --ring: oklch(0.8 0.085 350);
+    --ghost-fill: oklch(0.25 0.02 300 / 70%);
+    --ghost-stroke: oklch(0.65 0.03 325);
   }
 
   * {
@@ -116,10 +147,6 @@
   /* 未登録のカテゴリ（ゴースト）。薄い塗りと破線の輪郭で「ここが埋まっていない」
      ことを示す。祖先に .unset-<部位> を付けると、そのレイヤーだけがゴーストになる。
      濃すぎると登録済みのアイテムに見えてしまうため、地よりわずかに沈む程度にとどめる */
-  :root {
-    --ghost-fill: oklch(0.96 0.008 345);
-    --ghost-stroke: oklch(0.78 0.02 330);
-  }
   .unset-haneri .l-haneri path,
   .unset-obiage .l-obiage path,
   .unset-obi .l-obi rect,
@@ -134,19 +161,22 @@
     vector-effect: non-scaling-stroke;
   }
 
-  /* 着物だけは、ゴーストのとき内部の装飾線を持たない外形の path に差し替える */
-  .k-ghost {
-    display: none;
-  }
-  /* 羽織と半襟にも同じ外形の path を持たせてある（半襟は使うかどうか検討中） */
+  /* 輪郭だけで見せるときは、内部の線を持たない外周 1 本の path に差し替える。
+     内部の線（衿の線・裾上の線・袖の切れ目・右前の隙間・左右の半襟の境界）は
+     細長い塗りや 5 単位の隙間で表されており、そのまま枠線を引くと
+     1 本の線が 2 本になってしまう */
+  .k-ghost,
   .h-ghost,
   .n-ghost {
     display: none;
   }
-  .unset-kimono .l-kimono .k-full {
+  .unset-kimono .l-kimono .k-full,
+  .unset-haneri .l-haneri .n-left,
+  .unset-haneri .l-haneri .n-right {
     display: none;
   }
-  .unset-kimono .l-kimono .k-ghost {
+  .unset-kimono .l-kimono .k-ghost,
+  .unset-haneri .l-haneri .n-ghost {
     display: block;
   }
 
@@ -157,8 +187,9 @@
     display: none;
   }
 
-  /* 指が触れている間だけ、なしの領域に輪郭を出す。
-     どこを掴んだかが分かり、指を離せば消えるので着けていない姿の確認を邪魔しない */
+  /* 指が触れている間だけ、なしの領域に面と輪郭を出す。どこを掴んだかが分かり、
+     指を離せば消えるので着けていない姿の確認を邪魔しない。白い面は濃い着物で、
+     青墨の線は淡い着物で効くので、組み合わせて下地への依存を互いに埋める */
   .touching.none-haori .l-haori,
   .touching.none-obidome .l-obidome {
     display: block;
@@ -166,11 +197,19 @@
   .touching.none-haori .l-haori path,
   .touching.none-obidome .l-obidome rect,
   .outline-card .l-haori-next path {
-    fill: none;
-    stroke: var(--muted-foreground);
-    stroke-width: 1.25;
-    stroke-dasharray: 4 3;
+    fill: var(--none-fill);
+    stroke: var(--none-stroke);
+    stroke-width: 0.75;
     vector-effect: non-scaling-stroke;
+  }
+  /* 羽織は袖と身頃が分かれているので、こちらも外周 1 本の path に差し替える */
+  .touching.none-haori .l-haori .h-full,
+  .outline-card .l-haori-next .h-full {
+    display: none;
+  }
+  .touching.none-haori .l-haori .h-ghost,
+  .outline-card .l-haori-next .h-ghost {
+    display: block;
   }
 
   .layer.hidden {
