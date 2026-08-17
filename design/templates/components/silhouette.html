@@ -206,9 +206,23 @@
     <p class="section-lead">
       なしの面と線はライトと同じ値をそのまま使う。下地はユーザーが登録したアイテムの色なので、
       面と線を反対向きに持たせておけば地の明暗には依存しない。 ゴーストは逆に、下地が地なので
-      明暗を反転させる。塗りは地の色へ 70% 寄せ、輪郭は地から離す。
+      明暗を反転させる。塗りは地の色へ 70% 寄せ、輪郭は地から離す。 内部の線（<code>--seam</code>）は
+      どちらのテーマでも白桜のままで、地に追従させない。
     </p>
     <div class="cards dark-vars dark-panel">
+      <div class="case">
+        <div class="frame">
+          <!-- @include silhouette.html -->
+        </div>
+        <div class="caption">
+          <div class="name">全カテゴリを着用</div>
+          <div class="desc">
+            衿・裾上・袖の切れ目はライトと同じ白桜の線になる。 線を地に追従させると夜桜では
+            黒く沈み、羽織の切れ目からは下の着物が覗いてしまう。
+          </div>
+        </div>
+      </div>
+
       <div class="case">
         <div class="frame">
           <div class="unset-obiage unset-obijime none-obidome">

@@ -55,6 +55,12 @@
     --ghost-stroke: oklch(0.62 0.02 330);
     --none-fill: oklch(1 0 0 / 30%);
     --none-stroke: oklch(0.26 0.018 290 / 70%);
+
+    /* シルエットの内部の線。衿の線・裾上の線・袖の切れ目・右前の隙間・半襟の境界は
+       いずれも塗りの隙間で表しており、線そのものは描いていない。外周 1 本の path を
+       本体の下に敷いて隙間を埋め、地の明暗によらず同じ色に見せる。
+       値はライトの地（白桜 = card）に合わせてあり、ダークでも同じ値を使う */
+    --seam: oklch(0.99 0.007 350);
   }
 
   /* ダーク（夜桜）。プレビューでは .dark-vars を付けた要素以下に効かせる。
@@ -153,7 +159,7 @@
   .unset-obijime .l-obijime rect,
   .unset-obidome .l-obidome rect,
   .unset-haori .l-haori path,
-  .unset-kimono .l-kimono .k-ghost {
+  .unset-kimono .l-kimono .kimono-shape {
     fill: var(--ghost-fill);
     stroke: var(--ghost-stroke);
     stroke-width: 1.25;
@@ -161,23 +167,25 @@
     vector-effect: non-scaling-stroke;
   }
 
-  /* 輪郭だけで見せるときは、内部の線を持たない外周 1 本の path に差し替える。
-     内部の線（衿の線・裾上の線・袖の切れ目・右前の隙間・左右の半襟の境界）は
-     細長い塗りや 5 単位の隙間で表されており、そのまま枠線を引くと
-     1 本の線が 2 本になってしまう */
-  .k-ghost,
-  .h-ghost,
-  .n-ghost {
-    display: none;
+  /* 内部の線を持たない外周 1 本の path。役割は 2 つある。
+     ふだんは本体の下に敷いて内部の隙間（衿の線・裾上の線・袖の切れ目・右前の隙間・
+     左右の半襟の境界）を埋める下敷きになる。これらの線は塗りの隙間で表されているため、
+     敷かないと地や下のレイヤーが透け、ダークでは黒い線に、羽織の切れ目からは
+     着物の色が覗いてしまう。
+     ゴーストや「なし」のときは、この path 自体が輪郭になる。本体にそのまま枠線を引くと
+     隙間の両側に線が出て 1 本の線が 2 本になるため、外周だけを通って跨いである */
+  .kimono-shape,
+  .haori-shape,
+  .haneri-shape {
+    fill: var(--seam);
   }
-  .unset-kimono .l-kimono .k-full,
-  .unset-haneri .l-haneri .n-left,
-  .unset-haneri .l-haneri .n-right {
+
+  /* 輪郭だけで見せるときは本体を消し、外周 1 本の path だけを残す */
+  .unset-kimono .l-kimono .kimono-full,
+  .unset-haneri .l-haneri .haneri-left,
+  .unset-haneri .l-haneri .haneri-right,
+  .unset-haori .l-haori .haori-full {
     display: none;
-  }
-  .unset-kimono .l-kimono .k-ghost,
-  .unset-haneri .l-haneri .n-ghost {
-    display: block;
   }
 
   /* 「なし」。着けないと選んだ状態なので何も描かない。
@@ -202,14 +210,10 @@
     stroke-width: 0.75;
     vector-effect: non-scaling-stroke;
   }
-  /* 羽織は袖と身頃が分かれているので、こちらも外周 1 本の path に差し替える */
-  .touching.none-haori .l-haori .h-full,
-  .outline-card .l-haori-next .h-full {
+  /* 羽織は袖と身頃が分かれているので、こちらも外周 1 本の path だけを残す */
+  .touching.none-haori .l-haori .haori-full,
+  .outline-card .l-haori-next .haori-full {
     display: none;
-  }
-  .touching.none-haori .l-haori .h-ghost,
-  .outline-card .l-haori-next .h-ghost {
-    display: block;
   }
 
   .layer.hidden {
