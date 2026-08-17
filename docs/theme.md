@@ -1,8 +1,8 @@
 # テーマ
 
-段階 2（`app-design-plan.md`）で決めた、色とタイポグラフィの定義。
-実物のプレビューは `design/theme/` にあり、Claude Design のプロジェクト
-「Kimono Coordinator Design System」と同期している。
+段階 2（`app-design-plan.md`）で決めた、色とタイポグラフィの定義。**このファイルが正。**
+決めるときに使ったプレビューは `design/theme/` に残っているが、段階 2 の記録であり、
+Claude Design との同期も段階 2 で終えている。
 
 段階 3 でこの内容を `src/main.css` の CSS 変数に落とす。shadcn/ui の生成物は
 これらの変数を参照するため、ボタンやダイアログはテーマ経由で自動的に追従する
@@ -160,9 +160,12 @@ pnpm で導入し、`src/main.css` の `@import` に加える。現在の Figtre
   加えて Bold（700）が無く、見出しの太さを作れない（提供は Light 300 / Regular 400 / Medium 500）
 - **Klee One**（手書き風） … 上品だが細く、見出しとしての存在感が足りない
 
-## プレビューの作り方
+## プレビューの作り方（段階 2 で使っていた仕組み）
 
-Claude Design へ送る HTML は生成物で、**直接編集しない**。編集するのは
+段階 3 以降は使わない。`design/` を残してある以上、あとから再生成できなくなると
+困るので手順も残す。
+
+HTML は生成物で、**直接編集しない**。編集するのは
 `design/templates/` の下で、次のコマンドで生成する。
 
 ```sh
@@ -177,7 +180,7 @@ uv run design/tools/build-previews.py
 | `templates/theme/`                      | テーマ見本のテンプレート                             |
 | `templates/components/`                 | アプリ固有コンポーネントのテンプレート               |
 | `tools/`                                | ビルドスクリプト                                     |
-| `theme/` `components/` `thumbnail.html` | 生成物。Claude Design と同期する                     |
+| `theme/` `components/` `thumbnail.html` | 生成物                                               |
 
 ビルドがしていることは 2 つ。
 
