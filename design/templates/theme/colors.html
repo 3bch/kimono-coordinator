@@ -22,8 +22,11 @@
         --border: oklch(0.9 0.018 345);
         --input: oklch(0.9 0.018 345);
         --ring: oklch(0.5 0.13 345);
-        --ghost-fill: oklch(0.96 0.008 345);
-        --ghost-stroke: oklch(0.78 0.02 330);
+        --ghost-fill: oklch(0.96 0.008 345 / 70%);
+        --ghost-stroke: oklch(0.62 0.02 330);
+        --none-fill: oklch(1 0 0 / 30%);
+        --none-stroke: oklch(0.26 0.018 290 / 70%);
+        --seam: oklch(0.99 0.007 350);
         --radius: 0.625rem;
       }
       .dark-vars {
@@ -42,8 +45,8 @@
         --border: oklch(0.95 0.02 350 / 15%);
         --input: oklch(0.95 0.02 350 / 18%);
         --ring: oklch(0.8 0.085 350);
-        --ghost-fill: oklch(0.25 0.02 300);
-        --ghost-stroke: oklch(0.45 0.03 325);
+        --ghost-fill: oklch(0.25 0.02 300 / 70%);
+        --ghost-stroke: oklch(0.65 0.03 325);
       }
       * {
         margin: 0;
@@ -91,6 +94,14 @@
       }
       .swatch .chip {
         height: 52px;
+      }
+      /* 透過のトークン（ghost-fill / none-fill）は、単色で置くと下地の card と混ざって
+         不透明な色に見えてしまう。下地を左半分＝地・右半分＝紅色の着物に割り、
+         その上に重ねることで、下地によって見え方がどう変わるかが読めるようにする */
+      .swatch .chip.alpha {
+        background:
+          linear-gradient(var(--c), var(--c)),
+          linear-gradient(to right, var(--card) 50%, #c41e3a 50%);
       }
       .swatch .meta {
         padding: 8px 10px;
@@ -303,11 +314,11 @@
           </div>
         </div>
         <div class="swatch">
-          <div class="chip" style="background: var(--ghost-fill)"></div>
+          <div class="chip alpha" style="--c: var(--ghost-fill)"></div>
           <div class="meta">
             <div class="token">ghost-fill</div>
             <div class="jp">未登録の塗り</div>
-            <div class="val">oklch(0.96 0.008 345)</div>
+            <div class="val">oklch(0.96 0.008 345 / 70%)</div>
           </div>
         </div>
         <div class="swatch">
@@ -315,7 +326,31 @@
           <div class="meta">
             <div class="token">ghost-stroke</div>
             <div class="jp">未登録の輪郭</div>
-            <div class="val">oklch(0.78 0.02 330)</div>
+            <div class="val">oklch(0.62 0.02 330)</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="chip alpha" style="--c: var(--none-fill)"></div>
+          <div class="meta">
+            <div class="token">none-fill</div>
+            <div class="jp">掴んでいる面</div>
+            <div class="val">oklch(1 0 0 / 30%)</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="chip" style="background: var(--none-stroke)"></div>
+          <div class="meta">
+            <div class="token">none-stroke</div>
+            <div class="jp">掴んでいる輪郭</div>
+            <div class="val">oklch(0.26 0.018 290 / 70%)</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="chip" style="background: var(--seam)"></div>
+          <div class="meta">
+            <div class="token">seam</div>
+            <div class="jp">シルエット内部線</div>
+            <div class="val">oklch(0.99 0.007 350)</div>
           </div>
         </div>
       </div>
@@ -412,11 +447,11 @@
           </div>
         </div>
         <div class="swatch">
-          <div class="chip" style="background: var(--ghost-fill)"></div>
+          <div class="chip alpha" style="--c: var(--ghost-fill)"></div>
           <div class="meta">
             <div class="token">ghost-fill</div>
             <div class="jp">未登録の塗り</div>
-            <div class="val">oklch(0.25 0.02 300)</div>
+            <div class="val">oklch(0.25 0.02 300 / 70%)</div>
           </div>
         </div>
         <div class="swatch">
@@ -424,7 +459,31 @@
           <div class="meta">
             <div class="token">ghost-stroke</div>
             <div class="jp">未登録の輪郭</div>
-            <div class="val">oklch(0.45 0.03 325)</div>
+            <div class="val">oklch(0.65 0.03 325)</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="chip alpha" style="--c: var(--none-fill)"></div>
+          <div class="meta">
+            <div class="token">none-fill</div>
+            <div class="jp">掴んでいる面</div>
+            <div class="val">oklch(1 0 0 / 30%)</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="chip" style="background: var(--none-stroke)"></div>
+          <div class="meta">
+            <div class="token">none-stroke</div>
+            <div class="jp">掴んでいる輪郭</div>
+            <div class="val">oklch(0.26 0.018 290 / 70%)</div>
+          </div>
+        </div>
+        <div class="swatch">
+          <div class="chip" style="background: var(--seam)"></div>
+          <div class="meta">
+            <div class="token">seam</div>
+            <div class="jp">シルエット内部線</div>
+            <div class="val">oklch(0.99 0.007 350)</div>
           </div>
         </div>
       </div>

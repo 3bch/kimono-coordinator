@@ -19,10 +19,10 @@
           → 外周 1 本の path を本体の下に敷いて隙間を埋め、色は地に追従しない `seam`
           （`oklch(0.99 0.007 350)`）で固定する
 - [x] 決めた値をプレビューとドキュメントに反映する
-    - [ ] テーマ見本 `design/templates/theme/colors.html` が `docs/theme.md` と
-          食い違っているので合わせる。`ghost-stroke` が `0.78 0.02 330`（正は
-          `0.62 0.02 330`）、`ghost-fill` に透過が無く、`none-fill` / `none-stroke` /
-          `seam` は見本に載っていない
+    - [x] テーマ見本 `design/templates/theme/colors.html` を `docs/theme.md` に合わせる
+          → ゴーストの値を採用値（塗りは 70% 透過、輪郭はライト 0.62 / ダーク 0.65）に直し、
+          `none-fill` / `none-stroke` / `seam` を追加した。透過のトークンは単色で置くと
+          下地の `card` と混ざって不透明に見えるので、下地を地と紅色に割ったチップで見せる
 - [ ] デザインシステムとアプリ具体のデザインが混ざっているので整理する
 
 ## 段階 3: 実装
